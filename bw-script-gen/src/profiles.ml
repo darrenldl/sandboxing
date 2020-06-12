@@ -7,5 +7,14 @@ let bash : profile =
     name = "bash";
     cmd = "bash";
     home_jail_dir = Some "bash";
-    args = [ Ro_bind ("/", None); Bind (get_jail_dir "bash", Some "~") ];
+    args =
+      [
+        Ro_bind ("/", None);
+        Unshare_user;
+        Uid None;
+        Gid None;
+        Tmpfs "/home";
+        Bind (get_jail_dir "bash", Some "/home/jail");
+        Setenv ("HOME", "/home/jail");
+      ];
   }
