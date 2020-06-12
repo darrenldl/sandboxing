@@ -46,81 +46,58 @@ let compile_arg (x : arg) : string =
   | Unshare_cgroup -> "--unshare-cgroup"
   | Unshare_cgroup_try -> "--unshare-cgroup-try"
   | Unshare_all -> "--unshare-all"
-  | Uid id ->
-    (match id with
-    | None -> Printf.sprintf "--uid $(%s)" Commands.get_unused_uid
-    | Some x -> Printf.sprintf "--uid %d" x
-    )
-  | Gid id ->
-    (match id with
-    | None -> Printf.sprintf "--gid $(%s)" Commands.get_unused_gid
-    | Some x -> Printf.sprintf "--gid %d" x
-    )
-  | Hostname s ->
-    Printf.sprintf "--hostname '%s'" s
-  | Chdir s ->
-    Printf.sprintf "--chdir '%s'" s
-  | Setenv ( key, value ) ->
-    Printf.sprintf "--setenv '%s' '%s'" key value
-  | Unsetenv key ->
-    Printf.sprintf "--unsetenv '%s'" key
-  | Lock_file s ->
-    Printf.sprintf "--lock-file '%s'" s
-  | Bind (src, dst)->
+  | Uid id -> (
+      match id with
+      | None -> Printf.sprintf "--uid $(%s)" Commands.get_unused_uid
+      | Some x -> Printf.sprintf "--uid %d" x )
+  | Gid id -> (
+      match id with
+      | None -> Printf.sprintf "--gid $(%s)" Commands.get_unused_gid
+      | Some x -> Printf.sprintf "--gid %d" x )
+  | Hostname s -> Printf.sprintf "--hostname '%s'" s
+  | Chdir s -> Printf.sprintf "--chdir '%s'" s
+  | Setenv (key, value) -> Printf.sprintf "--setenv '%s' '%s'" key value
+  | Unsetenv key -> Printf.sprintf "--unsetenv '%s'" key
+  | Lock_file s -> Printf.sprintf "--lock-file '%s'" s
+  | Bind (src, dst) ->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--bind '%s' '%s'" src dst
-  | Bind_try (src, dst)->
+  | Bind_try (src, dst) ->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--bind-try '%s' '%s'" src dst
-  | Dev_bind (src, dst)->
+  | Dev_bind (src, dst) ->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--dev-bind '%s' '%s'" src dst
-  | Dev_bind_try (src, dst)->
+  | Dev_bind_try (src, dst) ->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--dev-bind-try '%s' '%s'" src dst
-  | Ro_bind (src, dst)->
+  | Ro_bind (src, dst) ->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--ro-bind '%s' '%s'" src dst
-  | Ro_bind_try (src, dst)->
+  | Ro_bind_try (src, dst) ->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--ro-bind-try '%s' '%s'" src dst
-  | Remount_ro s ->
-    Printf.sprintf "--remount-ro '%s'" s
-  | Proc s ->
-    Printf.sprintf "--proc '%s'" s
-  | Dev s ->
-    Printf.sprintf "--dev '%s'" s
-  | Tmpfs s ->
-    Printf.sprintf "--tmpfs '%s'" s
-  | Dir s ->
-    Printf.sprintf "--dir '%s'" s
-  | Seccomp () ->
-    ""
+  | Remount_ro s -> Printf.sprintf "--remount-ro '%s'" s
+  | Proc s -> Printf.sprintf "--proc '%s'" s
+  | Dev s -> Printf.sprintf "--dev '%s'" s
+  | Tmpfs s -> Printf.sprintf "--tmpfs '%s'" s
+  | Dir s -> Printf.sprintf "--dir '%s'" s
+  | Seccomp () -> ""
 
 let write (p : profile) : unit =
   FileUtil.mkdir ~parent:true Config.output_dir;
-  let file_name =
-    FilePath.concat Config.output_dir
-      (p.name ^ ".sh")
-  in
-  let jail_dir =
-    Filename.concat Config.jail_dir p.name
-  in
-  CCIO.with_out file_name
-    (fun oc ->
-       let write_line = CCIO.write_line oc in
-       write_line "#!/bin/bash";
-       write_line "";
-       if p.use_home_jail then (
-         write_line (Printf.sprintf "mkdir -p %s" jail_dir)
-       );
-       write_line "bwrap \\";
-       List.iter (fun x ->
-           write_line (Printf.sprintf "  %s \\" (compile_arg x))
-         ) (p.args @
-            (if p.use_home_jail then (
-                [(Bind (jail_dir, Some "~"))]
-              ) else [] ));
-       write_line (Printf.sprintf "  %s" p.cmd)
-    );
-  FileUtil.chmod (`Octal 0o774) [file_name]
+  let file_name = FilePath.concat Config.output_dir (p.name ^ ".sh") in
+  let jail_dir = Filename.concat Config.jail_dir p.name in
+  CCIO.with_out file_name (fun oc ->
+      let write_line = CCIO.write_line oc in
+      write_line "#!/bin/bash";
+      write_line "";
+      if p.use_home_jail then (
+        write_line (Printf.sprintf "mkdir -p %s" jail_dir);
+        write_line "" );
+      write_line "bwrap \\";
+      List.iter
+        (fun x -> write_line (Printf.sprintf "  %s \\" (compile_arg x)))
+        (p.args @ if p.use_home_jail then [ Bind (jail_dir, Some "~") ] else []);
+      write_line (Printf.sprintf "  %s" p.cmd));
+  FileUtil.chmod (`Octal 0o774) [ file_name ]

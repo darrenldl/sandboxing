@@ -1,2 +1,1 @@
-let () =
-  Bw_script.write Profiles.bash
+let () = Bw_script.write Profiles.bash
