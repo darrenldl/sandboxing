@@ -5,6 +5,6 @@ let bash : profile = {
   cmd = "bash";
   use_home_jail = true;
   args = [
-    Ro_bind { src = "/"; dst = None }
+    Ro_bind ("/", None)
   ]
 }

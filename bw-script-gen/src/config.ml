@@ -1,3 +1,3 @@
-let jail_dir = "~/jail"
+let jail_dir = "~/jails"
 
 let output_dir = "../bw-scripts"

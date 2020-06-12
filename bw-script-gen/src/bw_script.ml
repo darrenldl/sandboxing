@@ -12,15 +12,15 @@ type arg =
   | Gid of int option
   | Hostname of string
   | Chdir of string
-  | Setenv of { key : string; value : string }
+  | Setenv of string * string
   | Unsetenv of string
   | Lock_file of string
-  | Bind of { src : string; dst : string option }
-  | Bind_try of { src : string; dst : string option }
-  | Dev_bind of { src : string; dst : string option }
-  | Dev_bind_try of { src : string; dst : string option }
-  | Ro_bind of { src : string; dst : string option }
-  | Ro_bind_try of { src : string; dst : string option }
+  | Bind of string * string option
+  | Bind_try of string * string option
+  | Dev_bind of string * string option
+  | Dev_bind_try of string * string option
+  | Ro_bind of string * string option
+  | Ro_bind_try of string * string option
   | Remount_ro of string
   | Proc of string
   | Dev of string
@@ -60,28 +60,28 @@ let compile_arg (x : arg) : string =
     Printf.sprintf "--hostname '%s'" s
   | Chdir s ->
     Printf.sprintf "--chdir '%s'" s
-  | Setenv { key; value } ->
+  | Setenv ( key, value ) ->
     Printf.sprintf "--setenv '%s' '%s'" key value
   | Unsetenv key ->
     Printf.sprintf "--unsetenv '%s'" key
   | Lock_file s ->
     Printf.sprintf "--lock-file '%s'" s
-  | Bind { src; dst } ->
+  | Bind (src, dst)->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--bind '%s' '%s'" src dst
-  | Bind_try { src; dst } ->
+  | Bind_try (src, dst)->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--bind-try '%s' '%s'" src dst
-  | Dev_bind { src; dst } ->
+  | Dev_bind (src, dst)->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--dev-bind '%s' '%s'" src dst
-  | Dev_bind_try { src; dst } ->
+  | Dev_bind_try (src, dst)->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--dev-bind-try '%s' '%s'" src dst
-  | Ro_bind { src; dst } ->
+  | Ro_bind (src, dst)->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--ro-bind '%s' '%s'" src dst
-  | Ro_bind_try { src; dst } ->
+  | Ro_bind_try (src, dst)->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--ro-bind-try '%s' '%s'" src dst
   | Remount_ro s ->
@@ -103,15 +103,24 @@ let write (p : profile) : unit =
     FilePath.concat Config.output_dir
       (p.name ^ ".sh")
   in
+  let jail_dir =
+    Filename.concat Config.jail_dir p.name
+  in
   CCIO.with_out file_name
     (fun oc ->
        let write_line = CCIO.write_line oc in
        write_line "#!/bin/bash";
        write_line "";
+       if p.use_home_jail then (
+         write_line (Printf.sprintf "mkdir -p %s" jail_dir)
+       );
        write_line "bwrap \\";
        List.iter (fun x ->
            write_line (Printf.sprintf "  %s \\" (compile_arg x))
-         ) p.args;
+         ) (p.args @
+            (if p.use_home_jail then (
+                [(Bind (jail_dir, Some "~"))]
+              ) else [] ));
        write_line (Printf.sprintf "  %s" p.cmd)
     );
   FileUtil.chmod (`Octal 0o774) [file_name]

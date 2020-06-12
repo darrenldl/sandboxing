@@ -1,16 +1,12 @@
-SRCFILES = debug/*.ml* tests/*.ml* src/*.ml src/*.mli
-
-CINAPSFILES = src/*.cinaps tests/*.cinaps
+SRCFILES = src/*.ml
 
 OCAMLFORMAT = ocamlformat \
 	--inplace \
-	$(SRCFILES) \
-	$(CINAPSFILES)
+	$(SRCFILES)
 
 OCPINDENT = ocp-indent \
 	--inplace \
-	$(SRCFILES) \
-	$(CINAPSFILES)
+	$(SRCFILES)
 
 .PHONY: all
 all :
