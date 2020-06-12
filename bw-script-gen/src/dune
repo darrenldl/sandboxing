@@ -1,0 +1,6 @@
+(executable
+ (name bw_script_gen)
+ (public_name bw-script-gen)
+ (libraries
+ )
+ )
