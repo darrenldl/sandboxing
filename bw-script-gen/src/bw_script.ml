@@ -28,7 +28,12 @@ type arg =
   | Dir of string
   | Seccomp of unit
 
-let compile_single (x : arg) : string =
+type profile = {
+  name : string;
+  use_home_jail : bool;
+}
+
+let compile_arg (x : arg) : string =
   match x with
   | Unshare_user -> "--unshare-user"
   | Unshare_user_try -> "--unshare-user-try"
@@ -84,7 +89,7 @@ let compile_single (x : arg) : string =
   | Seccomp () ->
     ""
 
-let compile (l : arg list) : string =
+let write (p : profile) : string =
   String.concat "\n"
     (
       "bwrap \\" ::
