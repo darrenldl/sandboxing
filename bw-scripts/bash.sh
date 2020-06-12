@@ -3,6 +3,6 @@
 mkdir -p ~/jails/bash
 
 bwrap \
-  --ro-bind '/' '/' \
-  --bind '~/jails/bash' '~' \
+  --ro-bind / / \
+  --bind ~/jails/bash ~ \
   bash
