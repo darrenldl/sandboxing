@@ -16,28 +16,9 @@ OCPINDENT = ocp-indent \
 all :
 	dune build @all
 
-.PHONY: lib
-lib :
-	dune build src
-
-.PHONY: test
-test :
-	OCAMLRUNPARAM=b dune exec ./tests/main.exe
-
-.PHONY: covtest
-covtest :
-	rm -rf _coverage
-	rm -rf bisect*.coverage
-	BISECT_ENABLE=yes OCAMLRUNPARAM=b dune exec ./tests/main.exe
-	bisect-ppx-report html
-
-.PHONY: debug
-debug :
-	dune exec ./debug/main.exe
-
-.PHONY: doc
-doc :
-	dune build @doc
+.PHONY: run
+run: all
+	dune exec gen
 
 .PHONY: format
 format :

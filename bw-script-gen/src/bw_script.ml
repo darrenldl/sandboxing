@@ -15,12 +15,12 @@ type arg =
   | Setenv of { key : string; value : string }
   | Unsetenv of string
   | Lock_file of string
-  | Bind of { src : string; dst : string }
-  | Bind_try of { src : string; dst : string }
-  | Dev_bind of { src : string; dst : string }
-  | Dev_bind_try of { src : string; dst : string }
-  | Ro_bind of { src : string; dst : string }
-  | Ro_bind_try of { src : string; dst : string }
+  | Bind of { src : string; dst : string option }
+  | Bind_try of { src : string; dst : string option }
+  | Dev_bind of { src : string; dst : string option }
+  | Dev_bind_try of { src : string; dst : string option }
+  | Ro_bind of { src : string; dst : string option }
+  | Ro_bind_try of { src : string; dst : string option }
   | Remount_ro of string
   | Proc of string
   | Dev of string
@@ -30,7 +30,9 @@ type arg =
 
 type profile = {
   name : string;
+  cmd : string;
   use_home_jail : bool;
+  args : arg list;
 }
 
 let compile_arg (x : arg) : string =
@@ -65,16 +67,22 @@ let compile_arg (x : arg) : string =
   | Lock_file s ->
     Printf.sprintf "--lock-file '%s'" s
   | Bind { src; dst } ->
+    let dst = Option.value dst ~default:src in
     Printf.sprintf "--bind '%s' '%s'" src dst
   | Bind_try { src; dst } ->
+    let dst = Option.value dst ~default:src in
     Printf.sprintf "--bind-try '%s' '%s'" src dst
   | Dev_bind { src; dst } ->
+    let dst = Option.value dst ~default:src in
     Printf.sprintf "--dev-bind '%s' '%s'" src dst
   | Dev_bind_try { src; dst } ->
+    let dst = Option.value dst ~default:src in
     Printf.sprintf "--dev-bind-try '%s' '%s'" src dst
   | Ro_bind { src; dst } ->
+    let dst = Option.value dst ~default:src in
     Printf.sprintf "--ro-bind '%s' '%s'" src dst
   | Ro_bind_try { src; dst } ->
+    let dst = Option.value dst ~default:src in
     Printf.sprintf "--ro-bind-try '%s' '%s'" src dst
   | Remount_ro s ->
     Printf.sprintf "--remount-ro '%s'" s
@@ -89,12 +97,21 @@ let compile_arg (x : arg) : string =
   | Seccomp () ->
     ""
 
-let write (p : profile) : string =
-  String.concat "\n"
-    (
-      "bwrap \\" ::
-      List.map (fun s ->
-          Printf.sprintf "  %s \\"
-            (compile_single s)
-        ) l
-    )
+let write (p : profile) : unit =
+  FileUtil.mkdir ~parent:true Config.output_dir;
+  let file_name =
+    FilePath.concat Config.output_dir
+      (p.name ^ ".sh")
+  in
+  CCIO.with_out file_name
+    (fun oc ->
+       let write_line = CCIO.write_line oc in
+       write_line "#!/bin/bash";
+       write_line "";
+       write_line "bwrap \\";
+       List.iter (fun x ->
+           write_line (Printf.sprintf "  %s \\" (compile_arg x))
+         ) p.args;
+       write_line (Printf.sprintf "  %s" p.cmd)
+    );
+  FileUtil.chmod (`Octal 0o774) [file_name]
