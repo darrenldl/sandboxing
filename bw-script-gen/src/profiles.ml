@@ -10,6 +10,11 @@ let bash : profile =
     args =
       [
         Ro_bind ("/", None);
+        Ro_bind ("/usr/bin", None);
+        Tmpfs "/usr/lib/modules";
+        Tmpfs "/usr/lib/systemd";
+        Proc "/proc";
+        Dev "/dev";
         Unshare_user;
         Uid None;
         Gid None;
