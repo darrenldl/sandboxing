@@ -2,9 +2,10 @@
 
 set -euxo pipefail
 
-mkdir -p ~/jails/firefox
+mkdir -p ~/jails/discord
 
 bwrap \
+  --ro-bind /opt/discord /opt/discord \
   --ro-bind /usr/bin /usr/bin \
   --ro-bind /usr/share /usr/share \
   --ro-bind /usr/lib /usr/lib \
@@ -39,4 +40,4 @@ bwrap \
   --unshare-uts \
   --unshare-cgroup \
   --new-session \
-  /usr/bin/discord
+  /opt/discord/Discord

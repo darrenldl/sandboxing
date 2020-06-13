@@ -120,10 +120,11 @@ let firefox_private : profile =
 let discord : profile =
   {
     name = "discord";
-    cmd = "/usr/bin/discord";
-    home_jail_dir = Some "firefox";
+    cmd = "/opt/discord/Discord";
+    home_jail_dir = Some "discord";
     args =
       [
+        Ro_bind ("/opt/discord", None);
         Ro_bind ("/usr/bin", None);
         Ro_bind ("/usr/share", None);
         Ro_bind ("/usr/lib", None);
