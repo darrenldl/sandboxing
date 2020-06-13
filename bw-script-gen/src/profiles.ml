@@ -189,8 +189,10 @@ let thunderbird : profile =
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
         Tmpfs "/home";
-        Bind (get_jail_dir "discord", Some "/home/jail");
+        Bind (get_jail_dir "thunderbird", Some "/home/jail");
         Setenv ("HOME", "/home/jail");
+        Bind ("~/.thunderbird", Some "/home/jail/.thunderbird");
+        Bind ("~/.cache/thunderbird", Some "/home/jail/.cache/thunderbird");
         Chdir "/home/jail";
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");

@@ -24,8 +24,10 @@ bwrap \
   --ro-bind /run/user/1000/wayland-0 /run/user/1000/wayland-0 \
   --bind /run/user/1000/dconf /run/user/1000/dconf \
   --tmpfs /home \
-  --bind ~/jails/discord /home/jail \
+  --bind ~/jails/thunderbird /home/jail \
   --setenv HOME /home/jail \
+  --bind ~/.thunderbird /home/jail/.thunderbird \
+  --bind ~/.cache/thunderbird /home/jail/.cache/thunderbird \
   --chdir /home/jail \
   --unsetenv DBUS_SESSION_BUS_ADDRESS \
   --setenv SHELL /bin/false \
