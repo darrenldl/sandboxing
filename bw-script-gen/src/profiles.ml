@@ -17,8 +17,8 @@ let bash : profile =
         Dev "/dev";
         Tmpfs "/run";
         Unshare_user;
-        Uid None;
-        Gid None;
+        (* Uid None;
+         * Gid None; *)
         Tmpfs "/home";
         Bind (get_jail_dir "bash", Some "/home/jail");
         Setenv ("HOME", "/home/jail");
