@@ -45,8 +45,13 @@ let firefox : profile =
         Tmpfs "/usr/lib/systemd";
         Proc "/proc";
         Dev "/dev";
+        Dev_bind ("/dev/snd", None);
         Tmpfs "/tmp";
         Tmpfs "/run";
+        Ro_bind ("/run/user/1000/bus", None);
+        Ro_bind ("/run/user/1000/pulse", None);
+        Ro_bind ("/run/user/1000/wayland-0", None);
+        Bind ("/run/user/1000/dconf", None);
         Tmpfs "/home";
         Bind (get_jail_dir "firefox", Some "/home/jail");
         Setenv ("HOME", "/home/jail");
@@ -58,6 +63,7 @@ let firefox : profile =
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
         Setenv ("MOZ_ENABLE_WAYLAND", "1");
+        Hostname "JAIL";
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
