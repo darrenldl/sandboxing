@@ -2,8 +2,6 @@
 
 set -euxo pipefail
 
-mkdir -p ~/jails/firefox
-
 bwrap \
   --ro-bind /usr/bin /usr/bin \
   --ro-bind /usr/share /usr/share \
@@ -27,7 +25,6 @@ bwrap \
   --ro-bind /run/user/1000/wayland-0 /run/user/1000/wayland-0 \
   --bind /run/user/1000/dconf /run/user/1000/dconf \
   --tmpfs /home \
-  --bind ~/jails/firefox /home/jail \
   --setenv HOME /home/jail \
   --chdir /home/jail \
   --unsetenv DBUS_SESSION_BUS_ADDRESS \

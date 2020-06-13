@@ -75,7 +75,7 @@ let firefox_private : profile =
   {
     name = "firefox-private";
     cmd = "/usr/lib/firefox/firefox";
-    home_jail_dir = Some "firefox";
+    home_jail_dir = None;
     args =
       [
         Ro_bind ("/usr/bin", None);
@@ -100,7 +100,6 @@ let firefox_private : profile =
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
         Tmpfs "/home";
-        Bind (get_jail_dir "firefox", Some "/home/jail");
         Setenv ("HOME", "/home/jail");
         Chdir "/home/jail";
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
