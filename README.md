@@ -17,6 +17,6 @@ Generated scripts assume home jails are stored in `~/jails`
 
 ## Acknowledgements
 
-Bubblewrap scripts and seccomp filter file generator are based on the following repo
+Some components (e.g. bubblewrap scripts, seccomp filter file generator) are based on the following repo
 
 - https://github.com/valoq/bwscripts
