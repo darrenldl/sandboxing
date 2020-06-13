@@ -15,6 +15,7 @@ let bash : profile =
         Tmpfs "/usr/lib/systemd";
         Proc "/proc";
         Dev "/dev";
+        Tmpfs "/run";
         Unshare_user;
         Uid None;
         Gid None;
