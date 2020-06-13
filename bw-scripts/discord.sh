@@ -5,7 +5,6 @@ set -euxo pipefail
 mkdir -p ~/jails/discord
 
 bwrap \
-  --ro-bind /opt/discord /opt/discord \
   --ro-bind /usr/bin /usr/bin \
   --ro-bind /usr/share /usr/share \
   --ro-bind /usr/lib /usr/lib \
@@ -26,6 +25,8 @@ bwrap \
   --ro-bind /run/user/1000/pulse /run/user/1000/pulse \
   --ro-bind /run/user/1000/wayland-0 /run/user/1000/wayland-0 \
   --bind /run/user/1000/dconf /run/user/1000/dconf \
+  --tmpfs /opt \
+  --ro-bind /opt/discord /opt/discord \
   --tmpfs /home \
   --bind ~/jails/discord /home/jail \
   --setenv HOME /home/jail \

@@ -21,6 +21,7 @@ bwrap \
   --dev-bind /dev/snd /dev/snd \
   --tmpfs /tmp \
   --tmpfs /run \
+  --tmpfs /opt \
   --ro-bind /run/user/1000/bus /run/user/1000/bus \
   --ro-bind /run/user/1000/pulse /run/user/1000/pulse \
   --ro-bind /run/user/1000/wayland-0 /run/user/1000/wayland-0 \
