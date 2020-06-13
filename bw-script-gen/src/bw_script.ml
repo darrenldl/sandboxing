@@ -95,7 +95,9 @@ let write (p : profile) : unit =
   let file_name = FilePath.concat Config.output_dir (p.name ^ ".sh") in
   CCIO.with_out file_name (fun oc ->
       let write_line = CCIO.write_line oc in
-      write_line "#!/bin/bash";
+      write_line "#!/usr/bin/env bash";
+      write_line "";
+      write_line "set -euxo pipefail";
       write_line "";
       ( match p.home_jail_dir with
         | None -> ()
