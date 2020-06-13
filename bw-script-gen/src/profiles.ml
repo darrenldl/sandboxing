@@ -24,3 +24,29 @@ let bash : profile =
         Setenv ("HOME", "/home/jail");
       ];
   }
+
+let firefox : profile =
+  {
+    name = "firefox";
+    cmd = "firefox";
+    home_jail_dir = Some "firefox";
+    args =
+      [
+        Ro_bind ("/usr/share", None);
+        Ro_bind ("/usr/share", None);
+        Ro_bind ("/usr/lib", None);
+        Ro_bind ("/usr/lib64", None);
+        Symlink ("/usr/lib", Some "/lib");
+        Tmpfs "/usr/lib/modules";
+        Tmpfs "/usr/lib/systemd";
+        Tmpfs "/home";
+        Bind (get_jail_dir "firefox", Some "/home/jail");
+        Setenv ("HOME", "/home/jail");
+        Bind ("~/.mozilla", Some "/home/jail/.mozilla");
+        Bind ("~/.cache/mozilla", Some "/home/jail/.cache/mozilla");
+      ]
+  }
+
+let suite = [
+  bash; firefox
+]

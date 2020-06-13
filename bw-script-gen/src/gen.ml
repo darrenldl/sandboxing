@@ -1,1 +1,1 @@
-let () = Bw_script.write Profiles.bash
+let () = List.iter Bw_script.write Profiles.suite

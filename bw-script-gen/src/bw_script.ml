@@ -26,6 +26,7 @@ type arg =
   | Dev of string
   | Tmpfs of string
   | Dir of string
+  | Symlink of string * string option
   | Seccomp of unit
 
 type profile = {
@@ -82,6 +83,9 @@ let compile_arg (x : arg) : string =
   | Dev s -> Printf.sprintf "--dev %s" s
   | Tmpfs s -> Printf.sprintf "--tmpfs %s" s
   | Dir s -> Printf.sprintf "--dir %s" s
+  | Symlink (src, dst) ->
+    let dst = Option.value dst ~default:src in
+    Printf.sprintf "--symlink %s %s" src dst
   | Seccomp () -> ""
 
 let write (p : profile) : unit =
