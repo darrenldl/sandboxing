@@ -28,25 +28,42 @@ let bash : profile =
 let firefox : profile =
   {
     name = "firefox";
-    cmd = "firefox";
+    cmd = "/usr/lib/firefox/firefox";
     home_jail_dir = Some "firefox";
     args =
       [
+        Ro_bind ("/usr/bin", None);
         Ro_bind ("/usr/share", None);
         Ro_bind ("/usr/share", None);
         Ro_bind ("/usr/lib", None);
         Ro_bind ("/usr/lib64", None);
         Symlink ("/usr/lib", Some "/lib");
+        Symlink ("/usr/lib64", Some "/lib64");
+        Symlink ("/usr/bin", Some "/bin");
+        Symlink ("/usr/bin", Some "/sbin");
+        Ro_bind ("/etc", None);
         Tmpfs "/usr/lib/modules";
         Tmpfs "/usr/lib/systemd";
+        Proc "/proc";
+        Dev "/dev";
+        Tmpfs "/run";
         Tmpfs "/home";
         Bind (get_jail_dir "firefox", Some "/home/jail");
         Setenv ("HOME", "/home/jail");
         Bind ("~/.mozilla", Some "/home/jail/.mozilla");
         Bind ("~/.cache/mozilla", Some "/home/jail/.cache/mozilla");
-      ]
+        Chdir "/home/jail";
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("SHELL", "/bin/false");
+        Setenv ("USER", "nobody");
+        Setenv ("LOGNAME", "nobody");
+        Setenv ("MOZ_ENABLE_WAYLAND", "1");
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_cgroup;
+        New_session;
+      ];
   }
 
-let suite = [
-  bash; firefox
-]
+let suite = [ bash; firefox ]

@@ -28,6 +28,7 @@ type arg =
   | Dir of string
   | Symlink of string * string option
   | Seccomp of unit
+  | New_session
 
 type profile = {
   name : string;
@@ -87,6 +88,7 @@ let compile_arg (x : arg) : string =
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--symlink %s %s" src dst
   | Seccomp () -> ""
+  | New_session -> "--new-session"
 
 let write (p : profile) : unit =
   FileUtil.mkdir ~parent:true Config.output_dir;
