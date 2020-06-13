@@ -5,7 +5,6 @@ mkdir -p ~/jails/firefox
 bwrap \
   --ro-bind /usr/bin /usr/bin \
   --ro-bind /usr/share /usr/share \
-  --ro-bind /usr/share /usr/share \
   --ro-bind /usr/lib /usr/lib \
   --ro-bind /usr/lib64 /usr/lib64 \
   --symlink /usr/lib /lib \
@@ -17,6 +16,7 @@ bwrap \
   --tmpfs /usr/lib/systemd \
   --proc /proc \
   --dev /dev \
+  --tmpfs /tmp \
   --tmpfs /run \
   --tmpfs /home \
   --bind ~/jails/firefox /home/jail \
@@ -34,4 +34,4 @@ bwrap \
   --unshare-uts \
   --unshare-cgroup \
   --new-session \
-  /usr/lib/firefox/firefox
+  /usr/lib/firefox/firefox --ProfileManager

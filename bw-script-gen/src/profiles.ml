@@ -28,12 +28,11 @@ let bash : profile =
 let firefox : profile =
   {
     name = "firefox";
-    cmd = "/usr/lib/firefox/firefox";
+    cmd = "/usr/lib/firefox/firefox --ProfileManager";
     home_jail_dir = Some "firefox";
     args =
       [
         Ro_bind ("/usr/bin", None);
-        Ro_bind ("/usr/share", None);
         Ro_bind ("/usr/share", None);
         Ro_bind ("/usr/lib", None);
         Ro_bind ("/usr/lib64", None);
@@ -46,6 +45,7 @@ let firefox : profile =
         Tmpfs "/usr/lib/systemd";
         Proc "/proc";
         Dev "/dev";
+        Tmpfs "/tmp";
         Tmpfs "/run";
         Tmpfs "/home";
         Bind (get_jail_dir "firefox", Some "/home/jail");
