@@ -37,6 +37,8 @@ type profile = {
   args : arg list;
 }
 
+let get_jail_dir s = Filename.concat Config.jail_dir s
+
 let compile_arg (x : arg) : string =
   match x with
   | Unshare_user -> "--unshare-user"
