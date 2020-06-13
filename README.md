@@ -2,6 +2,19 @@
 
 Scripts, files and tools related to sandboxing
 
+## Index
+
+- `bw-script-gen/` contains the OCaml code responsible for generating the bubblewrap scripts
+- `bw-scripts` contains the generated bubblewrap scripts
+
+## Usage
+
+See `bw-script-gen/src/profiles.ml` for example profiles
+
+Generated scripts assume home jails are stored in `~/jails`
+
+## Acknowledgements
+
 Bubblewrap scripts and seccomp filter file generator are based on the following repo
 
 - https://github.com/valoq/bwscripts
