@@ -13,6 +13,7 @@ bwrap \
   --dev /dev \
   --tmpfs /run \
   --unshare-user \
+  --unshare-ipc \
   --tmpfs /home \
   --bind ~/jails/bash /home/jail \
   --setenv HOME /home/jail \

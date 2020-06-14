@@ -33,7 +33,7 @@ bwrap \
   --setenv SHELL /bin/false \
   --setenv USER nobody \
   --setenv LOGNAME nobody \
-  --hostname JAIL \
+  --hostname jail \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \

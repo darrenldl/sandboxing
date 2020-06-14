@@ -37,10 +37,11 @@ bwrap \
   --setenv USER nobody \
   --setenv LOGNAME nobody \
   --setenv MOZ_ENABLE_WAYLAND 1 \
-  --hostname JAIL \
+  --hostname jail \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \
+  --unshare-ipc \
   --unshare-cgroup \
   --new-session \
   /usr/lib/firefox/firefox --ProfileManager

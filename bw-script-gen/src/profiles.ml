@@ -15,6 +15,7 @@ let bash : profile =
         Dev "/dev";
         Tmpfs "/run";
         Unshare_user;
+        Unshare_ipc;
         (* Uid None;
          * Gid None; *)
         Tmpfs "/home";
@@ -62,10 +63,11 @@ let firefox : profile =
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
         Setenv ("MOZ_ENABLE_WAYLAND", "1");
-        Hostname "JAIL";
+        Hostname "jail";
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
+        Unshare_ipc;
         Unshare_cgroup;
         New_session;
       ];
@@ -100,6 +102,7 @@ let firefox_private : profile =
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
         Tmpfs "/home";
+        Tmpfs "/home/jail";
         Setenv ("HOME", "/home/jail");
         Chdir "/home/jail";
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
@@ -107,7 +110,7 @@ let firefox_private : profile =
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
         Setenv ("MOZ_ENABLE_WAYLAND", "1");
-        Hostname "JAIL";
+        Hostname "jail";
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
@@ -197,7 +200,7 @@ let thunderbird : profile =
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
-        Hostname "JAIL";
+        Hostname "jail";
         Unshare_user;
         Unshare_pid;
         Unshare_uts;

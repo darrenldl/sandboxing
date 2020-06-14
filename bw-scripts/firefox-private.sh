@@ -24,7 +24,7 @@ bwrap \
   --ro-bind /run/user/1000/pulse /run/user/1000/pulse \
   --ro-bind /run/user/1000/wayland-0 /run/user/1000/wayland-0 \
   --bind /run/user/1000/dconf /run/user/1000/dconf \
-  --tmpfs /home \
+  --tmpfs /home/jail \
   --setenv HOME /home/jail \
   --chdir /home/jail \
   --unsetenv DBUS_SESSION_BUS_ADDRESS \
@@ -32,7 +32,7 @@ bwrap \
   --setenv USER nobody \
   --setenv LOGNAME nobody \
   --setenv MOZ_ENABLE_WAYLAND 1 \
-  --hostname JAIL \
+  --hostname jail \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \
