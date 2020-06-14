@@ -31,7 +31,7 @@ let firefox : profile =
     home_jail_dir = Some "firefox";
     args =
       [
-        Ro_bind ("/usr/bin", None);
+        Ro_bind ("/usr/bin/sh", None);
         Ro_bind ("/usr/share", None);
         Ro_bind ("/usr/lib", None);
         Ro_bind ("/usr/lib64", None);
@@ -39,7 +39,8 @@ let firefox : profile =
         Symlink ("/usr/lib64", Some "/lib64");
         Symlink ("/usr/bin", Some "/bin");
         Symlink ("/usr/bin", Some "/sbin");
-        Ro_bind ("/etc", None);
+        Ro_bind ("/etc/fonts", None);
+        Ro_bind ("/etc/machine-id", None);
         Tmpfs "/usr/lib/modules";
         Tmpfs "/usr/lib/systemd";
         Proc "/proc";
@@ -80,7 +81,7 @@ let firefox_private : profile =
     home_jail_dir = None;
     args =
       [
-        Ro_bind ("/usr/bin", None);
+        Ro_bind ("/usr/bin/sh", None);
         Ro_bind ("/usr/share", None);
         Ro_bind ("/usr/lib", None);
         Ro_bind ("/usr/lib64", None);
@@ -88,7 +89,8 @@ let firefox_private : profile =
         Symlink ("/usr/lib64", Some "/lib64");
         Symlink ("/usr/bin", Some "/bin");
         Symlink ("/usr/bin", Some "/sbin");
-        Ro_bind ("/etc", None);
+        Ro_bind ("/etc/fonts", None);
+        Ro_bind ("/etc/machine-id", None);
         Tmpfs "/usr/lib/modules";
         Tmpfs "/usr/lib/systemd";
         Proc "/proc";

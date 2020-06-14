@@ -5,7 +5,7 @@ set -euxo pipefail
 mkdir -p "$HOME/jails/firefox"
 
 bwrap \
-  --ro-bind "/usr/bin" "/usr/bin" \
+  --ro-bind "/usr/bin/sh" "/usr/bin/sh" \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
@@ -13,7 +13,8 @@ bwrap \
   --symlink "/usr/lib64" "/lib64" \
   --symlink "/usr/bin" "/bin" \
   --symlink "/usr/bin" "/sbin" \
-  --ro-bind "/etc" "/etc" \
+  --ro-bind "/etc/fonts" "/etc/fonts" \
+  --ro-bind "/etc/machine-id" "/etc/machine-id" \
   --tmpfs "/usr/lib/modules" \
   --tmpfs "/usr/lib/systemd" \
   --proc "/proc" \
