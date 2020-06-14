@@ -37,12 +37,12 @@ let usr_lib_lib64_bin_common =
   [
     Ro_bind ("/usr/lib", None);
     Ro_bind ("/usr/lib64", None);
+    Tmpfs "/usr/lib/modules";
+    Tmpfs "/usr/lib/systemd";
     Symlink ("/usr/lib", Some "/lib");
     Symlink ("/usr/lib64", Some "/lib64");
     Symlink ("/usr/bin", Some "/bin");
     Symlink ("/usr/bin", Some "/sbin");
-    Tmpfs "/usr/lib/modules";
-    Tmpfs "/usr/lib/systemd";
   ]
 
 let etc_common =
