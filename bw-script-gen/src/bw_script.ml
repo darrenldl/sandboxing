@@ -37,7 +37,7 @@ type profile = {
   args : arg list;
 }
 
-let get_jail_dir s = Filename.concat Config.jail_dir s
+let get_jail_dir s = Filename.concat Config.jails_dir s
 
 let compile_arg (x : arg) : string =
   match x with
@@ -104,7 +104,7 @@ let write (p : profile) : unit =
       ( match p.home_jail_dir with
         | None -> ()
         | Some s ->
-          let jail_dir = Filename.concat Config.jail_dir s in
+          let jail_dir = Filename.concat Config.jails_dir s in
           write_line (Printf.sprintf "mkdir -p \"%s\"" jail_dir);
           write_line "" );
       write_line "bwrap \\";

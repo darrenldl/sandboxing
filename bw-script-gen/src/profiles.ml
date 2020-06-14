@@ -17,10 +17,8 @@ let bash : profile =
         Unshare_ipc;
         (* Uid None;
          * Gid None; *)
-        Tmpfs "/home";
-        Bind (get_jail_dir "bash", Some "/home/jail");
-        Setenv ("HOME", "/home/jail");
-      ];
+      ]
+      @ set_up_jail_home ~name:"bash";
   }
 
 let make_firefox_profile ~(suffix : string option) : profile =
@@ -41,12 +39,11 @@ let make_firefox_profile ~(suffix : string option) : profile =
         Ro_bind ("/run/user/1000/pulse", None);
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
-        Tmpfs "/home";
-        Bind (get_jail_dir name, Some "/home/jail");
-        Setenv ("HOME", "/home/jail");
+      ]
+      @ set_up_jail_home ~name
+      @ [
         Bind ("$HOME/.mozilla", Some "/home/jail/.mozilla");
         Bind ("$HOME/.cache/mozilla", Some "/home/jail/.cache/mozilla");
-        Chdir "/home/jail";
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
@@ -82,10 +79,6 @@ let firefox_private : profile =
         Ro_bind ("/run/user/1000/pulse", None);
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
-        Tmpfs "/home";
-        Tmpfs "/home/jail";
-        Setenv ("HOME", "/home/jail");
-        Chdir "/home/jail";
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
@@ -102,10 +95,11 @@ let firefox_private : profile =
   }
 
 let discord : profile =
+  let name = "discord" in
   {
-    name = "discord";
+    name;
     cmd = "/opt/discord/Discord";
-    home_jail_dir = Some "discord";
+    home_jail_dir = Some name;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -119,9 +113,9 @@ let discord : profile =
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
         Ro_bind ("/opt/discord", None);
-        Bind (get_jail_dir "discord", Some "/home/jail");
-        Setenv ("HOME", "/home/jail");
-        Chdir "/home/jail";
+      ]
+      @ set_up_jail_home ~name
+      @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
@@ -137,10 +131,11 @@ let discord : profile =
   }
 
 let thunderbird : profile =
+  let name = "thunderbird" in
   {
-    name = "thunderbird";
+    name;
     cmd = "/usr/lib/thunderbird/thunderbird";
-    home_jail_dir = Some "thunderbird";
+    home_jail_dir = Some name;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -150,11 +145,11 @@ let thunderbird : profile =
       @ [
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
-        Bind (get_jail_dir "thunderbird", Some "/home/jail");
-        Setenv ("HOME", "/home/jail");
+      ]
+      @ set_up_jail_home ~name
+      @ [
         Bind ("$HOME/.thunderbird", Some "/home/jail/.thunderbird");
         Bind ("$HOME/.cache/thunderbird", Some "/home/jail/.cache/thunderbird");
-        Chdir "/home/jail";
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
@@ -170,11 +165,12 @@ let thunderbird : profile =
   }
 
 let chromium : profile =
+  let name = "chromium" in
   {
-    name = "chromium";
+    name;
     cmd = "/usr/lib/chromium/chromium";
     (* cmd = "glxinfo"; *)
-    home_jail_dir = Some "chromium";
+    home_jail_dir = Some name;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -189,9 +185,9 @@ let chromium : profile =
         Ro_bind ("/run/user/1000/pulse", None);
         Bind ("/run/user/1000/dconf", None);
         Tmpfs "/home";
-        Bind (get_jail_dir "chromium", Some "/home/jail");
-        Setenv ("HOME", "/home/jail");
-        Chdir "/home/jail";
+      ]
+      @ set_up_jail_home ~name
+      @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");

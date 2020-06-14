@@ -31,3 +31,9 @@ let etc_common =
 let proc_dev_common = [ Proc "/proc"; Dev "/dev" ]
 
 let tmp_run_common = [ Tmpfs "/tmp"; Tmpfs "/run" ]
+
+let set_up_jail_home ~name =
+  [
+    Bind (get_jail_dir name, Some Config.home_inside_jail);
+    Setenv ("HOME", Config.home_inside_jail);
+  ]
