@@ -33,7 +33,6 @@ bwrap \
   --tmpfs "/home" \
   --bind "$HOME/jails/chromium" "/home/jail" \
   --setenv "HOME" "/home/jail" \
-  --chdir "/home/jail" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \

@@ -26,7 +26,6 @@ bwrap \
   --ro-bind "/usr/bin" "/usr/bin" \
   --unshare-user \
   --unshare-ipc \
-  --tmpfs "/home" \
   --bind "$HOME/jails/bash" "/home/jail" \
   --setenv "HOME" "/home/jail" \
   bash

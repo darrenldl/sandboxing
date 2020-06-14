@@ -18,7 +18,7 @@ let bash : profile =
         (* Uid None;
          * Gid None; *)
       ]
-      @ set_up_jail_home ~name:"bash";
+      @ set_up_jail_home ~tmp:false ~name:"bash";
   }
 
 let make_firefox_profile ~(suffix : string option) : profile =
@@ -40,7 +40,7 @@ let make_firefox_profile ~(suffix : string option) : profile =
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
       ]
-      @ set_up_jail_home ~name
+      @ set_up_jail_home ~tmp:false ~name
       @ [
         Bind ("$HOME/.mozilla", Some "/home/jail/.mozilla");
         Bind ("$HOME/.cache/mozilla", Some "/home/jail/.cache/mozilla");
@@ -60,8 +60,9 @@ let make_firefox_profile ~(suffix : string option) : profile =
   }
 
 let firefox_private : profile =
+  let name = "firefox-private" in
   {
-    name = "firefox-private";
+    name;
     cmd = "/usr/lib/firefox/firefox";
     home_jail_dir = None;
     args =
@@ -72,13 +73,13 @@ let firefox_private : profile =
       @ tmp_run_common
       @ [
         Dev_bind ("/dev/snd", None);
-        Tmpfs "/tmp";
-        Tmpfs "/run";
-        Tmpfs "/opt";
         Ro_bind ("/run/user/1000/bus", None);
         Ro_bind ("/run/user/1000/pulse", None);
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
+      ]
+      @ set_up_jail_home ~tmp:true ~name
+      @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
@@ -114,7 +115,7 @@ let discord : profile =
         Bind ("/run/user/1000/dconf", None);
         Ro_bind ("/opt/discord", None);
       ]
-      @ set_up_jail_home ~name
+      @ set_up_jail_home ~tmp:false ~name
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
@@ -146,7 +147,7 @@ let thunderbird : profile =
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
       ]
-      @ set_up_jail_home ~name
+      @ set_up_jail_home ~tmp:false ~name
       @ [
         Bind ("$HOME/.thunderbird", Some "/home/jail/.thunderbird");
         Bind ("$HOME/.cache/thunderbird", Some "/home/jail/.cache/thunderbird");
@@ -186,7 +187,7 @@ let chromium : profile =
         Bind ("/run/user/1000/dconf", None);
         Tmpfs "/home";
       ]
-      @ set_up_jail_home ~name
+      @ set_up_jail_home ~tmp:false ~name
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");

@@ -31,7 +31,6 @@ bwrap \
   --setenv "HOME" "/home/jail" \
   --bind "$HOME/.thunderbird" "/home/jail/.thunderbird" \
   --bind "$HOME/.cache/thunderbird" "/home/jail/.cache/thunderbird" \
-  --chdir "/home/jail" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
