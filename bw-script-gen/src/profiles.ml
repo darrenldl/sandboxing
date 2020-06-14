@@ -157,7 +157,7 @@ let discord : profile =
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
-        Hostname "JAIL";
+        Hostname "jail";
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
@@ -249,7 +249,7 @@ let chromium : profile =
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
-        Hostname "JAIL";
+        Hostname "jail";
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
