@@ -52,6 +52,12 @@ let etc_common =
     Ro_bind ("/etc/resolv.conf", None);
   ]
 
+let proc_dev_common =
+  [
+    Proc "/proc";
+    Dev "/dev";
+  ]
+
 let firefox : profile =
   {
     name = "firefox";
@@ -61,13 +67,9 @@ let firefox : profile =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
+      @ proc_dev_common
       @ [
-        Proc "/proc";
-        Dev "/dev";
         Dev_bind ("/dev/snd", None);
-        Tmpfs "/tmp";
-        Tmpfs "/run";
-        Tmpfs "/opt";
         Ro_bind ("/run/user/1000/bus", None);
         Ro_bind ("/run/user/1000/pulse", None);
         Ro_bind ("/run/user/1000/wayland-0", None);
@@ -102,9 +104,8 @@ let firefox_private : profile =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
+      @ proc_dev_common
       @ [
-        Proc "/proc";
-        Dev "/dev";
         Dev_bind ("/dev/snd", None);
         Tmpfs "/tmp";
         Tmpfs "/run";
@@ -138,29 +139,17 @@ let discord : profile =
     cmd = "/opt/discord/Discord";
     home_jail_dir = Some "discord";
     args =
-      [
-        Ro_bind ("/usr/share", None);
-        Ro_bind ("/usr/lib", None);
-        Ro_bind ("/usr/lib64", None);
-        Symlink ("/usr/lib", Some "/lib");
-        Symlink ("/usr/lib64", Some "/lib64");
-        Symlink ("/usr/bin", Some "/bin");
-        Symlink ("/usr/bin", Some "/sbin");
-        Ro_bind ("/etc/fonts", None);
-        Tmpfs "/usr/lib/modules";
-        Tmpfs "/usr/lib/systemd";
-        Proc "/proc";
-        Dev "/dev";
+      usr_share_common
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ proc_dev_common
+      @ [
         Dev_bind ("/dev/snd", None);
-        Tmpfs "/tmp";
-        Tmpfs "/run";
         Ro_bind ("/run/user/1000/bus", None);
         Ro_bind ("/run/user/1000/pulse", None);
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
-        Tmpfs "/opt";
         Ro_bind ("/opt/discord", None);
-        Tmpfs "/home";
         Bind (get_jail_dir "discord", Some "/home/jail");
         Setenv ("HOME", "/home/jail");
         Chdir "/home/jail";
@@ -184,25 +173,13 @@ let thunderbird : profile =
     cmd = "/usr/lib/thunderbird/thunderbird";
     home_jail_dir = Some "thunderbird";
     args =
-      [
-        Ro_bind ("/usr/share", None);
-        Ro_bind ("/usr/lib", None);
-        Ro_bind ("/usr/lib64", None);
-        Symlink ("/usr/lib", Some "/lib");
-        Symlink ("/usr/lib64", Some "/lib64");
-        Symlink ("/usr/bin", Some "/bin");
-        Symlink ("/usr/bin", Some "/sbin");
-        Ro_bind ("/etc/fonts", None);
-        Tmpfs "/usr/lib/modules";
-        Tmpfs "/usr/lib/systemd";
-        Proc "/proc";
-        Dev "/dev";
-        Tmpfs "/tmp";
-        Tmpfs "/run";
-        Tmpfs "/opt";
+      usr_share_common
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ proc_dev_common
+      @ [
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
-        Tmpfs "/home";
         Bind (get_jail_dir "thunderbird", Some "/home/jail");
         Setenv ("HOME", "/home/jail");
         Bind ("$HOME/.thunderbird", Some "/home/jail/.thunderbird");
