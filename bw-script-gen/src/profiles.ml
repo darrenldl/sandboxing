@@ -55,8 +55,8 @@ let firefox : profile =
         Tmpfs "/home";
         Bind (get_jail_dir "firefox", Some "/home/jail");
         Setenv ("HOME", "/home/jail");
-        Bind ("~/.mozilla", Some "/home/jail/.mozilla");
-        Bind ("~/.cache/mozilla", Some "/home/jail/.cache/mozilla");
+        Bind ("$HOME/.mozilla", Some "/home/jail/.mozilla");
+        Bind ("$HOME/.cache/mozilla", Some "/home/jail/.cache/mozilla");
         Chdir "/home/jail";
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
@@ -195,8 +195,8 @@ let thunderbird : profile =
         Tmpfs "/home";
         Bind (get_jail_dir "thunderbird", Some "/home/jail");
         Setenv ("HOME", "/home/jail");
-        Bind ("~/.thunderbird", Some "/home/jail/.thunderbird");
-        Bind ("~/.cache/thunderbird", Some "/home/jail/.cache/thunderbird");
+        Bind ("$HOME/.thunderbird", Some "/home/jail/.thunderbird");
+        Bind ("$HOME/.cache/thunderbird", Some "/home/jail/.cache/thunderbird");
         Chdir "/home/jail";
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");

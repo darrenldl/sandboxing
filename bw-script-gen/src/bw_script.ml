@@ -57,38 +57,38 @@ let compile_arg (x : arg) : string =
   | Gid id -> (
       match id with
       | None -> Printf.sprintf "--gid $(%s)" Commands.get_unused_gid
-      | Some x -> Printf.sprintf "--gid %d" x )
-  | Hostname s -> Printf.sprintf "--hostname %s" s
-  | Chdir s -> Printf.sprintf "--chdir %s" s
-  | Setenv (key, value) -> Printf.sprintf "--setenv %s %s" key value
-  | Unsetenv key -> Printf.sprintf "--unsetenv %s" key
-  | Lock_file s -> Printf.sprintf "--lock-file %s" s
+      | Some x -> Printf.sprintf "--gid \"%d\"" x )
+  | Hostname s -> Printf.sprintf "--hostname \"%s\"" s
+  | Chdir s -> Printf.sprintf "--chdir \"%s\"" s
+  | Setenv (key, value) -> Printf.sprintf "--setenv \"%s\" \"%s\"" key value
+  | Unsetenv key -> Printf.sprintf "--unsetenv \"%s\"" key
+  | Lock_file s -> Printf.sprintf "--lock-file \"%s\"" s
   | Bind (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--bind %s %s" src dst
+    Printf.sprintf "--bind \"%s\" \"%s\"" src dst
   | Bind_try (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--bind-try %s %s" src dst
+    Printf.sprintf "--bind-try \"%s\" \"%s\"" src dst
   | Dev_bind (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--dev-bind %s %s" src dst
+    Printf.sprintf "--dev-bind \"%s\" \"%s\"" src dst
   | Dev_bind_try (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--dev-bind-try %s %s" src dst
+    Printf.sprintf "--dev-bind-try \"%s\" \"%s\"" src dst
   | Ro_bind (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--ro-bind %s %s" src dst
+    Printf.sprintf "--ro-bind \"%s\" \"%s\"" src dst
   | Ro_bind_try (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--ro-bind-try %s %s" src dst
-  | Remount_ro s -> Printf.sprintf "--remount-ro %s" s
-  | Proc s -> Printf.sprintf "--proc %s" s
-  | Dev s -> Printf.sprintf "--dev %s" s
-  | Tmpfs s -> Printf.sprintf "--tmpfs %s" s
-  | Dir s -> Printf.sprintf "--dir %s" s
+    Printf.sprintf "--ro-bind-try \"%s\" \"%s\"" src dst
+  | Remount_ro s -> Printf.sprintf "--remount-ro \"%s\"" s
+  | Proc s -> Printf.sprintf "--proc \"%s\"" s
+  | Dev s -> Printf.sprintf "--dev \"%s\"" s
+  | Tmpfs s -> Printf.sprintf "--tmpfs \"%s\"" s
+  | Dir s -> Printf.sprintf "--dir \"%s\"" s
   | Symlink (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--symlink %s %s" src dst
+    Printf.sprintf "--symlink \"%s\" \"%s\"" src dst
   | Seccomp () -> ""
   | New_session -> "--new-session"
 
@@ -105,7 +105,7 @@ let write (p : profile) : unit =
         | None -> ()
         | Some s ->
           let jail_dir = Filename.concat Config.jail_dir s in
-          write_line (Printf.sprintf "mkdir -p %s" jail_dir);
+          write_line (Printf.sprintf "mkdir -p \"%s\"" jail_dir);
           write_line "" );
       write_line "bwrap \\";
       List.iter
