@@ -24,25 +24,44 @@ let bash : profile =
       ];
   }
 
+let usr_share_common =
+  [
+    Ro_bind ("/usr/share/X11", None);
+    Ro_bind ("/usr/share/icons", None);
+    Ro_bind ("/usr/share/fonts", None);
+    Ro_bind ("/usr/share/mime", None);
+    Ro_bind ("/usr/share/ca-certificates", None);
+  ]
+
+let usr_lib_lib64_bin_common =
+  [
+    Ro_bind ("/usr/lib", None);
+    Ro_bind ("/usr/lib64", None);
+    Symlink ("/usr/lib", Some "/lib");
+    Symlink ("/usr/lib64", Some "/lib64");
+    Symlink ("/usr/bin", Some "/bin");
+    Symlink ("/usr/bin", Some "/sbin");
+    Tmpfs "/usr/lib/modules";
+    Tmpfs "/usr/lib/systemd";
+  ]
+
+let etc_common =
+  [
+    Ro_bind ("/etc/fonts", None);
+    Ro_bind ("/etc/machine-id", None);
+    Ro_bind ("/etc/resolv.conf", None);
+  ]
+
 let firefox : profile =
   {
     name = "firefox";
     cmd = "/usr/lib/firefox/firefox --ProfileManager";
     home_jail_dir = Some "firefox";
     args =
-      [
-        Ro_bind ("/usr/bin/sh", None);
-        Ro_bind ("/usr/share", None);
-        Ro_bind ("/usr/lib", None);
-        Ro_bind ("/usr/lib64", None);
-        Symlink ("/usr/lib", Some "/lib");
-        Symlink ("/usr/lib64", Some "/lib64");
-        Symlink ("/usr/bin", Some "/bin");
-        Symlink ("/usr/bin", Some "/sbin");
-        Ro_bind ("/etc/fonts", None);
-        Ro_bind ("/etc/machine-id", None);
-        Tmpfs "/usr/lib/modules";
-        Tmpfs "/usr/lib/systemd";
+      usr_share_common
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ [
         Proc "/proc";
         Dev "/dev";
         Dev_bind ("/dev/snd", None);
@@ -80,19 +99,10 @@ let firefox_private : profile =
     cmd = "/usr/lib/firefox/firefox";
     home_jail_dir = None;
     args =
-      [
-        Ro_bind ("/usr/bin/sh", None);
-        Ro_bind ("/usr/share", None);
-        Ro_bind ("/usr/lib", None);
-        Ro_bind ("/usr/lib64", None);
-        Symlink ("/usr/lib", Some "/lib");
-        Symlink ("/usr/lib64", Some "/lib64");
-        Symlink ("/usr/bin", Some "/bin");
-        Symlink ("/usr/bin", Some "/sbin");
-        Ro_bind ("/etc/fonts", None);
-        Ro_bind ("/etc/machine-id", None);
-        Tmpfs "/usr/lib/modules";
-        Tmpfs "/usr/lib/systemd";
+      usr_share_common
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ [
         Proc "/proc";
         Dev "/dev";
         Dev_bind ("/dev/snd", None);
@@ -129,7 +139,6 @@ let discord : profile =
     home_jail_dir = Some "discord";
     args =
       [
-        Ro_bind ("/usr/bin", None);
         Ro_bind ("/usr/share", None);
         Ro_bind ("/usr/lib", None);
         Ro_bind ("/usr/lib64", None);
@@ -137,7 +146,7 @@ let discord : profile =
         Symlink ("/usr/lib64", Some "/lib64");
         Symlink ("/usr/bin", Some "/bin");
         Symlink ("/usr/bin", Some "/sbin");
-        Ro_bind ("/etc", None);
+        Ro_bind ("/etc/fonts", None);
         Tmpfs "/usr/lib/modules";
         Tmpfs "/usr/lib/systemd";
         Proc "/proc";
@@ -176,7 +185,6 @@ let thunderbird : profile =
     home_jail_dir = Some "thunderbird";
     args =
       [
-        Ro_bind ("/usr/bin", None);
         Ro_bind ("/usr/share", None);
         Ro_bind ("/usr/lib", None);
         Ro_bind ("/usr/lib64", None);
@@ -184,7 +192,7 @@ let thunderbird : profile =
         Symlink ("/usr/lib64", Some "/lib64");
         Symlink ("/usr/bin", Some "/bin");
         Symlink ("/usr/bin", Some "/sbin");
-        Ro_bind ("/etc", None);
+        Ro_bind ("/etc/fonts", None);
         Tmpfs "/usr/lib/modules";
         Tmpfs "/usr/lib/systemd";
         Proc "/proc";
@@ -222,7 +230,6 @@ let chromium : profile =
     home_jail_dir = Some "chromium";
     args =
       [
-        Ro_bind ("/usr/bin", None);
         Ro_bind ("/usr/share", None);
         Ro_bind ("/usr/lib", None);
         Ro_bind ("/usr/lib64", None);
@@ -230,7 +237,7 @@ let chromium : profile =
         Symlink ("/usr/lib64", Some "/lib64");
         Symlink ("/usr/bin", Some "/bin");
         Symlink ("/usr/bin", Some "/sbin");
-        Ro_bind ("/etc", None);
+        Ro_bind ("/etc/fonts", None);
         Tmpfs "/usr/lib/modules";
         Tmpfs "/usr/lib/systemd";
         Proc "/proc";

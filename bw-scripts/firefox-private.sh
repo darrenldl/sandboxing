@@ -3,18 +3,22 @@
 set -euxo pipefail
 
 bwrap \
-  --ro-bind "/usr/bin/sh" "/usr/bin/sh" \
-  --ro-bind "/usr/share" "/usr/share" \
+  --ro-bind "/usr/share/X11" "/usr/share/X11" \
+  --ro-bind "/usr/share/icons" "/usr/share/icons" \
+  --ro-bind "/usr/share/fonts" "/usr/share/fonts" \
+  --ro-bind "/usr/share/mime" "/usr/share/mime" \
+  --ro-bind "/usr/share/ca-certificates" "/usr/share/ca-certificates" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
   --symlink "/usr/lib" "/lib" \
   --symlink "/usr/lib64" "/lib64" \
   --symlink "/usr/bin" "/bin" \
   --symlink "/usr/bin" "/sbin" \
-  --ro-bind "/etc/fonts" "/etc/fonts" \
-  --ro-bind "/etc/machine-id" "/etc/machine-id" \
   --tmpfs "/usr/lib/modules" \
   --tmpfs "/usr/lib/systemd" \
+  --ro-bind "/etc/fonts" "/etc/fonts" \
+  --ro-bind "/etc/machine-id" "/etc/machine-id" \
+  --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
   --proc "/proc" \
   --dev "/dev" \
   --dev-bind "/dev/snd" "/dev/snd" \
