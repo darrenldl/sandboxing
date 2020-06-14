@@ -23,11 +23,12 @@ let bash : profile =
       ];
   }
 
-let firefox : profile =
+let make_firefox_profile ~(suffix : string option) : profile =
+  let name = match suffix with None -> "firefox" | Some s -> "firefox-" ^ s in
   {
-    name = "firefox";
+    name;
     cmd = "/usr/lib/firefox/firefox --ProfileManager";
-    home_jail_dir = Some "firefox";
+    home_jail_dir = Some name;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -41,7 +42,7 @@ let firefox : profile =
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
         Tmpfs "/home";
-        Bind (get_jail_dir "firefox", Some "/home/jail");
+        Bind (get_jail_dir name, Some "/home/jail");
         Setenv ("HOME", "/home/jail");
         Bind ("$HOME/.mozilla", Some "/home/jail/.mozilla");
         Bind ("$HOME/.cache/mozilla", Some "/home/jail/.cache/mozilla");
@@ -205,4 +206,12 @@ let chromium : profile =
       ];
   }
 
-let suite = [ bash; firefox; firefox_private; discord; thunderbird; chromium ]
+let suite =
+  [
+    bash;
+    make_firefox_profile ~suffix:None;
+    firefox_private;
+    discord;
+    thunderbird;
+    chromium;
+  ]
