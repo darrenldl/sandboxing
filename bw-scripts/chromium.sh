@@ -18,15 +18,13 @@ bwrap \
   --tmpfs /usr/lib/systemd \
   --proc /proc \
   --dev /dev \
+  --dev-bind /dev/dri/card0 /dev/dri/card0 \
   --dev-bind /dev/snd /dev/snd \
   --tmpfs /tmp \
   --tmpfs /run \
   --ro-bind /run/user/1000/bus /run/user/1000/bus \
   --ro-bind /run/user/1000/pulse /run/user/1000/pulse \
-  --ro-bind /run/user/1000/wayland-0 /run/user/1000/wayland-0 \
   --bind /run/user/1000/dconf /run/user/1000/dconf \
-  --tmpfs /opt \
-  --ro-bind /opt/discord /opt/discord \
   --tmpfs /home \
   --bind ~/jails/chromium /home/jail \
   --setenv HOME /home/jail \

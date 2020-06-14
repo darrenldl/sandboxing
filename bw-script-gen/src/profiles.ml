@@ -216,6 +216,7 @@ let chromium : profile =
   {
     name = "chromium";
     cmd = "/usr/lib/chromium/chromium";
+    (* cmd = "glxinfo"; *)
     home_jail_dir = Some "chromium";
     args =
       [
@@ -232,15 +233,14 @@ let chromium : profile =
         Tmpfs "/usr/lib/systemd";
         Proc "/proc";
         Dev "/dev";
+        Dev_bind ("/dev/dri/card0", None);
         Dev_bind ("/dev/snd", None);
         Tmpfs "/tmp";
         Tmpfs "/run";
+        (* Ro_bind ("/run/dbus/system_bus_socket", None); *)
         Ro_bind ("/run/user/1000/bus", None);
         Ro_bind ("/run/user/1000/pulse", None);
-        Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
-        Tmpfs "/opt";
-        Ro_bind ("/opt/discord", None);
         Tmpfs "/home";
         Bind (get_jail_dir "chromium", Some "/home/jail");
         Setenv ("HOME", "/home/jail");
