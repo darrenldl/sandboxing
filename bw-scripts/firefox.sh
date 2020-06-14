@@ -23,6 +23,8 @@ bwrap \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
   --proc "/proc" \
   --dev "/dev" \
+  --tmpfs "/tmp" \
+  --tmpfs "/run" \
   --dev-bind "/dev/snd" "/dev/snd" \
   --ro-bind "/run/user/1000/bus" "/run/user/1000/bus" \
   --ro-bind "/run/user/1000/pulse" "/run/user/1000/pulse" \

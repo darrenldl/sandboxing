@@ -29,3 +29,5 @@ let etc_common =
   ]
 
 let proc_dev_common = [ Proc "/proc"; Dev "/dev" ]
+
+let tmp_run_common = [ Tmpfs "/tmp"; Tmpfs "/run" ]

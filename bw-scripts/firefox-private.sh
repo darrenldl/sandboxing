@@ -21,6 +21,8 @@ bwrap \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
   --proc "/proc" \
   --dev "/dev" \
+  --tmpfs "/tmp" \
+  --tmpfs "/run" \
   --dev-bind "/dev/snd" "/dev/snd" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \

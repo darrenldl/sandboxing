@@ -7,14 +7,12 @@ let bash : profile =
     cmd = "bash";
     home_jail_dir = Some "bash";
     args =
-      [
-        Ro_bind ("/", None);
+      usr_share_common
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ proc_dev_common
+      @ [
         Ro_bind ("/usr/bin", None);
-        Tmpfs "/usr/lib/modules";
-        Tmpfs "/usr/lib/systemd";
-        Proc "/proc";
-        Dev "/dev";
-        Tmpfs "/run";
         Unshare_user;
         Unshare_ipc;
         (* Uid None;
@@ -35,6 +33,7 @@ let firefox : profile =
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ proc_dev_common
+      @ tmp_run_common
       @ [
         Dev_bind ("/dev/snd", None);
         Ro_bind ("/run/user/1000/bus", None);
@@ -72,6 +71,7 @@ let firefox_private : profile =
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ proc_dev_common
+      @ tmp_run_common
       @ [
         Dev_bind ("/dev/snd", None);
         Tmpfs "/tmp";
@@ -110,6 +110,7 @@ let discord : profile =
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ proc_dev_common
+      @ tmp_run_common
       @ [
         Dev_bind ("/dev/snd", None);
         Ro_bind ("/run/user/1000/bus", None);
@@ -144,6 +145,7 @@ let thunderbird : profile =
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ proc_dev_common
+      @ tmp_run_common
       @ [
         Ro_bind ("/run/user/1000/wayland-0", None);
         Bind ("/run/user/1000/dconf", None);
@@ -173,23 +175,14 @@ let chromium : profile =
     (* cmd = "glxinfo"; *)
     home_jail_dir = Some "chromium";
     args =
-      [
-        Ro_bind ("/usr/share", None);
-        Ro_bind ("/usr/lib", None);
-        Ro_bind ("/usr/lib64", None);
-        Symlink ("/usr/lib", Some "/lib");
-        Symlink ("/usr/lib64", Some "/lib64");
-        Symlink ("/usr/bin", Some "/bin");
-        Symlink ("/usr/bin", Some "/sbin");
-        Ro_bind ("/etc/fonts", None);
-        Tmpfs "/usr/lib/modules";
-        Tmpfs "/usr/lib/systemd";
-        Proc "/proc";
-        Dev "/dev";
+      usr_share_common
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ proc_dev_common
+      @ tmp_run_common
+      @ [
         Dev_bind ("/dev/dri/card0", None);
         Dev_bind ("/dev/snd", None);
-        Tmpfs "/tmp";
-        Tmpfs "/run";
         (* Ro_bind ("/run/dbus/system_bus_socket", None); *)
         Ro_bind ("/run/user/1000/bus", None);
         Ro_bind ("/run/user/1000/pulse", None);

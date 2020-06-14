@@ -23,6 +23,8 @@ bwrap \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
   --proc "/proc" \
   --dev "/dev" \
+  --tmpfs "/tmp" \
+  --tmpfs "/run" \
   --ro-bind "/run/user/1000/wayland-0" "/run/user/1000/wayland-0" \
   --bind "/run/user/1000/dconf" "/run/user/1000/dconf" \
   --bind "$HOME/jails/thunderbird" "/home/jail" \
