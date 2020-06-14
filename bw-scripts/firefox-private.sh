@@ -24,6 +24,7 @@ bwrap \
   --ro-bind /run/user/1000/pulse /run/user/1000/pulse \
   --ro-bind /run/user/1000/wayland-0 /run/user/1000/wayland-0 \
   --bind /run/user/1000/dconf /run/user/1000/dconf \
+  --tmpfs /home \
   --tmpfs /home/jail \
   --setenv HOME /home/jail \
   --chdir /home/jail \
@@ -36,6 +37,7 @@ bwrap \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \
+  --unshare-ipc \
   --unshare-cgroup \
   --new-session \
   /usr/lib/firefox/firefox

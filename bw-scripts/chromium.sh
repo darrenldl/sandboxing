@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-mkdir -p ~/jails/discord
+mkdir -p ~/jails/chromium
 
 bwrap \
   --ro-bind /usr/bin /usr/bin \
@@ -28,7 +28,7 @@ bwrap \
   --tmpfs /opt \
   --ro-bind /opt/discord /opt/discord \
   --tmpfs /home \
-  --bind ~/jails/discord /home/jail \
+  --bind ~/jails/chromium /home/jail \
   --setenv HOME /home/jail \
   --chdir /home/jail \
   --unsetenv DBUS_SESSION_BUS_ADDRESS \
@@ -42,4 +42,4 @@ bwrap \
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  /opt/discord/Discord
+  /usr/lib/chromium/chromium
