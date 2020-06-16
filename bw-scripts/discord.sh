@@ -10,6 +10,7 @@ bwrap \
   --ro-bind "/usr/share/fonts" "/usr/share/fonts" \
   --ro-bind "/usr/share/mime" "/usr/share/mime" \
   --ro-bind "/usr/share/ca-certificates" "/usr/share/ca-certificates" \
+  --ro-bind "/usr/share/glib-2.0" "/usr/share/glib-2.0" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
   --tmpfs "/usr/lib/modules" \
@@ -26,13 +27,14 @@ bwrap \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
   --dev-bind "/dev/snd" "/dev/snd" \
-  --ro-bind "/run/user/1000/bus" "/run/user/1000/bus" \
-  --ro-bind "/run/user/1000/pulse" "/run/user/1000/pulse" \
-  --ro-bind "/run/user/1000/wayland-0" "/run/user/1000/wayland-0" \
-  --bind "/run/user/1000/dconf" "/run/user/1000/dconf" \
+  --ro-bind "/run/user/$UID/pulse" "/run/user/$UID/pulse" \
+  --ro-bind "/tmp/.X11-unix" "/tmp/.X11-unix" \
+  --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
+  --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --ro-bind "/opt/discord" "/opt/discord" \
   --bind "$HOME/jails/discord" "/home/jail" \
   --setenv "HOME" "/home/jail" \
+  --tmpfs "/home/jail/Downloads" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \

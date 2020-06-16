@@ -7,6 +7,7 @@ let usr_share_common =
     Ro_bind ("/usr/share/fonts", None);
     Ro_bind ("/usr/share/mime", None);
     Ro_bind ("/usr/share/ca-certificates", None);
+    Ro_bind ("/usr/share/glib-2.0", None);
   ]
 
 let usr_lib_lib64_bin_common =
@@ -32,9 +33,21 @@ let proc_dev_common = [ Proc "/proc"; Dev "/dev" ]
 
 let tmp_run_common = [ Tmpfs "/tmp"; Tmpfs "/run" ]
 
+let sound_common =
+  [ Dev_bind ("/dev/snd", None); Ro_bind ("/run/user/$UID/pulse", None) ]
+
+let dbus_common = [ Ro_bind ("/run/user/$UID/bus", None) ]
+
+let wayland_common = [ Ro_bind ("/run/user/$UID/wayland-0", None) ]
+
+let x11_common = [ Ro_bind ("/tmp/.X11-unix", None) ]
+
+let dconf_common = [ Bind ("/run/user/$UID/dconf", None) ]
+
 let set_up_jail_home ~tmp ~name =
   [
     ( if tmp then Tmpfs Config.home_inside_jail
       else Bind (get_jail_dir name, Some Config.home_inside_jail) );
     Setenv ("HOME", Config.home_inside_jail);
+    Tmpfs (Filename.concat Config.home_inside_jail "Downloads");
   ]

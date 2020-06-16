@@ -10,6 +10,7 @@ bwrap \
   --ro-bind "/usr/share/fonts" "/usr/share/fonts" \
   --ro-bind "/usr/share/mime" "/usr/share/mime" \
   --ro-bind "/usr/share/ca-certificates" "/usr/share/ca-certificates" \
+  --ro-bind "/usr/share/glib-2.0" "/usr/share/glib-2.0" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
   --tmpfs "/usr/lib/modules" \
@@ -25,10 +26,11 @@ bwrap \
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
-  --ro-bind "/run/user/1000/wayland-0" "/run/user/1000/wayland-0" \
-  --bind "/run/user/1000/dconf" "/run/user/1000/dconf" \
+  --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
+  --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --bind "$HOME/jails/thunderbird" "/home/jail" \
   --setenv "HOME" "/home/jail" \
+  --tmpfs "/home/jail/Downloads" \
   --bind "$HOME/.thunderbird" "/home/jail/.thunderbird" \
   --bind "$HOME/.cache/thunderbird" "/home/jail/.cache/thunderbird" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \

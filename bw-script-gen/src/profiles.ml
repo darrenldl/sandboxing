@@ -33,13 +33,10 @@ let make_firefox_profile ~(suffix : string option) : profile =
       @ etc_common
       @ proc_dev_common
       @ tmp_run_common
-      @ [
-        Dev_bind ("/dev/snd", None);
-        Ro_bind ("/run/user/1000/bus", None);
-        Ro_bind ("/run/user/1000/pulse", None);
-        Ro_bind ("/run/user/1000/wayland-0", None);
-        Bind ("/run/user/1000/dconf", None);
-      ]
+      @ sound_common
+      @ wayland_common
+      @ dconf_common
+      @ dbus_common
       @ set_up_jail_home ~tmp:false ~name
       @ [
         Bind ("$HOME/.mozilla", Some "/home/jail/.mozilla");
@@ -71,13 +68,10 @@ let firefox_private : profile =
       @ etc_common
       @ proc_dev_common
       @ tmp_run_common
-      @ [
-        Dev_bind ("/dev/snd", None);
-        Ro_bind ("/run/user/1000/bus", None);
-        Ro_bind ("/run/user/1000/pulse", None);
-        Ro_bind ("/run/user/1000/wayland-0", None);
-        Bind ("/run/user/1000/dconf", None);
-      ]
+      @ sound_common
+      @ wayland_common
+      @ dconf_common
+      @ dbus_common
       @ set_up_jail_home ~tmp:true ~name
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
@@ -107,14 +101,11 @@ let discord : profile =
       @ etc_common
       @ proc_dev_common
       @ tmp_run_common
-      @ [
-        Dev_bind ("/dev/snd", None);
-        Ro_bind ("/run/user/1000/bus", None);
-        Ro_bind ("/run/user/1000/pulse", None);
-        Ro_bind ("/run/user/1000/wayland-0", None);
-        Bind ("/run/user/1000/dconf", None);
-        Ro_bind ("/opt/discord", None);
-      ]
+      @ sound_common
+      @ x11_common
+      @ dconf_common
+      @ dbus_common
+      @ [ Ro_bind ("/opt/discord", None) ]
       @ set_up_jail_home ~tmp:false ~name
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
@@ -143,10 +134,8 @@ let thunderbird : profile =
       @ etc_common
       @ proc_dev_common
       @ tmp_run_common
-      @ [
-        Ro_bind ("/run/user/1000/wayland-0", None);
-        Bind ("/run/user/1000/dconf", None);
-      ]
+      @ wayland_common
+      @ dconf_common
       @ set_up_jail_home ~tmp:false ~name
       @ [
         Bind ("$HOME/.thunderbird", Some "/home/jail/.thunderbird");
@@ -178,15 +167,11 @@ let chromium : profile =
       @ etc_common
       @ proc_dev_common
       @ tmp_run_common
-      @ [
-        Dev_bind ("/dev/dri/card0", None);
-        Dev_bind ("/dev/snd", None);
-        (* Ro_bind ("/run/dbus/system_bus_socket", None); *)
-        Ro_bind ("/run/user/1000/bus", None);
-        Ro_bind ("/run/user/1000/pulse", None);
-        Bind ("/run/user/1000/dconf", None);
-        Tmpfs "/home";
-      ]
+      @ sound_common
+      @ wayland_common
+      @ dconf_common
+      @ dbus_common
+      @ [ Dev_bind ("/dev/dri/card0", None) ]
       @ set_up_jail_home ~tmp:false ~name
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
