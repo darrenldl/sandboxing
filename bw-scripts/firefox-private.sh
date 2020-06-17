@@ -31,6 +31,7 @@ bwrap \
   --ro-bind "/usr/share/gstreamer-1.0" "/usr/share/gstreamer-1.0" \
   --ro-bind "/run/user/$UID/pulse" "/run/user/$UID/pulse" \
   --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
+  --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --tmpfs "/home/jail" \

@@ -46,7 +46,11 @@ let sound_common =
 
 let dbus_common = [ Ro_bind ("/run/user/$UID/bus", None) ]
 
-let wayland_common = [ Ro_bind ("/run/user/$UID/wayland-0", None) ]
+let wayland_common =
+  [
+    Ro_bind ("/run/user/$UID/wayland-0", None);
+    Setenv ("QT_QPA_PLATFORM", "wayland");
+  ]
 
 let x11_common = [ Ro_bind ("/tmp/.X11-unix", None) ]
 

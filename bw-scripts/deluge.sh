@@ -30,6 +30,7 @@ bwrap \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
   --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
+  --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --ro-bind "/etc/lsb-release" "/etc/lsb-release" \
