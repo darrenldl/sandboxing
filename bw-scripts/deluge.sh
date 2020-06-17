@@ -2,6 +2,8 @@
 
 set -euxo pipefail
 
+mkdir -p "$HOME/jails/deluge"
+
 bwrap \
   --ro-bind "/usr/share/X11" "/usr/share/X11" \
   --ro-bind "/usr/share/icons" "/usr/share/icons" \
@@ -25,14 +27,10 @@ bwrap \
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
-  --ro-bind "/usr/share/gst-plugins-bad" "/usr/share/gst-plugins-bad" \
-  --ro-bind "/usr/share/gst-plugins-base" "/usr/share/gst-plugins-base" \
-  --ro-bind "/usr/share/gstreamer-1.0" "/usr/share/gstreamer-1.0" \
-  --ro-bind "/run/user/$UID/pulse" "/run/user/$UID/pulse" \
   --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --tmpfs "/home/jail" \
+  --bind "$HOME/jails/deluge" "/home/jail" \
   --setenv "HOME" "/home/jail" \
   --tmpfs "/home/jail/Downloads" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
@@ -47,4 +45,4 @@ bwrap \
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  /usr/lib/firefox/firefox
+  /usr/bin/deluge

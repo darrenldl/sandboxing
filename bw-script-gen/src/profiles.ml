@@ -189,6 +189,38 @@ let chromium : profile =
       ];
   }
 
+let deluge =
+  let name = "deluge" in
+  {
+    name;
+    cmd = "/usr/bin/deluge";
+    home_jail_dir = Some name;
+    args =
+      usr_share_common
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ proc_dev_common
+      @ tmp_run_common
+      @ wayland_common
+      @ dconf_common
+      @ dbus_common
+      @ set_up_jail_home ~tmp:false ~name
+      @ [
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("SHELL", "/bin/false");
+        Setenv ("USER", "nobody");
+        Setenv ("LOGNAME", "nobody");
+        Setenv ("MOZ_ENABLE_WAYLAND", "1");
+        Hostname "jail";
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+        New_session;
+      ];
+  }
+
 let suite =
   [
     bash;
@@ -197,4 +229,5 @@ let suite =
     discord;
     thunderbird;
     chromium;
+    deluge;
   ]

@@ -4,7 +4,7 @@ let usr_share_common =
   [
     Ro_bind ("/usr/share/X11", None);
     Ro_bind ("/usr/share/icons", None);
-    Ro_bind ("/usr/share/fontconfig", None);
+    Ro_bind_try ("/usr/share/fontconfig", None);
     Ro_bind ("/usr/share/fonts", None);
     Ro_bind ("/usr/share/mime", None);
     Ro_bind ("/usr/share/ca-certificates", None);
