@@ -5,6 +5,7 @@ set -euxo pipefail
 mkdir -p "$HOME/jails/firefox"
 
 bwrap \
+  --ro-bind "/usr/share/X11" "/usr/share/X11" \
   --ro-bind "/usr/share/icons" "/usr/share/icons" \
   --ro-bind "/usr/share/fonts" "/usr/share/fonts" \
   --ro-bind "/usr/share/mime" "/usr/share/mime" \

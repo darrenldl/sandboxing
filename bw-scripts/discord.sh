@@ -5,6 +5,7 @@ set -euxo pipefail
 mkdir -p "$HOME/jails/discord"
 
 bwrap \
+  --ro-bind "/usr/share/X11" "/usr/share/X11" \
   --ro-bind "/usr/share/icons" "/usr/share/icons" \
   --ro-bind "/usr/share/fonts" "/usr/share/fonts" \
   --ro-bind "/usr/share/mime" "/usr/share/mime" \
@@ -27,7 +28,6 @@ bwrap \
   --tmpfs "/run" \
   --dev-bind "/dev/snd" "/dev/snd" \
   --ro-bind "/run/user/$UID/pulse" "/run/user/$UID/pulse" \
-  --ro-bind "/usr/share/X11" "/usr/share/X11" \
   --ro-bind "/tmp/.X11-unix" "/tmp/.X11-unix" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
