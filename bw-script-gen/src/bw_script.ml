@@ -105,7 +105,9 @@ let write (p : profile) : unit =
         | None -> ()
         | Some s ->
           let jail_dir = Filename.concat Config.jails_dir s in
+          let downloads_dir = Filename.concat jail_dir "Downloads" in
           write_line (Printf.sprintf "mkdir -p \"%s\"" jail_dir);
+          write_line (Printf.sprintf "mkdir -p \"%s\"" downloads_dir);
           write_line "" );
       write_line "bwrap \\";
       List.iter

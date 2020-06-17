@@ -19,6 +19,7 @@ let usr_lib_lib64_bin_common =
     Tmpfs "/usr/lib/systemd";
     Symlink ("/usr/lib", Some "/lib");
     Symlink ("/usr/lib64", Some "/lib64");
+    Ro_bind ("/usr/bin", None);
     Symlink ("/usr/bin", Some "/bin");
     Symlink ("/usr/bin", Some "/sbin");
   ]
@@ -56,5 +57,4 @@ let set_up_jail_home ~tmp ~name =
     ( if tmp then Tmpfs Config.home_inside_jail
       else Bind (get_jail_dir name, Some Config.home_inside_jail) );
     Setenv ("HOME", Config.home_inside_jail);
-    Tmpfs (Filename.concat Config.home_inside_jail "Downloads");
   ]
