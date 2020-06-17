@@ -7,6 +7,7 @@ mkdir -p "$HOME/jails/bash"
 bwrap \
   --ro-bind "/usr/share/X11" "/usr/share/X11" \
   --ro-bind "/usr/share/icons" "/usr/share/icons" \
+  --ro-bind "/usr/share/fontconfig" "/usr/share/fontconfig" \
   --ro-bind "/usr/share/fonts" "/usr/share/fonts" \
   --ro-bind "/usr/share/mime" "/usr/share/mime" \
   --ro-bind "/usr/share/ca-certificates" "/usr/share/ca-certificates" \
