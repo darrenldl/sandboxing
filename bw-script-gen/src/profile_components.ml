@@ -2,7 +2,6 @@ open Bw_script
 
 let usr_share_common =
   [
-    Ro_bind ("/usr/share/X11", None);
     Ro_bind ("/usr/share/icons", None);
     Ro_bind ("/usr/share/fonts", None);
     Ro_bind ("/usr/share/mime", None);
@@ -40,7 +39,8 @@ let dbus_common = [ Ro_bind ("/run/user/$UID/bus", None) ]
 
 let wayland_common = [ Ro_bind ("/run/user/$UID/wayland-0", None) ]
 
-let x11_common = [ Ro_bind ("/tmp/.X11-unix", None) ]
+let x11_common =
+  [ Ro_bind ("/usr/share/X11", None); Ro_bind ("/tmp/.X11-unix", None) ]
 
 let dconf_common = [ Bind ("/run/user/$UID/dconf", None) ]
 

@@ -144,6 +144,7 @@ let thunderbird : profile =
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
+        Setenv ("MOZ_ENABLE_WAYLAND", "1");
         Hostname "jail";
         Unshare_user;
         Unshare_pid;
