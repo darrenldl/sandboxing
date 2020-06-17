@@ -9,6 +9,8 @@ This sandboxing suite primarily targets desktop use, but may include assets for 
 One main focus is to provide a private home for programs, which is often where the most
 important files are stored
 
+Note that some profiles assume usage of Wayland
+
 ## Index
 
 - `bw-script-gen/` contains the OCaml code responsible for generating the bubblewrap scripts
@@ -18,7 +20,7 @@ important files are stored
 
 See `bw-script-gen/src/profiles.ml` for existing profiles
 
-Run `make run` in `bw-script-gen/` to generate scripts
+Run `make run` in `bw-script-gen/` to generate scripts after making updates to the profiles
 
 Use `./sandboxing/bw-scripts/name.sh` to run script generated from profile `name`
 
