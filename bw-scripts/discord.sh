@@ -3,6 +3,7 @@
 set -euxo pipefail
 
 mkdir -p "$HOME/jails/discord"
+mkdir -p "$HOME/jails/discord/Downloads"
 
 bwrap \
   --ro-bind "/usr/share/X11" "/usr/share/X11" \
@@ -18,6 +19,7 @@ bwrap \
   --tmpfs "/usr/lib/systemd" \
   --symlink "/usr/lib" "/lib" \
   --symlink "/usr/lib64" "/lib64" \
+  --ro-bind "/usr/bin" "/usr/bin" \
   --symlink "/usr/bin" "/bin" \
   --symlink "/usr/bin" "/sbin" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
@@ -37,7 +39,6 @@ bwrap \
   --ro-bind "/opt/discord" "/opt/discord" \
   --bind "$HOME/jails/discord" "/home/jail" \
   --setenv "HOME" "/home/jail" \
-  --tmpfs "/home/jail/Downloads" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \

@@ -3,6 +3,7 @@
 set -euxo pipefail
 
 mkdir -p "$HOME/jails/firefox"
+mkdir -p "$HOME/jails/firefox/Downloads"
 
 bwrap \
   --ro-bind "/usr/share/X11" "/usr/share/X11" \
@@ -18,6 +19,7 @@ bwrap \
   --tmpfs "/usr/lib/systemd" \
   --symlink "/usr/lib" "/lib" \
   --symlink "/usr/lib64" "/lib64" \
+  --ro-bind "/usr/bin" "/usr/bin" \
   --symlink "/usr/bin" "/bin" \
   --symlink "/usr/bin" "/sbin" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
@@ -36,7 +38,6 @@ bwrap \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --bind "$HOME/jails/firefox" "/home/jail" \
   --setenv "HOME" "/home/jail" \
-  --tmpfs "/home/jail/Downloads" \
   --bind "$HOME/.mozilla" "/home/jail/.mozilla" \
   --bind "$HOME/.cache/mozilla" "/home/jail/.cache/mozilla" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \

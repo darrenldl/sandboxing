@@ -52,6 +52,9 @@ let x11_common = [ Ro_bind ("/tmp/.X11-unix", None) ]
 
 let dconf_common = [ Bind ("/run/user/$UID/dconf", None) ]
 
+let lsb_release_common =
+  [ Ro_bind ("/etc/lsb-release", None); Ro_bind ("/etc/arch-release", None) ]
+
 let set_up_jail_home ~tmp ~name =
   [
     ( if tmp then Tmpfs Config.home_inside_jail

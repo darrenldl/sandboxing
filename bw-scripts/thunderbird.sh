@@ -3,6 +3,7 @@
 set -euxo pipefail
 
 mkdir -p "$HOME/jails/thunderbird"
+mkdir -p "$HOME/jails/thunderbird/Downloads"
 
 bwrap \
   --ro-bind "/usr/share/X11" "/usr/share/X11" \
@@ -18,6 +19,7 @@ bwrap \
   --tmpfs "/usr/lib/systemd" \
   --symlink "/usr/lib" "/lib" \
   --symlink "/usr/lib64" "/lib64" \
+  --ro-bind "/usr/bin" "/usr/bin" \
   --symlink "/usr/bin" "/bin" \
   --symlink "/usr/bin" "/sbin" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
@@ -31,7 +33,6 @@ bwrap \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --bind "$HOME/jails/thunderbird" "/home/jail" \
   --setenv "HOME" "/home/jail" \
-  --tmpfs "/home/jail/Downloads" \
   --bind "$HOME/.thunderbird" "/home/jail/.thunderbird" \
   --bind "$HOME/.cache/thunderbird" "/home/jail/.cache/thunderbird" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \

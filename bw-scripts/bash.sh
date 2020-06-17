@@ -3,6 +3,7 @@
 set -euxo pipefail
 
 mkdir -p "$HOME/jails/bash"
+mkdir -p "$HOME/jails/bash/Downloads"
 
 bwrap \
   --ro-bind "/usr/share/X11" "/usr/share/X11" \
@@ -18,6 +19,7 @@ bwrap \
   --tmpfs "/usr/lib/systemd" \
   --symlink "/usr/lib" "/lib" \
   --symlink "/usr/lib64" "/lib64" \
+  --ro-bind "/usr/bin" "/usr/bin" \
   --symlink "/usr/bin" "/bin" \
   --symlink "/usr/bin" "/sbin" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
@@ -25,10 +27,11 @@ bwrap \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
   --proc "/proc" \
   --dev "/dev" \
+  --ro-bind "/etc/lsb-release" "/etc/lsb-release" \
+  --ro-bind "/etc/arch-release" "/etc/arch-release" \
   --ro-bind "/usr/bin" "/usr/bin" \
   --unshare-user \
   --unshare-ipc \
   --bind "$HOME/jails/bash" "/home/jail" \
   --setenv "HOME" "/home/jail" \
-  --tmpfs "/home/jail/Downloads" \
   bash

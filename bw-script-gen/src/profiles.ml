@@ -11,6 +11,7 @@ let bash : profile =
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ proc_dev_common
+      @ lsb_release_common
       @ [
         Ro_bind ("/usr/bin", None);
         Unshare_user;
@@ -204,6 +205,7 @@ let deluge =
       @ wayland_common
       @ dconf_common
       @ dbus_common
+      @ lsb_release_common
       @ set_up_jail_home ~tmp:false ~name
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";

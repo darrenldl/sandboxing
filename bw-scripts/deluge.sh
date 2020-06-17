@@ -3,6 +3,7 @@
 set -euxo pipefail
 
 mkdir -p "$HOME/jails/deluge"
+mkdir -p "$HOME/jails/deluge/Downloads"
 
 bwrap \
   --ro-bind "/usr/share/X11" "/usr/share/X11" \
@@ -18,6 +19,7 @@ bwrap \
   --tmpfs "/usr/lib/systemd" \
   --symlink "/usr/lib" "/lib" \
   --symlink "/usr/lib64" "/lib64" \
+  --ro-bind "/usr/bin" "/usr/bin" \
   --symlink "/usr/bin" "/bin" \
   --symlink "/usr/bin" "/sbin" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
@@ -30,9 +32,10 @@ bwrap \
   --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
+  --ro-bind "/etc/lsb-release" "/etc/lsb-release" \
+  --ro-bind "/etc/arch-release" "/etc/arch-release" \
   --bind "$HOME/jails/deluge" "/home/jail" \
   --setenv "HOME" "/home/jail" \
-  --tmpfs "/home/jail/Downloads" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
