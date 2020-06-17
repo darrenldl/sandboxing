@@ -26,7 +26,9 @@ bwrap \
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
-  --dev-bind "/dev/snd" "/dev/snd" \
+  --ro-bind "/usr/share/gst-plugins-bad" "/usr/share/gst-plugins-bad" \
+  --ro-bind "/usr/share/gst-plugins-base" "/usr/share/gst-plugins-base" \
+  --ro-bind "/usr/share/gstreamer-1.0" "/usr/share/gstreamer-1.0" \
   --ro-bind "/run/user/$UID/pulse" "/run/user/$UID/pulse" \
   --ro-bind "/tmp/.X11-unix" "/tmp/.X11-unix" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
