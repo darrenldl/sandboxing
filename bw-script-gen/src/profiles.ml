@@ -49,6 +49,7 @@ let make_firefox_profile ~(suffix : string option) : profile =
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
         Setenv ("MOZ_ENABLE_WAYLAND", "1");
+        Setenv ("MOZ_SANDBOX_LOGGING", "1");
         Hostname "jail";
         Unshare_user;
         Unshare_pid;
@@ -83,6 +84,7 @@ let firefox_private : profile =
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
         Setenv ("MOZ_ENABLE_WAYLAND", "1");
+        Setenv ("MOZ_SANDBOX_LOGGING", "1");
         Hostname "jail";
         Unshare_user;
         Unshare_pid;
