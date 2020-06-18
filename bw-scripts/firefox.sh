@@ -59,4 +59,5 @@ bwrap \
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
+  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/firefox_seccomp_filter.bpf \
   /usr/lib/firefox/firefox --ProfileManager

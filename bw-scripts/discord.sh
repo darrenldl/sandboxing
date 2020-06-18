@@ -56,4 +56,5 @@ bwrap \
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
+  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/discord_seccomp_filter.bpf \
   /opt/discord/Discord

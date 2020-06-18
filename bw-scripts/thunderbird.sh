@@ -54,4 +54,5 @@ bwrap \
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
+  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/thunderbird_seccomp_filter.bpf \
   /usr/lib/thunderbird/thunderbird

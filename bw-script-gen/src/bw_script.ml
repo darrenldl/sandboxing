@@ -27,7 +27,7 @@ type arg =
   | Tmpfs of string
   | Dir of string
   | Symlink of string * string option
-  | Seccomp of unit
+  | Seccomp of string
   | New_session
 
 type profile = {
@@ -90,7 +90,7 @@ let compile_arg (x : arg) : string =
   | Symlink (src, dst) ->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--symlink \"%s\" \"%s\"" src dst
-  | Seccomp () -> ""
+  | Seccomp s -> Printf.sprintf "--seccomp 10 10<%s" s
   | New_session -> "--new-session"
 
 let write (p : profile) : unit =
@@ -127,7 +127,15 @@ let write (p : profile) : unit =
       write_line "bwrap \\";
       List.iter
         (fun x -> write_line (Printf.sprintf "  %s \\" (compile_arg x)))
-        p.args;
+        (p.args
+      @
+      (match p.syscall_blacklist with
+       | [] -> []
+       | _ ->
+         [
+         Seccomp (Filename.concat bpf_dir (p.name ^ Config.seccomp_bpf_suffix))
+       ]
+      ));
       write_line (Printf.sprintf "  %s" p.cmd));
   FileUtil.chmod (`Octal 0o774) [ file_name ];
   Seccomp_bpf.write_c_file ~name:p.name ~blacklist:p.syscall_blacklist

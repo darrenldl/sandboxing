@@ -40,4 +40,5 @@ bwrap \
   --unshare-ipc \
   --bind "$HOME/jails/bash" "/home/jail" \
   --setenv "HOME" "/home/jail" \
+  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/bash_seccomp_filter.bpf \
   bash
