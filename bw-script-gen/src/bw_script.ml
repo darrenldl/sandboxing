@@ -103,17 +103,19 @@ let write (p : profile) : unit =
       write_line "set -euxo pipefail";
       write_line "";
       let bpf_dir =
-        Printf.sprintf "\"$(dirname $0)\"/%s"
-          Config.seccomp_bpf_output_dir
+        Printf.sprintf "\"$(dirname $0)\"/%s" Config.seccomp_bpf_output_dir
       in
       let bin_file_path =
-        Printf.sprintf "\"$(dirname $0)\"/%s/%s"
-          Config.seccomp_bpf_output_dir p.name
+        Printf.sprintf "\"$(dirname $0)\"/%s/%s" Config.seccomp_bpf_output_dir
+          p.name
       in
       write_line (Printf.sprintf "# if [ ! -f %s.bpf ]; then" bin_file_path);
-      write_line (Printf.sprintf "  gcc %s.c -lseccomp -o %s.exe" bin_file_path bin_file_path);
+      write_line
+        (Printf.sprintf "  gcc %s.c -lseccomp -o %s.exe" bin_file_path
+           bin_file_path);
       write_line (Printf.sprintf "  %s.exe" bin_file_path);
-      write_line (Printf.sprintf "  mv %s%s %s" p.name Config.seccomp_bpf_suffix bpf_dir);
+      write_line
+        (Printf.sprintf "  mv %s%s %s" p.name Config.seccomp_bpf_suffix bpf_dir);
       write_line "# fi";
       write_line "";
       ( match p.home_jail_dir with
@@ -127,15 +129,15 @@ let write (p : profile) : unit =
       write_line "bwrap \\";
       List.iter
         (fun x -> write_line (Printf.sprintf "  %s \\" (compile_arg x)))
-        (p.args
-      @
-      (match p.syscall_blacklist with
-       | [] -> []
-       | _ ->
-         [
-         Seccomp (Filename.concat bpf_dir (p.name ^ Config.seccomp_bpf_suffix))
-       ]
-      ));
+        ( p.args
+          @
+          match p.syscall_blacklist with
+          | [] -> []
+          | _ ->
+            [
+              Seccomp
+                (Filename.concat bpf_dir (p.name ^ Config.seccomp_bpf_suffix));
+            ] );
       write_line (Printf.sprintf "  %s" p.cmd));
   FileUtil.chmod (`Octal 0o774) [ file_name ];
   Seccomp_bpf.write_c_file ~name:p.name ~blacklist:p.syscall_blacklist
