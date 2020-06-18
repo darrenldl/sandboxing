@@ -1,2 +1,2 @@
-seccomp_filter_bpf/*.exe
-seccomp_filter_bpf/*.bpf
+seccomp-bpf/*.exe
+seccomp-bpf/*.bpf
