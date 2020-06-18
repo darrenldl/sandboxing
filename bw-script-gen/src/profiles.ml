@@ -97,7 +97,7 @@ let discord : profile =
   let name = "discord" in
   {
     name;
-    cmd = "/opt/discord/Discord";
+    cmd = "/usr/bin/discord";
     home_jail_dir = Some name;
     syscall_blacklist = default_syscall_blacklist;
     args =
