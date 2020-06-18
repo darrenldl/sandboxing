@@ -239,7 +239,7 @@ let write_c_file ~name ~(blacklist : syscall list) =
       write_line "";
       write_line
         (Printf.sprintf
-           "  filter_fd = open(\"%s_seccomp_filter.bpf\", O_WRONLY);" name);
+           "  filter_fd = open(\"%s_seccomp_filter.bpf\", O_CREAT | O_WRONLY | O_TRUNC, 0644);" name);
       write_line "  if (filter_fd == -1) {";
       write_line "    rc = -errno;";
       write_line "    goto out;";
