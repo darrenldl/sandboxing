@@ -38,9 +38,9 @@ let tmp_run_common = [ Tmpfs "/tmp"; Tmpfs "/run" ]
 let sound_common =
   [
     (* Dev_bind ("/dev/snd", None); *)
-    Ro_bind ("/usr/share/gst-plugins-bad", None);
-    Ro_bind ("/usr/share/gst-plugins-base", None);
-    Ro_bind ("/usr/share/gstreamer-1.0", None);
+    Ro_bind_try ("/usr/share/gst-plugins-bad", None);
+    Ro_bind_try ("/usr/share/gst-plugins-base", None);
+    Ro_bind_try ("/usr/share/gstreamer-1.0", None);
     Ro_bind ("/run/user/$UID/pulse", None);
   ]
 
