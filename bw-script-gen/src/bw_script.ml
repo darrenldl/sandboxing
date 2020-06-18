@@ -34,6 +34,7 @@ type profile = {
   name : string;
   cmd : string;
   home_jail_dir : string option;
+  syscall_blacklist : Seccomp_bpf.syscall list;
   args : arg list;
 }
 

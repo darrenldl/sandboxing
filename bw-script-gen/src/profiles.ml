@@ -6,6 +6,7 @@ let bash : profile =
     name = "bash";
     cmd = "bash";
     home_jail_dir = Some "bash";
+    syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -28,6 +29,7 @@ let make_firefox_profile ~(suffix : string option) : profile =
     name;
     cmd = "/usr/lib/firefox/firefox --ProfileManager";
     home_jail_dir = Some name;
+    syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -63,6 +65,7 @@ let firefox_private : profile =
     name;
     cmd = "/usr/lib/firefox/firefox";
     home_jail_dir = None;
+    syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -96,6 +99,7 @@ let discord : profile =
     name;
     cmd = "/opt/discord/Discord";
     home_jail_dir = Some name;
+    syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -129,6 +133,7 @@ let thunderbird : profile =
     name;
     cmd = "/usr/lib/thunderbird/thunderbird";
     home_jail_dir = Some name;
+    syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -163,6 +168,7 @@ let chromium : profile =
     cmd = "/usr/lib/chromium/chromium";
     (* cmd = "glxinfo"; *)
     home_jail_dir = Some name;
+    syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -196,6 +202,7 @@ let deluge =
     name;
     cmd = "/usr/bin/deluge";
     home_jail_dir = Some name;
+    syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
