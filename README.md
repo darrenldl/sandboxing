@@ -13,8 +13,9 @@ Note that some profiles assume usage of Wayland
 
 ## Index
 
-- `bw-script-gen/` contains the OCaml code responsible for generating the bubblewrap scripts
+- `bw-script-gen/` contains the OCaml code responsible for generating the bubblewrap scripts and generating seccomp BPF generator C code
 - `bw-scripts/` contains the generated bubblewrap scripts
+- `seccomp-bpf/` contains the seccomp BPF generator C code
 
 ## Usage
 
