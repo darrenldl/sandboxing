@@ -11,7 +11,7 @@ let default_syscall_blacklist =
     Bdflush;
     Bpf;
     Break;
-    Chroot;
+    (* Chroot; *)
     Clock_adjtime;
     Clock_settime;
     Create_module;
