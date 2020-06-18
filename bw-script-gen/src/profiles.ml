@@ -99,7 +99,7 @@ let discord : profile =
     name;
     cmd = "/usr/bin/discord";
     home_jail_dir = Some name;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_blacklist = [];
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
