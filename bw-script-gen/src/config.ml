@@ -2,4 +2,6 @@ let jails_dir = "$HOME/jails"
 
 let home_inside_jail = "/home/jail"
 
-let output_dir = "../bw-scripts"
+let script_output_dir = "../bw-scripts"
+
+let seccomp_bpf_output_dir = "../seccomp-bpf"

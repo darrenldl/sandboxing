@@ -93,8 +93,8 @@ let compile_arg (x : arg) : string =
   | New_session -> "--new-session"
 
 let write (p : profile) : unit =
-  FileUtil.mkdir ~parent:true Config.output_dir;
-  let file_name = FilePath.concat Config.output_dir (p.name ^ ".sh") in
+  FileUtil.mkdir ~parent:true Config.script_output_dir;
+  let file_name = FilePath.concat Config.script_output_dir (p.name ^ ".sh") in
   CCIO.with_out file_name (fun oc ->
       let write_line = CCIO.write_line oc in
       write_line "#!/usr/bin/env bash";
