@@ -2,6 +2,12 @@
 
 set -euxo pipefail
 
+# if [ ! -f "$(dirname $0)"/../seccomp-bpf/bash.bpf ]; then
+  gcc "$(dirname $0)"/../seccomp-bpf/bash.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/bash.exe
+  "$(dirname $0)"/../seccomp-bpf/bash.exe
+  mv bash_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
+# fi
+
 mkdir -p "$HOME/jails/bash"
 mkdir -p "$HOME/jails/bash/Downloads"
 

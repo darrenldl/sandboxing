@@ -2,6 +2,12 @@
 
 set -euxo pipefail
 
+# if [ ! -f "$(dirname $0)"/../seccomp-bpf/deluge.bpf ]; then
+  gcc "$(dirname $0)"/../seccomp-bpf/deluge.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/deluge.exe
+  "$(dirname $0)"/../seccomp-bpf/deluge.exe
+  mv deluge_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
+# fi
+
 mkdir -p "$HOME/jails/deluge"
 mkdir -p "$HOME/jails/deluge/Downloads"
 

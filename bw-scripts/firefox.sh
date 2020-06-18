@@ -2,6 +2,12 @@
 
 set -euxo pipefail
 
+# if [ ! -f "$(dirname $0)"/../seccomp-bpf/firefox.bpf ]; then
+  gcc "$(dirname $0)"/../seccomp-bpf/firefox.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/firefox.exe
+  "$(dirname $0)"/../seccomp-bpf/firefox.exe
+  mv firefox_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
+# fi
+
 mkdir -p "$HOME/jails/firefox"
 mkdir -p "$HOME/jails/firefox/Downloads"
 

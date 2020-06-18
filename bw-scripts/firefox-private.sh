@@ -2,6 +2,12 @@
 
 set -euxo pipefail
 
+# if [ ! -f "$(dirname $0)"/../seccomp-bpf/firefox-private.bpf ]; then
+  gcc "$(dirname $0)"/../seccomp-bpf/firefox-private.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/firefox-private.exe
+  "$(dirname $0)"/../seccomp-bpf/firefox-private.exe
+  mv firefox-private_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
+# fi
+
 bwrap \
   --ro-bind "/usr/share/X11" "/usr/share/X11" \
   --ro-bind "/usr/share/icons" "/usr/share/icons" \
