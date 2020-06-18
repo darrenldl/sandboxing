@@ -115,4 +115,5 @@ let write (p : profile) : unit =
         (fun x -> write_line (Printf.sprintf "  %s \\" (compile_arg x)))
         p.args;
       write_line (Printf.sprintf "  %s" p.cmd));
-  FileUtil.chmod (`Octal 0o774) [ file_name ]
+  FileUtil.chmod (`Octal 0o774) [ file_name ];
+  Seccomp_bpf.write_c_file ~name:p.name ~blacklist:p.syscall_blacklist
