@@ -42,7 +42,6 @@ int main (void) {
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(bdflush), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(bpf), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(break), 0) < 0) { goto out; }
-  if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(chroot), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(clock_adjtime), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(clock_settime), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(create_module), 0) < 0) { goto out; }

@@ -47,6 +47,7 @@ bwrap \
   --setenv "USER" "nobody" \
   --setenv "LOGNAME" "nobody" \
   --setenv "MOZ_ENABLE_WAYLAND" "1" \
+  --setenv "MOZ_SANDBOX_LOGGING" "1" \
   --hostname "jail" \
   --unshare-user \
   --unshare-pid \
