@@ -35,13 +35,13 @@ type syscall =
   | Lock
   | Lookup_dcookie
   | Mbind
-  | Mfsservctl
   | Migrate_pages
   | Modify_ldt
   | Mount
   | Move_pages
   | Mpx
   | Name_to_handle_at
+  | Nfsservctl
   | Open_by_handle_at
   | Pciconfig_iobase
   | Pciconfig_read
@@ -54,14 +54,14 @@ type syscall =
   | Prof
   | Profil
   | Ptrace
-  | Putmsg
+  | Putpmsg
   | Query_module
   | Reboot
   | Remap_file_pages
   | Request_key
   | Rtas
-  | S390_mmio_read
-  | S390_mmio_write
+  | S390_pci_mmio_read
+  | S390_pci_mmio_write
   | S390_runtime_instr
   | Security
   | Set_mempolicy
@@ -129,13 +129,13 @@ let string_of_syscall (x : syscall) : string =
   | Lock -> "lock"
   | Lookup_dcookie -> "lookup_dcookie"
   | Mbind -> "mbind"
-  | Mfsservctl -> "mfsservctl"
   | Migrate_pages -> "migrate_pages"
   | Modify_ldt -> "modify_ldt"
   | Mount -> "mount"
   | Move_pages -> "move_pages"
   | Mpx -> "mpx"
   | Name_to_handle_at -> "name_to_handle_at"
+  | Nfsservctl -> "nfsservctl"
   | Open_by_handle_at -> "open_by_handle_at"
   | Pciconfig_iobase -> "pciconfig_iobase"
   | Pciconfig_read -> "pciconfig_read"
@@ -148,14 +148,14 @@ let string_of_syscall (x : syscall) : string =
   | Prof -> "prof"
   | Profil -> "profil"
   | Ptrace -> "ptrace"
-  | Putmsg -> "putmsg"
+  | Putpmsg -> "putpmsg"
   | Query_module -> "query_module"
   | Reboot -> "reboot"
   | Remap_file_pages -> "remap_file_pages"
   | Request_key -> "request_key"
   | Rtas -> "rtas"
-  | S390_mmio_read -> "s390_mmio_read"
-  | S390_mmio_write -> "s390_mmio_read"
+  | S390_pci_mmio_read -> "s390_pci_mmio_read"
+  | S390_pci_mmio_write -> "s390_pci_mmio_read"
   | S390_runtime_instr -> "s390_runtime_instr"
   | Security -> "security"
   | Set_mempolicy -> "set_mempolicy"
@@ -213,6 +213,10 @@ let write_c_file ~name ~(blacklist : syscall list) =
  * along with this program; if not, see <http://www.gnu.org/licenses>.
  */
 |};
+      write_line "#include <stddef.h>";
+      write_line "#include <errno.h>";
+      write_line "#include <fcntl.h>";
+      write_line "#include <unistd.h>";
       write_line "#include <seccomp.h>";
       write_line "";
       write_line "int main (void) {";
@@ -235,7 +239,7 @@ let write_c_file ~name ~(blacklist : syscall list) =
       write_line "";
       write_line
         (Printf.sprintf
-           "  filter_fd = open(\"%s_seccomp_filter.bpf\", O_WRONLY)" name);
+           "  filter_fd = open(\"%s_seccomp_filter.bpf\", O_WRONLY);" name);
       write_line "  if (filter_fd == -1) {";
       write_line "    rc = -errno;";
       write_line "    goto out;";
@@ -251,4 +255,4 @@ let write_c_file ~name ~(blacklist : syscall list) =
       write_line "  seccomp_release(ctx);";
       write_line "  return -rc;";
       write_line "}");
-  FileUtil.chmod (`Octal 0o444) [ file_name ]
+  FileUtil.chmod (`Octal 0o664) [ file_name ]
