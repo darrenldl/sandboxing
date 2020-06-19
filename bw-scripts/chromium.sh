@@ -2,11 +2,9 @@
 
 set -euxo pipefail
 
-# if [ ! -f "$(dirname $0)"/../seccomp-bpf/chromium.bpf ]; then
-  gcc "$(dirname $0)"/../seccomp-bpf/chromium.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/chromium.exe
-  "$(dirname $0)"/../seccomp-bpf/chromium.exe
-  mv chromium_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
-# fi
+gcc "$(dirname $0)"/../seccomp-bpf/chromium.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/chromium.exe
+"$(dirname $0)"/../seccomp-bpf/chromium.exe
+mv chromium_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
 
 mkdir -p "$HOME/jails/chromium"
 mkdir -p "$HOME/jails/chromium/Downloads"

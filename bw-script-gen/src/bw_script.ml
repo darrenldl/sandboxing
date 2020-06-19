@@ -109,14 +109,12 @@ let write (p : profile) : unit =
         Printf.sprintf "\"$(dirname $0)\"/%s/%s" Config.seccomp_bpf_output_dir
           p.name
       in
-      write_line (Printf.sprintf "# if [ ! -f %s.bpf ]; then" bin_file_path);
       write_line
-        (Printf.sprintf "  gcc %s.c -lseccomp -o %s.exe" bin_file_path
+        (Printf.sprintf "gcc %s.c -lseccomp -o %s.exe" bin_file_path
            bin_file_path);
-      write_line (Printf.sprintf "  %s.exe" bin_file_path);
+      write_line (Printf.sprintf "%s.exe" bin_file_path);
       write_line
-        (Printf.sprintf "  mv %s%s %s" p.name Config.seccomp_bpf_suffix bpf_dir);
-      write_line "# fi";
+        (Printf.sprintf "mv %s%s %s" p.name Config.seccomp_bpf_suffix bpf_dir);
       write_line "";
       ( match p.home_jail_dir with
         | None -> ()

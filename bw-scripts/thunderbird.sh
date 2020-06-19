@@ -2,11 +2,9 @@
 
 set -euxo pipefail
 
-# if [ ! -f "$(dirname $0)"/../seccomp-bpf/thunderbird.bpf ]; then
-  gcc "$(dirname $0)"/../seccomp-bpf/thunderbird.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/thunderbird.exe
-  "$(dirname $0)"/../seccomp-bpf/thunderbird.exe
-  mv thunderbird_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
-# fi
+gcc "$(dirname $0)"/../seccomp-bpf/thunderbird.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/thunderbird.exe
+"$(dirname $0)"/../seccomp-bpf/thunderbird.exe
+mv thunderbird_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
 
 mkdir -p "$HOME/jails/thunderbird"
 mkdir -p "$HOME/jails/thunderbird/Downloads"

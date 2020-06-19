@@ -2,11 +2,9 @@
 
 set -euxo pipefail
 
-# if [ ! -f "$(dirname $0)"/../seccomp-bpf/discord.bpf ]; then
-  gcc "$(dirname $0)"/../seccomp-bpf/discord.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/discord.exe
-  "$(dirname $0)"/../seccomp-bpf/discord.exe
-  mv discord_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
-# fi
+gcc "$(dirname $0)"/../seccomp-bpf/discord.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/discord.exe
+"$(dirname $0)"/../seccomp-bpf/discord.exe
+mv discord_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
 
 mkdir -p "$HOME/jails/discord"
 mkdir -p "$HOME/jails/discord/Downloads"
