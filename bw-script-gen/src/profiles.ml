@@ -4,23 +4,24 @@ open Profile_components
 let bash : profile =
   {
     name = "bash";
-    cmd = "bash";
+    cmd = "/usr/bin/bash";
     home_jail_dir = Some "bash";
     syscall_blacklist = default_syscall_blacklist;
     args =
-      usr_share_common
+      [ Ro_bind ("/usr/share", None) ]
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ proc_dev_common
-      @ lsb_release_common
+      @ tmp_run_common
+      @ set_up_jail_home ~tmp:false ~name:"bash"
       @ [
-        Ro_bind ("/usr/bin", None);
         Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
         Unshare_ipc;
-        (* Uid None;
-         * Gid None; *)
-      ]
-      @ set_up_jail_home ~tmp:false ~name:"bash";
+        Unshare_cgroup;
+        New_session;
+      ];
   }
 
 let make_firefox_profile ~(suffix : string option) : profile =
