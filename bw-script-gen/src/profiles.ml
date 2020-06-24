@@ -24,11 +24,14 @@ let bash : profile =
       ];
   }
 
-let make_firefox_profile ~(suffix : string option) : profile =
+let make_firefox_profile ~(use_main_user_profile : bool)
+    ~(suffix : string option) : profile =
   let name = match suffix with None -> "firefox" | Some s -> "firefox-" ^ s in
   {
     name;
-    cmd = "/usr/lib/firefox/firefox --ProfileManager";
+    cmd =
+      ( if use_main_user_profile then "/usr/lib/firefox/firefox --ProfileManager"
+        else "/usr/lib/firefox/firefox" );
     home_jail_dir = Some name;
     syscall_blacklist = default_syscall_blacklist;
     args =
@@ -42,9 +45,13 @@ let make_firefox_profile ~(suffix : string option) : profile =
       @ dconf_common
       @ dbus_common
       @ set_up_jail_home ~tmp:false ~name
+      @ ( if use_main_user_profile then
+            [
+              Bind ("$HOME/.mozilla", Some "/home/jail/.mozilla");
+              Bind ("$HOME/.cache/mozilla", Some "/home/jail/.cache/mozilla");
+            ]
+          else [] )
       @ [
-        Bind ("$HOME/.mozilla", Some "/home/jail/.mozilla");
-        Bind ("$HOME/.cache/mozilla", Some "/home/jail/.cache/mozilla");
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
@@ -239,9 +246,7 @@ let zoom : profile =
     home_jail_dir = Some name;
     syscall_blacklist = default_syscall_blacklist;
     args =
-      [
-        Ro_bind ("/usr/share", None);
-      ]
+      [ Ro_bind ("/usr/share", None) ]
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ proc_dev_common
@@ -280,7 +285,8 @@ let zoom : profile =
 let suite =
   [
     bash;
-    make_firefox_profile ~suffix:None;
+    make_firefox_profile ~use_main_user_profile:true ~suffix:None;
+    make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "school");
     firefox_private;
     discord;
     thunderbird;
