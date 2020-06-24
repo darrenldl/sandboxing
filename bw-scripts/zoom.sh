@@ -10,13 +10,7 @@ mkdir -p "$HOME/jails/zoom"
 mkdir -p "$HOME/jails/zoom/Downloads"
 
 bwrap \
-  --ro-bind "/usr/share/X11" "/usr/share/X11" \
-  --ro-bind "/usr/share/icons" "/usr/share/icons" \
-  --ro-bind-try "/usr/share/fontconfig" "/usr/share/fontconfig" \
-  --ro-bind "/usr/share/fonts" "/usr/share/fonts" \
-  --ro-bind "/usr/share/mime" "/usr/share/mime" \
-  --ro-bind "/usr/share/ca-certificates" "/usr/share/ca-certificates" \
-  --ro-bind "/usr/share/glib-2.0" "/usr/share/glib-2.0" \
+  --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
   --tmpfs "/usr/lib/modules" \
@@ -38,15 +32,17 @@ bwrap \
   --ro-bind-try "/usr/share/gstreamer-1.0" "/usr/share/gstreamer-1.0" \
   --ro-bind "/run/user/$UID/pulse" "/run/user/$UID/pulse" \
   --ro-bind "/tmp/.X11-unix" "/tmp/.X11-unix" \
+  --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
+  --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --bind "$HOME/jails/zoom" "/home/jail" \
   --setenv "HOME" "/home/jail" \
-  --bind "/usr/share" "/usr/share" \
   --ro-bind "$HOME/jails/zoom/opt/zoom" "/opt/zoom" \
+  --symlink "/opt/zoom/ZoomLauncher" "/usr/bin/zoom" \
   --remount-ro "/usr/share" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
-  --setenv "SHELL" "/bin/false" \
+  --setenv "SHELL" "/usr/bin/bash" \
   --setenv "USER" "nobody" \
   --setenv "LOGNAME" "nobody" \
   --hostname "jail" \
@@ -57,4 +53,4 @@ bwrap \
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/zoom_seccomp_filter.bpf \
-  /usr/bin/bash
+  /usr/bin/zoom

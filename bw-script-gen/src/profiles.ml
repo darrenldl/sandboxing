@@ -235,25 +235,27 @@ let zoom : profile =
   let name = "zoom" in
   {
     name;
-    (* cmd = "/usr/bin/zoom"; *)
-    cmd = "/usr/bin/bash";
+    cmd = "/usr/bin/zoom";
     home_jail_dir = Some name;
     syscall_blacklist = default_syscall_blacklist;
     args =
-      usr_share_common
+      [
+        Ro_bind ("/usr/share", None);
+      ]
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ proc_dev_common
       @ tmp_run_common
       @ sound_common
       @ x11_common
+      @ wayland_common
       @ dconf_common
       @ dbus_common
       @ set_up_jail_home ~tmp:false ~name
       @ [
-        Bind ("/usr/share", None);
         Ro_bind
           (Filename.concat (get_jail_dir name) "opt/zoom", Some "/opt/zoom");
+        Symlink ("/opt/zoom/ZoomLauncher", Some "/usr/bin/zoom");
         (* Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/mime/packages/zoom.xml"),
              Some "/usr/share/mime/packages/zoom.xml");
            Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/pixmaps/application-x-zoom.png"),
@@ -262,7 +264,7 @@ let zoom : profile =
              Some "/usr/share/pixmaps/Zoom.png"); *)
         Remount_ro "/usr/share";
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
+        Setenv ("SHELL", "/usr/bin/bash");
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
         Hostname "jail";
