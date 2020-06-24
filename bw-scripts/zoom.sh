@@ -2,12 +2,12 @@
 
 set -euxo pipefail
 
-gcc "$(dirname $0)"/../seccomp-bpf/discord.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/discord.exe
-"$(dirname $0)"/../seccomp-bpf/discord.exe
-mv discord_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
+gcc "$(dirname $0)"/../seccomp-bpf/zoom.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/zoom.exe
+"$(dirname $0)"/../seccomp-bpf/zoom.exe
+mv zoom_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/discord"
-mkdir -p "$HOME/jails/discord/Downloads"
+mkdir -p "$HOME/jails/zoom"
+mkdir -p "$HOME/jails/zoom/Downloads"
 
 bwrap \
   --ro-bind "/usr/share/X11" "/usr/share/X11" \
@@ -40,9 +40,11 @@ bwrap \
   --ro-bind "/tmp/.X11-unix" "/tmp/.X11-unix" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --ro-bind "/opt/discord" "/opt/discord" \
-  --bind "$HOME/jails/discord" "/home/jail" \
+  --bind "$HOME/jails/zoom" "/home/jail" \
   --setenv "HOME" "/home/jail" \
+  --bind "/usr/share" "/usr/share" \
+  --ro-bind "$HOME/jails/zoom/opt/zoom" "/opt/zoom" \
+  --remount-ro "/usr/share" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
@@ -54,5 +56,5 @@ bwrap \
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/discord_seccomp_filter.bpf \
-  /usr/bin/discord
+  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/zoom_seccomp_filter.bpf \
+  /usr/bin/bash

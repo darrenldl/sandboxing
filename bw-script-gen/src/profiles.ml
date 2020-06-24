@@ -100,7 +100,7 @@ let discord : profile =
     name;
     cmd = "/usr/bin/discord";
     home_jail_dir = Some name;
-    syscall_blacklist = [];
+    syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -231,6 +231,50 @@ let deluge =
       ];
   }
 
+let zoom : profile =
+  let name = "zoom" in
+  {
+    name;
+    (* cmd = "/usr/bin/zoom"; *)
+    cmd = "/usr/bin/bash";
+    home_jail_dir = Some name;
+    syscall_blacklist = default_syscall_blacklist;
+    args =
+      usr_share_common
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ proc_dev_common
+      @ tmp_run_common
+      @ sound_common
+      @ x11_common
+      @ dconf_common
+      @ dbus_common
+      @ set_up_jail_home ~tmp:false ~name
+      @ [
+        Bind ("/usr/share", None);
+        Ro_bind
+          (Filename.concat (get_jail_dir name) "opt/zoom", Some "/opt/zoom");
+        (* Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/mime/packages/zoom.xml"),
+             Some "/usr/share/mime/packages/zoom.xml");
+           Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/pixmaps/application-x-zoom.png"),
+             Some "/usr/share/pixmaps/application-x-zoom.png");
+           Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/pixmaps/Zoom.png"),
+             Some "/usr/share/pixmaps/Zoom.png"); *)
+        Remount_ro "/usr/share";
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("SHELL", "/bin/false");
+        Setenv ("USER", "nobody");
+        Setenv ("LOGNAME", "nobody");
+        Hostname "jail";
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+        New_session;
+      ];
+  }
+
 let suite =
   [
     bash;
@@ -240,4 +284,5 @@ let suite =
     thunderbird;
     chromium;
     deluge;
+    zoom;
   ]
