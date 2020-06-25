@@ -30,8 +30,9 @@ let make_firefox_profile ~(use_main_user_profile : bool)
   {
     name;
     cmd =
-      ( if use_main_user_profile then "/usr/lib/firefox/firefox --ProfileManager"
-        else "/usr/lib/firefox/firefox" );
+      ( if use_main_user_profile then
+          "/usr/lib/firefox/firefox --ProfileManager --no-remote"
+        else "/usr/lib/firefox/firefox --no-remote" );
     home_jail_dir = Some name;
     syscall_blacklist = default_syscall_blacklist;
     args =
@@ -71,7 +72,7 @@ let firefox_private : profile =
   let name = "firefox-private" in
   {
     name;
-    cmd = "/usr/lib/firefox/firefox";
+    cmd = "/usr/lib/firefox/firefox --no-remote";
     home_jail_dir = None;
     syscall_blacklist = default_syscall_blacklist;
     args =

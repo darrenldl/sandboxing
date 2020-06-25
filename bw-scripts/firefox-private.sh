@@ -53,4 +53,4 @@ bwrap \
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/firefox-private_seccomp_filter.bpf \
-  /usr/lib/firefox/firefox
+  /usr/lib/firefox/firefox --no-remote
