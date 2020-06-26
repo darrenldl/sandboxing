@@ -39,6 +39,7 @@ let make_firefox_profile ~(use_main_user_profile : bool)
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
+      @ etc_ssl
       @ proc_dev_common
       @ tmp_run_common
       @ sound_common
@@ -79,6 +80,7 @@ let firefox_private : profile =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
+      @ etc_ssl
       @ proc_dev_common
       @ tmp_run_common
       @ sound_common
@@ -113,6 +115,7 @@ let discord : profile =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
+      @ etc_ssl
       @ proc_dev_common
       @ tmp_run_common
       @ sound_common
@@ -147,6 +150,7 @@ let thunderbird : profile =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
+      @ etc_ssl
       @ proc_dev_common
       @ tmp_run_common
       @ wayland_common
@@ -182,6 +186,7 @@ let chromium : profile =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
+      @ etc_ssl
       @ proc_dev_common
       @ tmp_run_common
       @ sound_common
@@ -216,6 +221,7 @@ let deluge =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
+      @ etc_ssl
       @ proc_dev_common
       @ tmp_run_common
       @ wayland_common

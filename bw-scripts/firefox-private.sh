@@ -26,6 +26,7 @@ bwrap \
   --ro-bind "/etc/fonts" "/etc/fonts" \
   --ro-bind "/etc/machine-id" "/etc/machine-id" \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
+  --ro-bind "/etc/ssl" "/etc/ssl" \
   --proc "/proc" \
   --dev "/dev" \
   --tmpfs "/tmp" \
