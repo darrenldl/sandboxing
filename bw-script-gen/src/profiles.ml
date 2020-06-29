@@ -294,6 +294,7 @@ let suite =
     bash;
     make_firefox_profile ~use_main_user_profile:true ~suffix:None;
     make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "school");
+    make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "bank");
     firefox_private;
     discord;
     thunderbird;
