@@ -48,6 +48,31 @@ let bash_hide_home : profile =
       ];
   }
 
+let bash_hide_home_hide_net : profile =
+  let name = "bash-hide-home-hide-net" in
+  {
+    name;
+    cmd = "/usr/bin/bash";
+    home_jail_dir = Some name;
+    syscall_blacklist = default_syscall_blacklist;
+    args =
+      [ Ro_bind ("/usr/share", None) ]
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ proc_dev_common
+      @ tmp_run_common
+      @ set_up_jail_home ~tmp:false ~name
+      @ [
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+        Unshare_net;
+        New_session;
+      ];
+  }
+
 let make_firefox_profile ~(use_main_user_profile : bool)
     ~(suffix : string option) : profile =
   let name = match suffix with None -> "firefox" | Some s -> "firefox-" ^ s in
@@ -317,6 +342,7 @@ let suite =
   [
     bash;
     bash_hide_home;
+    bash_hide_home_hide_net;
     make_firefox_profile ~use_main_user_profile:true ~suffix:None;
     make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "school");
     make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "bank");
