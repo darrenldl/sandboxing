@@ -62,7 +62,9 @@ let bash_hide_home_hide_net : profile =
       @ proc_dev_common
       @ tmp_run_common
       @ set_up_jail_home ~tmp:false ~name
+      @ dbus_common
       @ [
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
@@ -204,6 +206,7 @@ let thunderbird : profile =
       @ tmp_run_common
       @ wayland_common
       @ dconf_common
+      @ dbus_common
       @ set_up_jail_home ~tmp:false ~name
       @ [
         Bind ("$HOME/.thunderbird", Some "/home/jail/.thunderbird");

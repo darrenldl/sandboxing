@@ -37,6 +37,7 @@ bwrap \
   --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
+  --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --bind "$HOME/jails/thunderbird" "/home/jail" \
   --setenv "HOME" "/home/jail" \
   --bind "$HOME/.thunderbird" "/home/jail/.thunderbird" \

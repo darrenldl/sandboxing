@@ -29,6 +29,8 @@ bwrap \
   --tmpfs "/run" \
   --bind "$HOME/jails/bash-hide-home-hide-net" "/home/jail" \
   --setenv "HOME" "/home/jail" \
+  --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
+  --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \
