@@ -45,6 +45,7 @@ bwrap \
   --bind "$HOME/jails/discord" "/home/jail" \
   --setenv "HOME" "/home/jail" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
+  --setenv "QT_X11_NO_MITSHM" "1" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
   --setenv "LOGNAME" "nobody" \
@@ -52,7 +53,6 @@ bwrap \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \
-  --unshare-ipc \
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/discord_seccomp_filter.bpf \

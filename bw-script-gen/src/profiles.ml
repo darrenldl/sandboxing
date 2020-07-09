@@ -177,6 +177,7 @@ let discord : profile =
       @ set_up_jail_home ~tmp:false ~name
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("QT_X11_NO_MITSHM", "1");
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
@@ -184,7 +185,7 @@ let discord : profile =
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
-        Unshare_ipc;
+        (* Unshare_ipc; *)
         Unshare_cgroup;
         New_session;
       ];
