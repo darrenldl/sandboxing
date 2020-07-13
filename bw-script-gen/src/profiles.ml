@@ -178,6 +178,8 @@ let discord : profile =
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("QT_X11_NO_MITSHM", "1");
+        Setenv ("_X11_NO_MITSHM", "1");
+        Setenv ("_MITSHM", "0");
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
@@ -350,6 +352,8 @@ let suite =
     make_firefox_profile ~use_main_user_profile:true ~suffix:None;
     make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "school");
     make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "bank");
+    make_firefox_profile ~use_main_user_profile:false
+      ~suffix:(Some "google-play-book");
     firefox_private;
     discord;
     thunderbird;

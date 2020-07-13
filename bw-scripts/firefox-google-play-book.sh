@@ -2,12 +2,12 @@
 
 set -euxo pipefail
 
-gcc "$(dirname $0)"/../seccomp-bpf/discord.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/discord.exe
-"$(dirname $0)"/../seccomp-bpf/discord.exe
-mv discord_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
+gcc "$(dirname $0)"/../seccomp-bpf/firefox-google-play-book.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/firefox-google-play-book.exe
+"$(dirname $0)"/../seccomp-bpf/firefox-google-play-book.exe
+mv firefox-google-play-book_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/discord"
-mkdir -p "$HOME/jails/discord/Downloads"
+mkdir -p "$HOME/jails/firefox-google-play-book"
+mkdir -p "$HOME/jails/firefox-google-play-book/Downloads"
 
 bwrap \
   --ro-bind "/usr/share/X11" "/usr/share/X11" \
@@ -38,24 +38,23 @@ bwrap \
   --ro-bind-try "/usr/share/gst-plugins-base" "/usr/share/gst-plugins-base" \
   --ro-bind-try "/usr/share/gstreamer-1.0" "/usr/share/gstreamer-1.0" \
   --ro-bind "/run/user/$UID/pulse" "/run/user/$UID/pulse" \
-  --ro-bind "/tmp/.X11-unix" "/tmp/.X11-unix" \
+  --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
+  --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --ro-bind "/opt/discord" "/opt/discord" \
-  --bind "$HOME/jails/discord" "/home/jail" \
+  --bind "$HOME/jails/firefox-google-play-book" "/home/jail" \
   --setenv "HOME" "/home/jail" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
-  --setenv "QT_X11_NO_MITSHM" "1" \
-  --setenv "_X11_NO_MITSHM" "1" \
-  --setenv "_MITSHM" "0" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
   --setenv "LOGNAME" "nobody" \
+  --setenv "MOZ_ENABLE_WAYLAND" "1" \
   --hostname "jail" \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \
+  --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/discord_seccomp_filter.bpf \
-  /usr/bin/discord
+  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/firefox-google-play-book_seccomp_filter.bpf \
+  /usr/lib/firefox/firefox --no-remote
