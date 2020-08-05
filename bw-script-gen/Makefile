@@ -14,6 +14,7 @@ all :
 
 .PHONY: run
 run: all
+	rm ../bw-scripts/*
 	dune exec gen
 
 .PHONY: format
