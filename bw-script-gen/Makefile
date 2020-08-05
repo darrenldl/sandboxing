@@ -15,6 +15,7 @@ all :
 .PHONY: run
 run: all
 	rm ../bw-scripts/*
+	rm ../seccomp-bpf/*
 	dune exec gen
 
 .PHONY: format
