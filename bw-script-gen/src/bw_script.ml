@@ -125,19 +125,20 @@ let write (p : profile) : unit =
           write_line (Printf.sprintf "mkdir -p \"%s\"" jail_dir);
           write_line (Printf.sprintf "mkdir -p \"%s\"" downloads_dir);
           write_line "" );
-      List.iteri
-        (fun i _dir ->
-           write_line
-             (Printf.sprintf "tmp_dir%d=$(mktemp -d -t %s-XXXXXXXX)" i p.name))
-        p.preserved_temp_home_dirs;
+      ( match p.preserved_temp_home_dirs with
+        | [] -> ()
+        | _ ->
+          write_line
+            (Printf.sprintf "tmp_dir=$(mktemp -d -t %s-XXXXXXXX)" p.name);
+          write_line "" );
       write_line "bwrap \\";
       List.iter
         (fun x -> write_line (Printf.sprintf "  %s \\" (compile_arg x)))
         ( p.args
-          @ List.mapi
-            (fun i dir ->
+          @ List.map
+            (fun dir ->
                Bind
-                 ( Printf.sprintf "tmp_dir%d" i,
+                 ( Filename.concat "$tmp_dir" dir,
                    Some (Filename.concat Config.home_inside_jail dir) ))
             p.preserved_temp_home_dirs
           @

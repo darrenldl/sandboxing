@@ -6,6 +6,8 @@ gcc "$(dirname $0)"/../seccomp-bpf/firefox-private.c -lseccomp -o "$(dirname $0)
 "$(dirname $0)"/../seccomp-bpf/firefox-private.exe
 mv firefox-private_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
 
+tmp_dir=$(mktemp -d -t firefox-private-XXXXXXXX)
+
 bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
@@ -47,5 +49,6 @@ bwrap \
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
+  --bind "$tmp_dir/Downloads" "/home/jail/Downloads" \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/firefox-private_seccomp_filter.bpf \
   /usr/lib/firefox/firefox --no-remote

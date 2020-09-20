@@ -130,7 +130,7 @@ let firefox_private : profile =
     name;
     cmd = "/usr/lib/firefox/firefox --no-remote";
     home_jail_dir = None;
-    preserved_temp_home_dirs = [];
+    preserved_temp_home_dirs = [ "Downloads" ];
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
