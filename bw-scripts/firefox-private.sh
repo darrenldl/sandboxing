@@ -6,7 +6,8 @@ gcc "$(dirname $0)"/../seccomp-bpf/firefox-private.c -lseccomp -o "$(dirname $0)
 "$(dirname $0)"/../seccomp-bpf/firefox-private.exe
 mv firefox-private_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
 
-tmp_dir=$(mktemp -d -t firefox-private-XXXXXXXX)
+tmp_dir=$(mktemp -d -t firefox-private-XXXX)
+mkdir -p "$tmp_dir/Downloads"
 
 bwrap \
   --ro-bind "/usr/share" "/usr/share" \
@@ -52,3 +53,6 @@ bwrap \
   --bind "$tmp_dir/Downloads" "/home/jail/Downloads" \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/firefox-private_seccomp_filter.bpf \
   /usr/lib/firefox/firefox --no-remote
+
+rmdir --ignore-fail-on-non-empty "$tmp_dir/Downloads"
+rmdir --ignore-fail-on-non-empty "$tmp_dir"

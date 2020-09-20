@@ -129,7 +129,13 @@ let write (p : profile) : unit =
         | [] -> ()
         | _ ->
           write_line
-            (Printf.sprintf "tmp_dir=$(mktemp -d -t %s-XXXXXXXX)" p.name);
+            (Printf.sprintf "tmp_dir=$(mktemp -d -t %s-XXXX)" p.name);
+          List.iter
+            (fun dir ->
+               write_line
+                 (Printf.sprintf "mkdir -p \"%s\""
+                    (Filename.concat "$tmp_dir" dir)))
+            p.preserved_temp_home_dirs;
           write_line "" );
       write_line "bwrap \\";
       List.iter
@@ -149,6 +155,22 @@ let write (p : profile) : unit =
               Seccomp
                 (Filename.concat bpf_dir (p.name ^ Config.seccomp_bpf_suffix));
             ] );
-      write_line (Printf.sprintf "  %s" p.cmd));
+      write_line (Printf.sprintf "  %s" p.cmd);
+      (match p.preserved_temp_home_dirs with
+       | [] ->
+         ()
+       | _ ->
+         write_line "";
+         List.iter
+           (fun dir ->
+              write_line
+                (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"%s\""
+                   (Filename.concat "$tmp_dir" dir)))
+           p.preserved_temp_home_dirs;
+         write_line
+           (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\""
+           )
+      )
+    );
   FileUtil.chmod (`Octal 0o774) [ file_name ];
   Seccomp_bpf.write_c_file ~name:p.name ~blacklist:p.syscall_blacklist
