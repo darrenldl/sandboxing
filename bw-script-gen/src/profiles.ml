@@ -6,6 +6,7 @@ let bash : profile =
     name = "bash";
     cmd = "/usr/bin/bash";
     home_jail_dir = Some "bash";
+    preserved_temp_home_dirs = [];
     syscall_blacklist = default_syscall_blacklist;
     args =
       [ Ro_bind ("/usr/share", None) ]
@@ -30,6 +31,7 @@ let bash_hide_home : profile =
     name;
     cmd = "/usr/bin/bash";
     home_jail_dir = Some name;
+    preserved_temp_home_dirs = [];
     syscall_blacklist = default_syscall_blacklist;
     args =
       [ Ro_bind ("/usr/share", None) ]
@@ -54,6 +56,7 @@ let bash_hide_home_hide_net : profile =
     name;
     cmd = "/usr/bin/bash";
     home_jail_dir = Some name;
+    preserved_temp_home_dirs = [];
     syscall_blacklist = default_syscall_blacklist;
     args =
       [ Ro_bind ("/usr/share", None) ]
@@ -85,6 +88,7 @@ let make_firefox_profile ~(use_main_user_profile : bool)
           "/usr/lib/firefox/firefox --ProfileManager --no-remote"
         else "/usr/lib/firefox/firefox --no-remote" );
     home_jail_dir = Some name;
+    preserved_temp_home_dirs = [];
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -126,6 +130,7 @@ let firefox_private : profile =
     name;
     cmd = "/usr/lib/firefox/firefox --no-remote";
     home_jail_dir = None;
+    preserved_temp_home_dirs = [];
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -161,6 +166,7 @@ let discord : profile =
     name;
     cmd = "/usr/bin/discord";
     home_jail_dir = Some name;
+    preserved_temp_home_dirs = [];
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -199,6 +205,7 @@ let thunderbird : profile =
     name;
     cmd = "/usr/lib/thunderbird/thunderbird";
     home_jail_dir = Some name;
+    preserved_temp_home_dirs = [];
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -236,6 +243,7 @@ let chromium : profile =
     cmd = "/usr/lib/chromium/chromium";
     (* cmd = "glxinfo"; *)
     home_jail_dir = Some name;
+    preserved_temp_home_dirs = [];
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -271,6 +279,7 @@ let deluge =
     name;
     cmd = "/usr/bin/deluge";
     home_jail_dir = Some name;
+    preserved_temp_home_dirs = [];
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -306,6 +315,7 @@ let zoom : profile =
     name;
     cmd = "/usr/bin/zoom";
     home_jail_dir = Some name;
+    preserved_temp_home_dirs = [];
     syscall_blacklist = default_syscall_blacklist;
     args =
       [ Ro_bind ("/usr/share", None) ]

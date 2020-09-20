@@ -34,6 +34,7 @@ type profile = {
   name : string;
   cmd : string;
   home_jail_dir : string option;
+  preserved_temp_home_dirs : string list;
   syscall_blacklist : Seccomp_bpf.syscall list;
   args : arg list;
 }
@@ -124,10 +125,21 @@ let write (p : profile) : unit =
           write_line (Printf.sprintf "mkdir -p \"%s\"" jail_dir);
           write_line (Printf.sprintf "mkdir -p \"%s\"" downloads_dir);
           write_line "" );
+      List.iteri
+        (fun i _dir ->
+           write_line
+             (Printf.sprintf "tmp_dir%d=$(mktemp -d -t %s-XXXXXXXX)" i p.name))
+        p.preserved_temp_home_dirs;
       write_line "bwrap \\";
       List.iter
         (fun x -> write_line (Printf.sprintf "  %s \\" (compile_arg x)))
         ( p.args
+          @ List.mapi
+            (fun i dir ->
+               Bind
+                 ( Printf.sprintf "tmp_dir%d" i,
+                   Some (Filename.concat Config.home_inside_jail dir) ))
+            p.preserved_temp_home_dirs
           @
           match p.syscall_blacklist with
           | [] -> []
