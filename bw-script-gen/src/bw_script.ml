@@ -35,6 +35,8 @@ type profile = {
   cmd : string;
   home_jail_dir : string option;
   preserved_temp_home_dirs : string list;
+  log_stdout : bool;
+  log_stderr : bool;
   syscall_blacklist : Seccomp_bpf.syscall list;
   args : arg list;
 }
@@ -125,6 +127,19 @@ let write (p : profile) : unit =
           write_line (Printf.sprintf "mkdir -p \"%s\"" jail_dir);
           write_line (Printf.sprintf "mkdir -p \"%s\"" downloads_dir);
           write_line "" );
+      let log_dir = Filename.concat Config.jail_logs_dir p.name in
+      if p.log_stdout then (
+        write_line (Printf.sprintf "mkdir -p \"%s\"" log_dir);
+        write_line
+          (Printf.sprintf "stdout_log_name=\"%s\"/$(date \"%s\").\"%s\"" log_dir
+             Config.log_date_format_str Config.stdout_log_suffix);
+        write_line "" );
+      if p.log_stderr then (
+        write_line (Printf.sprintf "mkdir -p \"%s\"" log_dir);
+        write_line
+          (Printf.sprintf "stderr_log_name=\"%s\"/$(date \"%s\").\"%s\"" log_dir
+             Config.log_date_format_str Config.stderr_log_suffix);
+        write_line "" );
       ( match p.preserved_temp_home_dirs with
         | [] -> ()
         | _ ->
@@ -154,7 +169,10 @@ let write (p : profile) : unit =
               Seccomp
                 (Filename.concat bpf_dir (p.name ^ Config.seccomp_bpf_suffix));
             ] );
-      write_line (Printf.sprintf "  %s" p.cmd);
+      output_string oc (Printf.sprintf "  %s" p.cmd);
+      if p.log_stdout then output_string oc " >$stdout_log_name";
+      if p.log_stderr then output_string oc " 2>$stderr_log_name";
+      write_line "";
       match p.preserved_temp_home_dirs with
       | [] -> ()
       | _ ->

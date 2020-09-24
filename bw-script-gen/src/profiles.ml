@@ -7,6 +7,8 @@ let bash : profile =
     cmd = "/usr/bin/bash";
     home_jail_dir = Some "bash";
     preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
     args =
       [ Ro_bind ("/usr/share", None) ]
@@ -32,6 +34,8 @@ let bash_hide_home : profile =
     cmd = "/usr/bin/bash";
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
     args =
       [ Ro_bind ("/usr/share", None) ]
@@ -57,6 +61,8 @@ let bash_hide_home_hide_net : profile =
     cmd = "/usr/bin/bash";
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
     args =
       [ Ro_bind ("/usr/share", None) ]
@@ -89,6 +95,8 @@ let make_firefox_profile ~(use_main_user_profile : bool)
         else "/usr/lib/firefox/firefox --no-remote" );
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -132,6 +140,8 @@ let firefox_private : profile =
     cmd = "/usr/lib/firefox/firefox --no-remote";
     home_jail_dir = None;
     preserved_temp_home_dirs = [ "Downloads" ];
+    log_stdout = true;
+    log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -169,6 +179,8 @@ let discord : profile =
     cmd = "/usr/bin/discord";
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -208,6 +220,8 @@ let thunderbird : profile =
     cmd = "/usr/lib/thunderbird/thunderbird";
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -247,6 +261,8 @@ let chromium : profile =
     (* cmd = "glxinfo"; *)
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
@@ -284,6 +300,8 @@ let deluge =
     cmd = "/usr/bin/deluge";
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common

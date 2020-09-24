@@ -1,5 +1,13 @@
 let jails_dir = "$HOME/jails"
 
+let jail_logs_dir = "$HOME/jail-logs"
+
+let stdout_log_suffix = "stdout"
+
+let stderr_log_suffix = "stderr"
+
+let log_date_format_str = "+%Y-%m-%d_%H%M%S"
+
 let home_inside_jail = "/home/jail"
 
 let script_output_dir = "../bw-scripts"
