@@ -6,11 +6,12 @@ gcc "$(dirname $0)"/../seccomp-bpf/firefox-private.c -lseccomp -o "$(dirname $0)
 "$(dirname $0)"/../seccomp-bpf/firefox-private.exe
 mv firefox-private_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
 
+cur_time=$(date "+%Y-%m-%d_%H%M%S")
 mkdir -p "$HOME/jail-logs/firefox-private"
-stdout_log_name="$HOME/jail-logs/firefox-private"/$(date "+%Y-%m-%d_%H%M%S")."stdout"
+stdout_log_name="$HOME/jail-logs/firefox-private"/"$cur_time"."stdout"
 
 mkdir -p "$HOME/jail-logs/firefox-private"
-stderr_log_name="$HOME/jail-logs/firefox-private"/$(date "+%Y-%m-%d_%H%M%S")."stderr"
+stderr_log_name="$HOME/jail-logs/firefox-private"/"$cur_time"."stderr"
 
 tmp_dir=$(mktemp -d -t firefox-private-XXXX)
 mkdir -p "$tmp_dir/Downloads"

@@ -9,6 +9,7 @@ mv deluge_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
 mkdir -p "$HOME/jails/deluge"
 mkdir -p "$HOME/jails/deluge/Downloads"
 
+cur_time=$(date "+%Y-%m-%d_%H%M%S")
 bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
