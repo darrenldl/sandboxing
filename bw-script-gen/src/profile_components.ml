@@ -130,6 +130,8 @@ let etc_common =
 
 let etc_ssl = [ Ro_bind ("/etc/ssl", None) ]
 
+let etc_localtime = [ Ro_bind ("/etc/localtime", None) ]
+
 let proc_dev_common = [ Proc "/proc"; Dev "/dev" ]
 
 let tmp_run_common = [ Tmpfs "/tmp"; Tmpfs "/run" ]

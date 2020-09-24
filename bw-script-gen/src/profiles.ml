@@ -95,6 +95,7 @@ let make_firefox_profile ~(use_main_user_profile : bool)
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ etc_ssl
+      @ etc_localtime
       @ proc_dev_common
       @ tmp_run_common
       @ sound_common
@@ -137,6 +138,7 @@ let firefox_private : profile =
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ etc_ssl
+      @ etc_localtime
       @ proc_dev_common
       @ tmp_run_common
       @ sound_common
@@ -212,6 +214,7 @@ let thunderbird : profile =
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ etc_ssl
+      @ etc_localtime
       @ proc_dev_common
       @ tmp_run_common
       @ wayland_common
@@ -250,6 +253,7 @@ let chromium : profile =
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ etc_ssl
+      @ etc_localtime
       @ proc_dev_common
       @ tmp_run_common
       @ sound_common
@@ -286,6 +290,7 @@ let deluge =
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ etc_ssl
+      @ etc_localtime
       @ proc_dev_common
       @ tmp_run_common
       @ wayland_common
@@ -309,50 +314,50 @@ let deluge =
       ];
   }
 
-let zoom : profile =
-  let name = "zoom" in
-  {
-    name;
-    cmd = "/usr/bin/zoom";
-    home_jail_dir = Some name;
-    preserved_temp_home_dirs = [];
-    syscall_blacklist = default_syscall_blacklist;
-    args =
-      [ Ro_bind ("/usr/share", None) ]
-      @ usr_lib_lib64_bin_common
-      @ etc_common
-      @ proc_dev_common
-      @ tmp_run_common
-      @ sound_common
-      @ x11_common
-      @ wayland_common
-      @ dconf_common
-      @ dbus_common
-      @ set_up_jail_home ~tmp:false ~name
-      @ [
-        Ro_bind
-          (Filename.concat (get_jail_dir name) "opt/zoom", Some "/opt/zoom");
-        Symlink ("/opt/zoom/ZoomLauncher", Some "/usr/bin/zoom");
-        (* Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/mime/packages/zoom.xml"),
-             Some "/usr/share/mime/packages/zoom.xml");
-           Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/pixmaps/application-x-zoom.png"),
-             Some "/usr/share/pixmaps/application-x-zoom.png");
-           Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/pixmaps/Zoom.png"),
-             Some "/usr/share/pixmaps/Zoom.png"); *)
-        Remount_ro "/usr/share";
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/usr/bin/bash");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
-  }
+(* let zoom : profile =
+ *   let name = "zoom" in
+ *   {
+ *     name;
+ *     cmd = "/usr/bin/zoom";
+ *     home_jail_dir = Some name;
+ *     preserved_temp_home_dirs = [];
+ *     syscall_blacklist = default_syscall_blacklist;
+ *     args =
+ *       [ Ro_bind ("/usr/share", None) ]
+ *       @ usr_lib_lib64_bin_common
+ *       @ etc_common
+ *       @ proc_dev_common
+ *       @ tmp_run_common
+ *       @ sound_common
+ *       @ x11_common
+ *       @ wayland_common
+ *       @ dconf_common
+ *       @ dbus_common
+ *       @ set_up_jail_home ~tmp:false ~name
+ *       @ [
+ *         Ro_bind
+ *           (Filename.concat (get_jail_dir name) "opt/zoom", Some "/opt/zoom");
+ *         Symlink ("/opt/zoom/ZoomLauncher", Some "/usr/bin/zoom");
+ *         (\* Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/mime/packages/zoom.xml"),
+ *              Some "/usr/share/mime/packages/zoom.xml");
+ *            Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/pixmaps/application-x-zoom.png"),
+ *              Some "/usr/share/pixmaps/application-x-zoom.png");
+ *            Ro_bind ((Filename.concat (get_jail_dir name) "usr/share/pixmaps/Zoom.png"),
+ *              Some "/usr/share/pixmaps/Zoom.png"); *\)
+ *         Remount_ro "/usr/share";
+ *         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+ *         Setenv ("SHELL", "/usr/bin/bash");
+ *         Setenv ("USER", "nobody");
+ *         Setenv ("LOGNAME", "nobody");
+ *         Hostname "jail";
+ *         Unshare_user;
+ *         Unshare_pid;
+ *         Unshare_uts;
+ *         Unshare_ipc;
+ *         Unshare_cgroup;
+ *         New_session;
+ *       ];
+ *   } *)
 
 let suite =
   [
@@ -369,5 +374,5 @@ let suite =
     thunderbird;
     chromium;
     deluge;
-    zoom;
+    (* zoom; *)
   ]
