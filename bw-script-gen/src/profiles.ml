@@ -187,6 +187,7 @@ let discord : profile =
       @ usr_lib_lib64_bin_common
       @ etc_common
       @ etc_ssl
+      @ etc_localtime
       @ proc_dev_common
       @ tmp_run_common
       @ sound_common
