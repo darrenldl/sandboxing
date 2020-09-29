@@ -36,7 +36,6 @@ bwrap \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
   --setenv "LOGNAME" "nobody" \
-  --ro-bind "$HOME" "$HOME" \
   --hostname "jail" \
   --unshare-user \
   --unshare-pid \

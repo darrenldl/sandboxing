@@ -441,7 +441,6 @@ let archive_handling : profile =
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
-        Ro_bind ("$HOME", None);
         Hostname "jail";
         Unshare_user;
         Unshare_pid;
