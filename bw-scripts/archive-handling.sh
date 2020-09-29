@@ -30,6 +30,8 @@ bwrap \
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
+  --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
+  --setenv "QT_QPA_PLATFORM" "wayland" \
   --tmpfs "/home/jail" \
   --setenv "HOME" "/home/jail" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \

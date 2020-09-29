@@ -435,6 +435,7 @@ let archive_handling : profile =
       @ etc_localtime
       @ proc_dev_common
       @ tmp_run_common
+      @ wayland_common
       @ set_up_jail_home ~tmp:true ~name
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
