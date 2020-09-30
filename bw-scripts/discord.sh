@@ -2,9 +2,9 @@
 
 set -euxo pipefail
 
-gcc "$(dirname $0)"/../seccomp-bpf/discord.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/discord.exe
-"$(dirname $0)"/../seccomp-bpf/discord.exe
-mv discord_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
+gcc "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/discord.c -lseccomp -o "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/discord.exe
+"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/discord.exe
+mv discord_seccomp_filter.bpf "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf
 
 mkdir -p "$HOME/jails/discord"
 mkdir -p "$HOME/jails/discord/Downloads"
@@ -53,5 +53,5 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-uts \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/discord_seccomp_filter.bpf \
+  --seccomp 10 10<"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/discord_seccomp_filter.bpf \
   /usr/bin/discord )

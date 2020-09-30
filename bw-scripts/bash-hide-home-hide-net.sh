@@ -2,9 +2,9 @@
 
 set -euxo pipefail
 
-gcc "$(dirname $0)"/../seccomp-bpf/bash-hide-home-hide-net.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/bash-hide-home-hide-net.exe
-"$(dirname $0)"/../seccomp-bpf/bash-hide-home-hide-net.exe
-mv bash-hide-home-hide-net_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
+gcc "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/bash-hide-home-hide-net.c -lseccomp -o "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/bash-hide-home-hide-net.exe
+"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/bash-hide-home-hide-net.exe
+mv bash-hide-home-hide-net_seccomp_filter.bpf "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf
 
 mkdir -p "$HOME/jails/bash-hide-home-hide-net"
 mkdir -p "$HOME/jails/bash-hide-home-hide-net/Downloads"
@@ -39,5 +39,5 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-cgroup \
   --unshare-net \
   --new-session \
-  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/bash-hide-home-hide-net_seccomp_filter.bpf \
+  --seccomp 10 10<"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/bash-hide-home-hide-net_seccomp_filter.bpf \
   /usr/bin/bash )

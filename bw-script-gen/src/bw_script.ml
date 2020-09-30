@@ -106,11 +106,12 @@ let write (p : profile) : unit =
       write_line "set -euxo pipefail";
       write_line "";
       let bpf_dir =
-        Printf.sprintf "\"$(dirname $0)\"/%s" Config.seccomp_bpf_output_dir
+        Printf.sprintf "\"$(dirname \"$(readlink -f \"$0\")\")\"/%s"
+          Config.seccomp_bpf_output_dir
       in
       let bin_file_path =
-        Printf.sprintf "\"$(dirname $0)\"/%s/%s" Config.seccomp_bpf_output_dir
-          p.name
+        Printf.sprintf "\"$(dirname \"$(readlink -f \"$0\")\")\"/%s/%s"
+          Config.seccomp_bpf_output_dir p.name
       in
       write_line
         (Printf.sprintf "gcc %s.c -lseccomp -o %s.exe" bin_file_path

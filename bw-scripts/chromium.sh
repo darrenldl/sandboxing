@@ -2,9 +2,9 @@
 
 set -euxo pipefail
 
-gcc "$(dirname $0)"/../seccomp-bpf/chromium.c -lseccomp -o "$(dirname $0)"/../seccomp-bpf/chromium.exe
-"$(dirname $0)"/../seccomp-bpf/chromium.exe
-mv chromium_seccomp_filter.bpf "$(dirname $0)"/../seccomp-bpf
+gcc "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/chromium.c -lseccomp -o "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/chromium.exe
+"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/chromium.exe
+mv chromium_seccomp_filter.bpf "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf
 
 mkdir -p "$HOME/jails/chromium"
 mkdir -p "$HOME/jails/chromium/Downloads"
@@ -52,5 +52,5 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/chromium_seccomp_filter.bpf \
+  --seccomp 10 10<"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/chromium_seccomp_filter.bpf \
   /usr/lib/chromium/chromium )
