@@ -10,7 +10,7 @@ mkdir -p "$HOME/jails/archive-handling"
 mkdir -p "$HOME/jails/archive-handling/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-bwrap \
+( bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
@@ -47,4 +47,4 @@ bwrap \
   --unshare-net \
   --new-session \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/archive-handling_seccomp_filter.bpf \
-  /usr/bin/bash
+  /usr/bin/bash )

@@ -153,7 +153,7 @@ let write (p : profile) : unit =
                     (Filename.concat "$tmp_dir" dir)))
             p.preserved_temp_home_dirs;
           write_line "" );
-      write_line "bwrap \\";
+      write_line "( bwrap \\";
       List.iter
         (fun x -> write_line (Printf.sprintf "  %s \\" (compile_arg x)))
         ( p.args
@@ -174,7 +174,7 @@ let write (p : profile) : unit =
       output_string oc (Printf.sprintf "  %s" p.cmd);
       if p.log_stdout then output_string oc " >$stdout_log_name";
       if p.log_stderr then output_string oc " 2>$stderr_log_name";
-      write_line "";
+      write_line " )";
       match p.preserved_temp_home_dirs with
       | [] -> ()
       | _ ->

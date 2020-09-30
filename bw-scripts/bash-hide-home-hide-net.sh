@@ -10,7 +10,7 @@ mkdir -p "$HOME/jails/bash-hide-home-hide-net"
 mkdir -p "$HOME/jails/bash-hide-home-hide-net/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-bwrap \
+( bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
@@ -40,4 +40,4 @@ bwrap \
   --unshare-net \
   --new-session \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/bash-hide-home-hide-net_seccomp_filter.bpf \
-  /usr/bin/bash
+  /usr/bin/bash )

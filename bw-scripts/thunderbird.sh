@@ -10,7 +10,7 @@ mkdir -p "$HOME/jails/thunderbird"
 mkdir -p "$HOME/jails/thunderbird/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-bwrap \
+( bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
@@ -51,4 +51,4 @@ bwrap \
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/thunderbird_seccomp_filter.bpf \
-  /usr/lib/thunderbird/thunderbird
+  /usr/lib/thunderbird/thunderbird )

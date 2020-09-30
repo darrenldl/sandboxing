@@ -10,7 +10,7 @@ mkdir -p "$HOME/jails/firefox-bank"
 mkdir -p "$HOME/jails/firefox-bank/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-bwrap \
+( bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
@@ -53,4 +53,4 @@ bwrap \
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/firefox-bank_seccomp_filter.bpf \
-  /usr/lib/firefox/firefox --no-remote
+  /usr/lib/firefox/firefox --no-remote )

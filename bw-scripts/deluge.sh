@@ -10,7 +10,7 @@ mkdir -p "$HOME/jails/deluge"
 mkdir -p "$HOME/jails/deluge/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-bwrap \
+( bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
@@ -51,4 +51,4 @@ bwrap \
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/deluge_seccomp_filter.bpf \
-  /usr/bin/deluge
+  /usr/bin/deluge )

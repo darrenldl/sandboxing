@@ -16,7 +16,7 @@ stderr_log_name="$HOME/jail-logs/firefox-private"/"$cur_time"."stderr"
 tmp_dir=$(mktemp -d -t firefox-private-XXXX)
 mkdir -p "$tmp_dir/Downloads"
 
-bwrap \
+( bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
@@ -60,7 +60,7 @@ bwrap \
   --new-session \
   --bind "$tmp_dir/Downloads" "/home/jail/Downloads" \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/firefox-private_seccomp_filter.bpf \
-  /usr/lib/firefox/firefox --no-remote >$stdout_log_name 2>$stderr_log_name
+  /usr/lib/firefox/firefox --no-remote >$stdout_log_name 2>$stderr_log_name )
 
 rmdir --ignore-fail-on-non-empty "$tmp_dir/Downloads"
 rmdir --ignore-fail-on-non-empty "$tmp_dir"

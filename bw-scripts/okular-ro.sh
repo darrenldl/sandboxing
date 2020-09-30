@@ -13,7 +13,7 @@ stdout_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stdout"
 mkdir -p "$HOME/jail-logs/okular-ro"
 stderr_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stderr"
 
-bwrap \
+( bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \
@@ -53,4 +53,4 @@ bwrap \
   --unshare-net \
   --new-session \
   --seccomp 10 10<"$(dirname $0)"/../seccomp-bpf/okular-ro_seccomp_filter.bpf \
-  /usr/bin/okular >$stdout_log_name 2>$stderr_log_name
+  /usr/bin/okular >$stdout_log_name 2>$stderr_log_name )
