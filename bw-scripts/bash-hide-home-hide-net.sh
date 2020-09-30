@@ -10,7 +10,7 @@ mkdir -p "$HOME/jails/bash-hide-home-hide-net"
 mkdir -p "$HOME/jails/bash-hide-home-hide-net/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-( bwrap \
+( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \

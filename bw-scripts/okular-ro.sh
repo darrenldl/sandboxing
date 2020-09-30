@@ -13,7 +13,7 @@ stdout_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stdout"
 mkdir -p "$HOME/jail-logs/okular-ro"
 stderr_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stderr"
 
-( bwrap \
+( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \

@@ -10,7 +10,7 @@ mkdir -p "$HOME/jails/firefox-bank"
 mkdir -p "$HOME/jails/firefox-bank/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-( bwrap \
+( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \

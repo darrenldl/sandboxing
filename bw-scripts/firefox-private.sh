@@ -16,7 +16,7 @@ stderr_log_name="$HOME/jail-logs/firefox-private"/"$cur_time"."stderr"
 tmp_dir=$(mktemp -d -t firefox-private-XXXX)
 mkdir -p "$tmp_dir/Downloads"
 
-( bwrap \
+( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
   --ro-bind "/usr/lib64" "/usr/lib64" \

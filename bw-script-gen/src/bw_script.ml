@@ -153,7 +153,7 @@ let write (p : profile) : unit =
                     (Filename.concat "$tmp_dir" dir)))
             p.preserved_temp_home_dirs;
           write_line "" );
-      write_line "( bwrap \\";
+      write_line "( exec bwrap \\";
       List.iter
         (fun x -> write_line (Printf.sprintf "  %s \\" (compile_arg x)))
         ( p.args
