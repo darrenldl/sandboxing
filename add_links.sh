@@ -1,5 +1,7 @@
 #!/bin/bash
 
+prefix="sand"
+
 dst=$1
 
 if [[ "$dst" == "" ]]; then
@@ -12,5 +14,5 @@ for file in bw-scripts/*.sh; do
 
   echo "Creating symbolic link for" $name
 
-  ln -s $(realpath "$file") "$dst"/"$name"
+  ln -s $(realpath "$file") "$dst"/"$prefix"-"$name"
 done
