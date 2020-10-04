@@ -171,3 +171,10 @@ let set_up_jail_home ~tmp ~name =
       else Bind (get_jail_dir name, Some Config.home_inside_jail) );
     Setenv ("HOME", Config.home_inside_jail);
   ]
+
+let paths_of_binary (binary : string) =
+  [
+    Ro_bind ("/usr/bin/" ^ binary, None);
+    Ro_bind ("/usr/bin/" ^ binary, Some ("/bin/" ^ binary));
+    Ro_bind ("/usr/bin/" ^ binary, Some ("/sbin/" ^ binary));
+  ]
