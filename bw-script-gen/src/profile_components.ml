@@ -108,7 +108,7 @@ let usr_share_common = [ Ro_bind ("/usr/share", None) ]
      Ro_bind ("/usr/share/glib-2.0", None);
    ] *)
 
-let usr_lib_lib64_bin_common =
+let usr_lib_lib64_common =
   [
     Ro_bind ("/usr/lib", None);
     Ro_bind ("/usr/lib64", None);
@@ -116,6 +116,11 @@ let usr_lib_lib64_bin_common =
     Tmpfs "/usr/lib/systemd";
     Symlink ("/usr/lib", Some "/lib");
     Symlink ("/usr/lib64", Some "/lib64");
+  ]
+
+let usr_lib_lib64_bin_common =
+  usr_lib_lib64_common
+  @ [
     Ro_bind ("/usr/bin", None);
     Symlink ("/usr/bin", Some "/bin");
     Symlink ("/usr/bin", Some "/sbin");

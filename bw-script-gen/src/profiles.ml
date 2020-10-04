@@ -393,7 +393,12 @@ let okular_ro : profile =
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
-      @ usr_lib_lib64_bin_common
+      @ usr_lib_lib64_common
+      @ [
+        Ro_bind ("/usr/bin/okular", None);
+        Ro_bind ("/usr/bin/okular", Some "/bin/okular");
+        Ro_bind ("/usr/bin/okular", Some "/sbin/okular");
+      ]
       @ etc_common
       @ etc_ssl
       @ etc_localtime

@@ -21,9 +21,9 @@ stderr_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stderr"
   --tmpfs "/usr/lib/systemd" \
   --symlink "/usr/lib" "/lib" \
   --symlink "/usr/lib64" "/lib64" \
-  --ro-bind "/usr/bin" "/usr/bin" \
-  --symlink "/usr/bin" "/bin" \
-  --symlink "/usr/bin" "/sbin" \
+  --ro-bind "/usr/bin/okular" "/usr/bin/okular" \
+  --ro-bind "/usr/bin/okular" "/bin/okular" \
+  --ro-bind "/usr/bin/okular" "/sbin/okular" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
   --ro-bind "/etc/machine-id" "/etc/machine-id" \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
