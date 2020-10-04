@@ -186,7 +186,9 @@ let discord : profile =
     syscall_blacklist = default_syscall_blacklist;
     args =
       usr_share_common
-      @ usr_lib_lib64_bin_common
+      @ usr_lib_lib64_common
+      @ paths_of_binary "discord"
+      @ paths_of_binary "firefox"
       @ etc_common
       @ etc_ssl
       @ etc_localtime

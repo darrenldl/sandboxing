@@ -18,9 +18,12 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --tmpfs "/usr/lib/systemd" \
   --symlink "/usr/lib" "/lib" \
   --symlink "/usr/lib64" "/lib64" \
-  --ro-bind "/usr/bin" "/usr/bin" \
-  --symlink "/usr/bin" "/bin" \
-  --symlink "/usr/bin" "/sbin" \
+  --ro-bind "/usr/bin/discord" "/usr/bin/discord" \
+  --ro-bind "/usr/bin/discord" "/bin/discord" \
+  --ro-bind "/usr/bin/discord" "/sbin/discord" \
+  --ro-bind "/usr/bin/firefox" "/usr/bin/firefox" \
+  --ro-bind "/usr/bin/firefox" "/bin/firefox" \
+  --ro-bind "/usr/bin/firefox" "/sbin/firefox" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
   --ro-bind "/etc/machine-id" "/etc/machine-id" \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
