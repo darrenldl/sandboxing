@@ -43,7 +43,7 @@ stderr_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stderr"
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
   --setenv "LOGNAME" "nobody" \
-  --ro-bind "$HOME" "$HOME" \
+  --ro-bind "$1" "/home/jail/file.pdf" \
   --hostname "jail" \
   --unshare-user \
   --unshare-pid \
@@ -53,4 +53,4 @@ stderr_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stderr"
   --unshare-net \
   --new-session \
   --seccomp 10 10<"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/okular-ro_seccomp_filter.bpf \
-  /usr/bin/okular >$stdout_log_name 2>$stderr_log_name )
+  /usr/bin/okular /home/jail/file.pdf >$stdout_log_name 2>$stderr_log_name )

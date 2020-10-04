@@ -380,9 +380,10 @@ let deluge =
 
 let okular_ro : profile =
   let name = "okular-ro" in
+  let pdf_file_in_home = Filename.concat Config.home_inside_jail "file.pdf" in
   {
     name;
-    cmd = "/usr/bin/okular";
+    cmd = Printf.sprintf "/usr/bin/okular %s" pdf_file_in_home;
     home_jail_dir = None;
     preserved_temp_home_dirs = [];
     log_stdout = true;
@@ -405,7 +406,7 @@ let okular_ro : profile =
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
         Setenv ("LOGNAME", "nobody");
-        Ro_bind ("$HOME", None);
+        Ro_bind ("$1", Some pdf_file_in_home);
         Hostname "jail";
         Unshare_user;
         Unshare_pid;
