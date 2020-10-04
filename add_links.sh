@@ -1,6 +1,6 @@
 #!/bin/bash
 
-prefix="sand"
+prefix="sandbox"
 
 dst=$1
 
