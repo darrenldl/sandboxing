@@ -108,12 +108,11 @@ let write (p : profile) : unit =
       write_line (Printf.sprintf "script_dir=$(dirname $(readlink -f \"$0\"))");
       write_line "";
       let bpf_dir =
-        Printf.sprintf "\"$script_dir\"/%s"
-          Config.seccomp_bpf_output_dir
+        Printf.sprintf "\"$script_dir\"/%s" Config.seccomp_bpf_output_dir
       in
       let bin_file_path =
-        Printf.sprintf "\"$script_dir\"/%s/%s"
-          Config.seccomp_bpf_output_dir p.name
+        Printf.sprintf "\"$script_dir\"/%s/%s" Config.seccomp_bpf_output_dir
+          p.name
       in
       write_line
         (Printf.sprintf "gcc %s.c -lseccomp -o %s.exe" bin_file_path
