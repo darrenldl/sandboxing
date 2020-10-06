@@ -419,8 +419,6 @@ let okular_ro : profile =
       @ proc_dev_common
       @ tmp_run_common
       @ wayland_common
-      @ dconf_common
-      @ dbus_common
       @ set_up_jail_home ~tmp:true ~name
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";

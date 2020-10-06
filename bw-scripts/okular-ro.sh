@@ -27,7 +27,6 @@ stderr_log_name="$HOME/sandbox-logs/okular-ro"/"$cur_time"."stderr"
   --ro-bind "/usr/bin/okular" "/bin/okular" \
   --ro-bind "/usr/bin/okular" "/sbin/okular" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
-  --ro-bind "/etc/machine-id" "/etc/machine-id" \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
   --ro-bind "/etc/ssl" "/etc/ssl" \
   --ro-bind "/etc/localtime" "/etc/localtime" \
@@ -37,8 +36,6 @@ stderr_log_name="$HOME/sandbox-logs/okular-ro"/"$cur_time"."stderr"
   --tmpfs "/run" \
   --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
   --setenv "QT_QPA_PLATFORM" "wayland" \
-  --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
-  --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --tmpfs "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \

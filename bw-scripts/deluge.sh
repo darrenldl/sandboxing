@@ -24,7 +24,6 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --symlink "/usr/bin" "/bin" \
   --symlink "/usr/bin" "/sbin" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
-  --ro-bind "/etc/machine-id" "/etc/machine-id" \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
   --ro-bind "/etc/ssl" "/etc/ssl" \
   --ro-bind "/etc/localtime" "/etc/localtime" \

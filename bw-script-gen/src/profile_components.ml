@@ -129,7 +129,6 @@ let usr_lib_lib64_bin_common =
 let etc_common =
   [
     Ro_bind ("/etc/fonts", None);
-    Ro_bind ("/etc/machine-id", None);
     Ro_bind ("/etc/resolv.conf", None);
   ]
 

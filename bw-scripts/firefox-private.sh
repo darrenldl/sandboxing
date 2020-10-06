@@ -30,7 +30,6 @@ mkdir -p "$tmp_dir/Downloads"
   --ro-bind "/usr/bin/firefox" "/bin/firefox" \
   --ro-bind "/usr/bin/firefox" "/sbin/firefox" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
-  --ro-bind "/etc/machine-id" "/etc/machine-id" \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
   --ro-bind "/etc/ssl" "/etc/ssl" \
   --ro-bind "/etc/localtime" "/etc/localtime" \
