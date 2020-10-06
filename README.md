@@ -11,21 +11,38 @@ important files are stored
 
 Note that some profiles assume usage of Wayland
 
-## Index
+## General usage
+
+All bash scripts in `bw-scripts/` directory should work out of the box on most Linux distros
+as long as you have gcc installed already
+
+The scripts assume they stay in the local copy of the repository, however
+
+One can invoke them via the full path
+
+```
+./sandboxing/bw-scripts/firefox.sh
+```
+
+or use `add_links.sh DEST` to create symlinks to the scripts
+
+```
+./sandboxing/add_links.sh ~/.bin # say ~/.bin is in our PATH variable
+sandbox-firefox-private          # all symlinks are prefixed with "sandbox" to allow easy removal
+                                 # and avoid shadowing
+```
+
+## Development
+
+#### Index
 
 - `bw-script-gen/` contains the OCaml code responsible for generating the bubblewrap scripts and generating seccomp BPF generator C code
 - `bw-scripts/` contains the generated bubblewrap scripts
 - `seccomp-bpf/` contains the seccomp BPF generator C code
 
-## Usage
-
 See `bw-script-gen/src/profiles.ml` for existing profiles
 
 Run `make run` in `bw-script-gen/` to generate scripts after making updates to the profiles
-
-Use `./sandboxing/bw-scripts/name.sh` to run script generated from profile `name`
-
-Generated scripts assume home jails are stored in `~/jails`
 
 ## Acknowledgements
 
