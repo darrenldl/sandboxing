@@ -2,9 +2,11 @@
 
 set -euxo pipefail
 
-gcc "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/thunderbird.c -lseccomp -o "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/thunderbird.exe
-"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/thunderbird.exe
-mv thunderbird_seccomp_filter.bpf "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf
+script_dir=$(dirname $(readlink -f "$0"))
+
+gcc "$script_dir"/../seccomp-bpf/thunderbird.c -lseccomp -o "$script_dir"/../seccomp-bpf/thunderbird.exe
+"$script_dir"/../seccomp-bpf/thunderbird.exe
+mv thunderbird_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
 mkdir -p "$HOME/jails/thunderbird"
 mkdir -p "$HOME/jails/thunderbird/Downloads"
@@ -50,5 +52,5 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/thunderbird_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpf/thunderbird_seccomp_filter.bpf \
   /usr/lib/thunderbird/thunderbird )

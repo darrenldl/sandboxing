@@ -2,9 +2,11 @@
 
 set -euxo pipefail
 
-gcc "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/deluge.c -lseccomp -o "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/deluge.exe
-"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/deluge.exe
-mv deluge_seccomp_filter.bpf "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf
+script_dir=$(dirname $(readlink -f "$0"))
+
+gcc "$script_dir"/../seccomp-bpf/deluge.c -lseccomp -o "$script_dir"/../seccomp-bpf/deluge.exe
+"$script_dir"/../seccomp-bpf/deluge.exe
+mv deluge_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
 mkdir -p "$HOME/jails/deluge"
 mkdir -p "$HOME/jails/deluge/Downloads"
@@ -50,5 +52,5 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/deluge_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpf/deluge_seccomp_filter.bpf \
   /usr/bin/deluge )

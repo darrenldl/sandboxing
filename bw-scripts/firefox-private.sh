@@ -2,9 +2,11 @@
 
 set -euxo pipefail
 
-gcc "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/firefox-private.c -lseccomp -o "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/firefox-private.exe
-"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/firefox-private.exe
-mv firefox-private_seccomp_filter.bpf "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf
+script_dir=$(dirname $(readlink -f "$0"))
+
+gcc "$script_dir"/../seccomp-bpf/firefox-private.c -lseccomp -o "$script_dir"/../seccomp-bpf/firefox-private.exe
+"$script_dir"/../seccomp-bpf/firefox-private.exe
+mv firefox-private_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 mkdir -p "$HOME/jail-logs/firefox-private"
@@ -59,7 +61,7 @@ mkdir -p "$tmp_dir/Downloads"
   --unshare-cgroup \
   --new-session \
   --bind "$tmp_dir/Downloads" "/home/jail/Downloads" \
-  --seccomp 10 10<"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/firefox-private_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpf/firefox-private_seccomp_filter.bpf \
   /usr/lib/firefox/firefox --no-remote >$stdout_log_name 2>$stderr_log_name )
 
 rmdir --ignore-fail-on-non-empty "$tmp_dir/Downloads"

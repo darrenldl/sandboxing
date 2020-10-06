@@ -2,9 +2,11 @@
 
 set -euxo pipefail
 
-gcc "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/bash.c -lseccomp -o "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/bash.exe
-"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/bash.exe
-mv bash_seccomp_filter.bpf "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf
+script_dir=$(dirname $(readlink -f "$0"))
+
+gcc "$script_dir"/../seccomp-bpf/bash.c -lseccomp -o "$script_dir"/../seccomp-bpf/bash.exe
+"$script_dir"/../seccomp-bpf/bash.exe
+mv bash_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
 mkdir -p "$HOME/jails/bash"
 mkdir -p "$HOME/jails/bash/Downloads"
@@ -36,5 +38,5 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/bash_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpf/bash_seccomp_filter.bpf \
   /usr/bin/bash )

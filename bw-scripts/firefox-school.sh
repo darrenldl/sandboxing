@@ -2,9 +2,11 @@
 
 set -euxo pipefail
 
-gcc "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/firefox-school.c -lseccomp -o "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/firefox-school.exe
-"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/firefox-school.exe
-mv firefox-school_seccomp_filter.bpf "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf
+script_dir=$(dirname $(readlink -f "$0"))
+
+gcc "$script_dir"/../seccomp-bpf/firefox-school.c -lseccomp -o "$script_dir"/../seccomp-bpf/firefox-school.exe
+"$script_dir"/../seccomp-bpf/firefox-school.exe
+mv firefox-school_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
 mkdir -p "$HOME/jails/firefox-school"
 mkdir -p "$HOME/jails/firefox-school/Downloads"
@@ -52,5 +54,5 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/firefox-school_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpf/firefox-school_seccomp_filter.bpf \
   /usr/lib/firefox/firefox --no-remote )

@@ -2,9 +2,11 @@
 
 set -euxo pipefail
 
-gcc "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/okular-ro.c -lseccomp -o "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/okular-ro.exe
-"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/okular-ro.exe
-mv okular-ro_seccomp_filter.bpf "$(dirname "$(readlink -f "$0")")"/../seccomp-bpf
+script_dir=$(dirname $(readlink -f "$0"))
+
+gcc "$script_dir"/../seccomp-bpf/okular-ro.c -lseccomp -o "$script_dir"/../seccomp-bpf/okular-ro.exe
+"$script_dir"/../seccomp-bpf/okular-ro.exe
+mv okular-ro_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 mkdir -p "$HOME/jail-logs/okular-ro"
@@ -52,5 +54,5 @@ stderr_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stderr"
   --unshare-cgroup \
   --unshare-net \
   --new-session \
-  --seccomp 10 10<"$(dirname "$(readlink -f "$0")")"/../seccomp-bpf/okular-ro_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpf/okular-ro_seccomp_filter.bpf \
   /usr/bin/okular /home/jail/$(basename $1) >$stdout_log_name 2>$stderr_log_name )
