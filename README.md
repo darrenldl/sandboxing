@@ -32,6 +32,32 @@ sandbox-firefox-private          # all symlinks are prefixed with "sandbox" to a
                                  # and avoid shadowing
 ```
 
+## Profiles
+
+Only the listed profiles are considered stable
+
+Following serves as rough descriptions only, check the scripts directly to see if they fit your needs
+
+#### Internet
+
+- `firefox`
+  - Persistent home as `~/sandboxes/firefox` on host
+  - RW mounts `~/.mozilla` and `~/.cache/mozilla` in sandbox home
+- `firefox-private`
+  - No persistent home
+  - Temporary persistent `Downloads` folder in sandbox home, created as temporary directory under `/tmp` on host
+    - This is the only directory that host and sandbox share
+- `discord`
+  - Persistent home as `~/sandboxes/discord` on host
+
+#### PDF reading
+
+- `okular-ro`
+  - No persistent home
+  - Accepts exactly one argument for file to be read, e.g. `sandbox-okular-ro file.pdf`
+  - RO mounts only the specified PDF file in sandbox home
+  - No network access
+
 ## Development
 
 #### Index
