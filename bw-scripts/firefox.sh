@@ -42,8 +42,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --bind "$HOME/sandboxes/firefox" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
-  --bind "$HOME/.mozilla" "/home/jail/.mozilla" \
-  --bind "$HOME/.cache/mozilla" "/home/jail/.cache/mozilla" \
+  --bind "$HOME/.mozilla" "/home/sandbox/.mozilla" \
+  --bind "$HOME/.cache/mozilla" "/home/sandbox/.cache/mozilla" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \

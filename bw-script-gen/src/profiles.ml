@@ -114,8 +114,14 @@ let make_firefox_profile ~(use_main_user_profile : bool)
       @ set_up_jail_home ~tmp:false ~name
       @ ( if use_main_user_profile then
             [
-              Bind ("$HOME/.mozilla", Some "/home/jail/.mozilla");
-              Bind ("$HOME/.cache/mozilla", Some "/home/jail/.cache/mozilla");
+              Bind
+                ( "$HOME/.mozilla",
+                  Some (Printf.sprintf "%s/.mozilla" Config.home_inside_jail) );
+              Bind
+                ( "$HOME/.cache/mozilla",
+                  Some
+                    (Printf.sprintf "%s/.cache/mozilla" Config.home_inside_jail)
+                );
             ]
           else [] )
       @ [
@@ -243,8 +249,14 @@ let thunderbird : profile =
       @ dbus_common
       @ set_up_jail_home ~tmp:false ~name
       @ [
-        Bind ("$HOME/.thunderbird", Some "/home/jail/.thunderbird");
-        Bind ("$HOME/.cache/thunderbird", Some "/home/jail/.cache/thunderbird");
+        Bind
+          ( "$HOME/.thunderbird",
+            Some (Printf.sprintf "%s/.thunderbird" Config.home_inside_jail) );
+        Bind
+          ( "$HOME/.cache/thunderbird",
+            Some
+              (Printf.sprintf "%s/.cache/thunderbird" Config.home_inside_jail)
+          );
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
