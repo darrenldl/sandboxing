@@ -15,7 +15,7 @@ stdout_log_name="$HOME/sandbox-logs/firefox-private"/"$cur_time"."stdout"
 mkdir -p "$HOME/sandbox-logs/firefox-private"
 stderr_log_name="$HOME/sandbox-logs/firefox-private"/"$cur_time"."stderr"
 
-tmp_dir=$(mktemp -d -t firefox-private-XXXX)
+tmp_dir=$(mktemp -d -t firefox-private-$cur_time-XXXX)
 mkdir -p "$tmp_dir/Downloads"
 
 ( exec bwrap \

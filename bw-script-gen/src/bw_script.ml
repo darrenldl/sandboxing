@@ -147,7 +147,8 @@ let write (p : profile) : unit =
       ( match p.preserved_temp_home_dirs with
         | [] -> ()
         | _ ->
-          write_line (Printf.sprintf "tmp_dir=$(mktemp -d -t %s-XXXX)" p.name);
+          write_line
+            (Printf.sprintf "tmp_dir=$(mktemp -d -t %s-$cur_time-XXXX)" p.name);
           List.iter
             (fun dir ->
                write_line
