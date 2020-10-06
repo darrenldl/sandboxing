@@ -4,14 +4,14 @@ prefix="sandbox"
 
 dst=$1
 
-cur_path=$(dirname $(readlink -f "$0"))
+script_path=$(dirname $(readlink -f "$0"))
 
 if [[ "$dst" == "" ]]; then
   echo "Please specify destination"
   exit 1
 fi
 
-for file in "$cur_path"/bw-scripts/*.sh; do
+for file in "$script_path"/bw-scripts/*.sh; do
   name=$(basename $file | sed 's/\.sh//g')
 
   echo "Creating symbolic link for" $name
