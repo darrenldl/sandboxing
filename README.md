@@ -21,14 +21,14 @@ The scripts assume they stay in the local copy of the repository, however
 One can invoke them via the full path
 
 ```
-./sandboxing/bw-scripts/firefox.sh
+./sandboxing/bw-scripts/firefox.sh &
 ```
 
 or use `add_links.sh DEST` to create symlinks to the scripts
 
 ```
 ./sandboxing/add_links.sh ~/.bin # say ~/.bin is in our PATH variable
-sandbox-firefox-private          # all symlinks are prefixed with "sandbox" to allow easy removal
+sandbox-firefox-private &        # all symlinks are prefixed with "sandbox" to allow easy removal
                                  # and avoid shadowing
 ```
 
@@ -47,6 +47,9 @@ Following serves as rough descriptions only, check the scripts directly to see i
   - No persistent home
   - Temporary persistent `Downloads` folder in sandbox home, created as temporary directory under `/tmp` on host
     - This is the only directory that host and sandbox share
+- `thunderbird`
+  - Persistent home as `~/sandboxes/firefox` on host
+  - RW mounts `~/.thunderbird` and `~/.cache/thunderbird` in sandbox home
 - `discord`
   - Persistent home as `~/sandboxes/discord` on host
 
