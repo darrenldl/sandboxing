@@ -8,8 +8,8 @@ gcc "$script_dir"/../seccomp-bpf/thunderbird.c -lseccomp -o "$script_dir"/../sec
 "$script_dir"/../seccomp-bpf/thunderbird.exe
 mv thunderbird_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/thunderbird"
-mkdir -p "$HOME/jails/thunderbird/Downloads"
+mkdir -p "$HOME/sandboxes/thunderbird"
+mkdir -p "$HOME/sandboxes/thunderbird/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -36,8 +36,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --bind "$HOME/jails/thunderbird" "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --bind "$HOME/sandboxes/thunderbird" "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --bind "$HOME/.thunderbird" "/home/jail/.thunderbird" \
   --bind "$HOME/.cache/thunderbird" "/home/jail/.cache/thunderbird" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \

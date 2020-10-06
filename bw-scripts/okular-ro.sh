@@ -9,11 +9,11 @@ gcc "$script_dir"/../seccomp-bpf/okular-ro.c -lseccomp -o "$script_dir"/../secco
 mv okular-ro_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-mkdir -p "$HOME/jail-logs/okular-ro"
-stdout_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stdout"
+mkdir -p "$HOME/sandbox-logs/okular-ro"
+stdout_log_name="$HOME/sandbox-logs/okular-ro"/"$cur_time"."stdout"
 
-mkdir -p "$HOME/jail-logs/okular-ro"
-stderr_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stderr"
+mkdir -p "$HOME/sandbox-logs/okular-ro"
+stderr_log_name="$HOME/sandbox-logs/okular-ro"/"$cur_time"."stderr"
 
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
@@ -39,13 +39,13 @@ stderr_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stderr"
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --tmpfs "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --tmpfs "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
   --setenv "LOGNAME" "nobody" \
-  --ro-bind "$1" "/home/jail/$(basename $1)" \
+  --ro-bind "$1" "/home/sandbox/$(basename $1)" \
   --hostname "jail" \
   --unshare-user \
   --unshare-pid \
@@ -55,4 +55,4 @@ stderr_log_name="$HOME/jail-logs/okular-ro"/"$cur_time"."stderr"
   --unshare-net \
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/okular-ro_seccomp_filter.bpf \
-  /usr/bin/okular /home/jail/$(basename $1) >$stdout_log_name 2>$stderr_log_name )
+  /usr/bin/okular /home/sandbox/$(basename $1) >$stdout_log_name 2>$stderr_log_name )

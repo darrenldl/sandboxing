@@ -8,8 +8,8 @@ gcc "$script_dir"/../seccomp-bpf/chromium.c -lseccomp -o "$script_dir"/../seccom
 "$script_dir"/../seccomp-bpf/chromium.exe
 mv chromium_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/chromium"
-mkdir -p "$HOME/jails/chromium/Downloads"
+mkdir -p "$HOME/sandboxes/chromium"
+mkdir -p "$HOME/sandboxes/chromium/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -41,8 +41,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --dev-bind "/dev/dri/card0" "/dev/dri/card0" \
-  --bind "$HOME/jails/chromium" "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --bind "$HOME/sandboxes/chromium" "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \

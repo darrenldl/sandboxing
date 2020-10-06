@@ -8,8 +8,8 @@ gcc "$script_dir"/../seccomp-bpf/bash-hide-home.c -lseccomp -o "$script_dir"/../
 "$script_dir"/../seccomp-bpf/bash-hide-home.exe
 mv bash-hide-home_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/bash-hide-home"
-mkdir -p "$HOME/jails/bash-hide-home/Downloads"
+mkdir -p "$HOME/sandboxes/bash-hide-home"
+mkdir -p "$HOME/sandboxes/bash-hide-home/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -30,8 +30,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
-  --bind "$HOME/jails/bash-hide-home" "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --bind "$HOME/sandboxes/bash-hide-home" "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \

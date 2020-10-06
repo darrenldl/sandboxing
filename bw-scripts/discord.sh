@@ -8,8 +8,8 @@ gcc "$script_dir"/../seccomp-bpf/discord.c -lseccomp -o "$script_dir"/../seccomp
 "$script_dir"/../seccomp-bpf/discord.exe
 mv discord_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/discord"
-mkdir -p "$HOME/jails/discord/Downloads"
+mkdir -p "$HOME/sandboxes/discord"
+mkdir -p "$HOME/sandboxes/discord/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -40,8 +40,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --ro-bind "/opt/discord" "/opt/discord" \
-  --bind "$HOME/jails/discord" "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --bind "$HOME/sandboxes/discord" "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "QT_X11_NO_MITSHM" "1" \
   --setenv "_X11_NO_MITSHM" "1" \

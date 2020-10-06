@@ -8,8 +8,8 @@ gcc "$script_dir"/../seccomp-bpf/firefox-google-play-book.c -lseccomp -o "$scrip
 "$script_dir"/../seccomp-bpf/firefox-google-play-book.exe
 mv firefox-google-play-book_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/firefox-google-play-book"
-mkdir -p "$HOME/jails/firefox-google-play-book/Downloads"
+mkdir -p "$HOME/sandboxes/firefox-google-play-book"
+mkdir -p "$HOME/sandboxes/firefox-google-play-book/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -40,8 +40,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --bind "$HOME/jails/firefox-google-play-book" "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --bind "$HOME/sandboxes/firefox-google-play-book" "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \

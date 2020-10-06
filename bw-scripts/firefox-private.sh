@@ -9,11 +9,11 @@ gcc "$script_dir"/../seccomp-bpf/firefox-private.c -lseccomp -o "$script_dir"/..
 mv firefox-private_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-mkdir -p "$HOME/jail-logs/firefox-private"
-stdout_log_name="$HOME/jail-logs/firefox-private"/"$cur_time"."stdout"
+mkdir -p "$HOME/sandbox-logs/firefox-private"
+stdout_log_name="$HOME/sandbox-logs/firefox-private"/"$cur_time"."stdout"
 
-mkdir -p "$HOME/jail-logs/firefox-private"
-stderr_log_name="$HOME/jail-logs/firefox-private"/"$cur_time"."stderr"
+mkdir -p "$HOME/sandbox-logs/firefox-private"
+stderr_log_name="$HOME/sandbox-logs/firefox-private"/"$cur_time"."stderr"
 
 tmp_dir=$(mktemp -d -t firefox-private-XXXX)
 mkdir -p "$tmp_dir/Downloads"
@@ -46,8 +46,8 @@ mkdir -p "$tmp_dir/Downloads"
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --tmpfs "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --tmpfs "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
@@ -60,7 +60,7 @@ mkdir -p "$tmp_dir/Downloads"
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --bind "$tmp_dir/Downloads" "/home/jail/Downloads" \
+  --bind "$tmp_dir/Downloads" "/home/sandbox/Downloads" \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/firefox-private_seccomp_filter.bpf \
   /usr/lib/firefox/firefox --no-remote >$stdout_log_name 2>$stderr_log_name )
 

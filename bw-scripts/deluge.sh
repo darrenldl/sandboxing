@@ -8,8 +8,8 @@ gcc "$script_dir"/../seccomp-bpf/deluge.c -lseccomp -o "$script_dir"/../seccomp-
 "$script_dir"/../seccomp-bpf/deluge.exe
 mv deluge_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/deluge"
-mkdir -p "$HOME/jails/deluge/Downloads"
+mkdir -p "$HOME/sandboxes/deluge"
+mkdir -p "$HOME/sandboxes/deluge/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -38,8 +38,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --ro-bind "/etc/lsb-release" "/etc/lsb-release" \
   --ro-bind "/etc/arch-release" "/etc/arch-release" \
-  --bind "$HOME/jails/deluge" "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --bind "$HOME/sandboxes/deluge" "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \

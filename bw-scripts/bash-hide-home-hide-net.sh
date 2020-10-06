@@ -8,8 +8,8 @@ gcc "$script_dir"/../seccomp-bpf/bash-hide-home-hide-net.c -lseccomp -o "$script
 "$script_dir"/../seccomp-bpf/bash-hide-home-hide-net.exe
 mv bash-hide-home-hide-net_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/bash-hide-home-hide-net"
-mkdir -p "$HOME/jails/bash-hide-home-hide-net/Downloads"
+mkdir -p "$HOME/sandboxes/bash-hide-home-hide-net"
+mkdir -p "$HOME/sandboxes/bash-hide-home-hide-net/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -30,8 +30,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
-  --bind "$HOME/jails/bash-hide-home-hide-net" "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --bind "$HOME/sandboxes/bash-hide-home-hide-net" "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --unshare-user \

@@ -8,8 +8,8 @@ gcc "$script_dir"/../seccomp-bpf/firefox-school.c -lseccomp -o "$script_dir"/../
 "$script_dir"/../seccomp-bpf/firefox-school.exe
 mv firefox-school_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/firefox-school"
-mkdir -p "$HOME/jails/firefox-school/Downloads"
+mkdir -p "$HOME/sandboxes/firefox-school"
+mkdir -p "$HOME/sandboxes/firefox-school/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -40,8 +40,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --bind "$HOME/jails/firefox-school" "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --bind "$HOME/sandboxes/firefox-school" "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \

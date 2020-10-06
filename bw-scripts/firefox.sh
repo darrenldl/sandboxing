@@ -8,8 +8,8 @@ gcc "$script_dir"/../seccomp-bpf/firefox.c -lseccomp -o "$script_dir"/../seccomp
 "$script_dir"/../seccomp-bpf/firefox.exe
 mv firefox_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/firefox"
-mkdir -p "$HOME/jails/firefox/Downloads"
+mkdir -p "$HOME/sandboxes/firefox"
+mkdir -p "$HOME/sandboxes/firefox/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -40,8 +40,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --bind "$HOME/jails/firefox" "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --bind "$HOME/sandboxes/firefox" "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --bind "$HOME/.mozilla" "/home/jail/.mozilla" \
   --bind "$HOME/.cache/mozilla" "/home/jail/.cache/mozilla" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \

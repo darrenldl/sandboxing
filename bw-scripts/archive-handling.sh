@@ -8,8 +8,8 @@ gcc "$script_dir"/../seccomp-bpf/archive-handling.c -lseccomp -o "$script_dir"/.
 "$script_dir"/../seccomp-bpf/archive-handling.exe
 mv archive-handling_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/jails/archive-handling"
-mkdir -p "$HOME/jails/archive-handling/Downloads"
+mkdir -p "$HOME/sandboxes/archive-handling"
+mkdir -p "$HOME/sandboxes/archive-handling/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -34,8 +34,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --tmpfs "/run" \
   --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
   --setenv "QT_QPA_PLATFORM" "wayland" \
-  --tmpfs "/home/jail" \
-  --setenv "HOME" "/home/jail" \
+  --tmpfs "/home/sandbox" \
+  --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
