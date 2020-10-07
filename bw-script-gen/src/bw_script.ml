@@ -118,6 +118,11 @@ let write (p : profile) : unit =
         (Printf.sprintf "gcc %s.c -lseccomp -o %s.exe" bin_file_path
            bin_file_path);
       write_line (Printf.sprintf "%s.exe" bin_file_path);
+      write_line "if [[ $? != 0 ]]; then";
+      write_line "  echo \"Failed to generate seccomp filter\"";
+      write_line "  exit 1";
+      write_line "fi";
+      write_line "";
       write_line
         (Printf.sprintf "mv %s%s %s" p.name Config.seccomp_bpf_suffix bpf_dir);
       write_line "";
