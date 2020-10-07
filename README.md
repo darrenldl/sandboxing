@@ -9,6 +9,8 @@ This sandboxing suite primarily targets desktop use, but may include assets for 
 One main focus is to provide a private home for programs, which is often where the most
 important files are stored
 
+By default, a fairly strict seccomp filter is supplied to bubblewrap
+
 Note that some profiles assume usage of Wayland
 
 ## General usage
@@ -62,6 +64,10 @@ Following serves as rough descriptions only, check the scripts directly to see i
   - No network access
 
 ## Development
+
+#### TODO
+
+- AppArmor profiles (most likely would be hand written, but wouldn't mind if they can be automatically generated somehow)
 
 #### Index
 
