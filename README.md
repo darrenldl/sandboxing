@@ -13,12 +13,17 @@ By default, a fairly strict seccomp filter is supplied to bubblewrap
 
 Note that some profiles assume usage of Wayland
 
+## Install
+
+Simply `git clone https://github.com/darrenldl/sandboxing.git` in home
+
+Your system needs to have `bubblewrap` and `gcc` to run the scripts
+
 ## General usage
 
 All bash scripts in `bw-scripts/` directory should work out of the box on most Linux distros
-as long as you have gcc installed already
 
-The scripts assume they stay in the local copy of the repository, however
+The scripts assume they stay in their original positions in the local copy of the repository, however
 
 One can invoke them via the full path
 
@@ -30,7 +35,7 @@ or use `add_links.sh DEST` to create symlinks to the scripts
 
 ```
 ./sandboxing/add_links.sh ~/.bin # say ~/.bin is in our PATH variable
-sandbox-firefox-private &        # all symlinks are prefixed with "sandbox" to allow easy removal
+sandbox-firefox-private &        # all symlinks are prefixed with "sandbox-" to allow easy removal
                                  # and avoid shadowing
 ```
 
