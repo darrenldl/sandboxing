@@ -473,6 +473,40 @@ let archive_handling : profile =
       ];
   }
 
+let make_workspace : profile =
+  let name = "make-workspace" in
+  {
+    name;
+    cmd = "/usr/bin/bash";
+    home_jail_dir = Some (name ^ "-$1");
+    preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
+    syscall_blacklist = default_syscall_blacklist;
+    args =
+      usr_share_common
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ etc_ssl
+      @ etc_localtime
+      @ proc_dev_common
+      @ tmp_run_common
+      @ wayland_common
+      @ set_up_jail_home ~tmp:false ~name:(name ^ "-$1")
+      @ [
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("USER", "nobody");
+        Setenv ("LOGNAME", "nobody");
+        Hostname "jail";
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+        New_session;
+      ];
+  }
+
 let suite =
   [
     bash;
@@ -491,4 +525,5 @@ let suite =
     (* zoom; *)
     okular_ro;
     archive_handling;
+    make_workspace;
   ]
