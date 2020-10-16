@@ -90,8 +90,7 @@ let make_firefox_profile ~(use_main_user_profile : bool)
   {
     name;
     cmd =
-      ( if use_main_user_profile then
-          "/usr/lib/firefox/firefox --ProfileManager --no-remote"
+      ( if use_main_user_profile then "/usr/lib/firefox/firefox --no-remote"
         else "/usr/lib/firefox/firefox --no-remote" );
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];

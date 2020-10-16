@@ -61,4 +61,4 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/firefox_seccomp_filter.bpf \
-  /usr/lib/firefox/firefox --ProfileManager --no-remote )
+  /usr/lib/firefox/firefox --no-remote )
