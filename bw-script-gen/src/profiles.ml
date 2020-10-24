@@ -398,11 +398,11 @@ let deluge =
 let okular_ro : profile =
   let name = "okular-ro" in
   let pdf_file_in_home =
-    Filename.concat Config.home_inside_jail "$(basename $1)"
+    Filename.concat Config.home_inside_jail "$(basename \"$1\")"
   in
   {
     name;
-    cmd = Printf.sprintf "/usr/bin/okular %s" pdf_file_in_home;
+    cmd = Printf.sprintf "/usr/bin/okular \"%s\"" pdf_file_in_home;
     home_jail_dir = None;
     preserved_temp_home_dirs = [];
     log_stdout = true;

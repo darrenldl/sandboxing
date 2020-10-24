@@ -47,7 +47,7 @@ stderr_log_name="$HOME/sandbox-logs/okular-ro"/"$cur_time"."stderr"
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
   --setenv "LOGNAME" "nobody" \
-  --ro-bind "$1" "/home/sandbox/$(basename $1)" \
+  --ro-bind "$1" "/home/sandbox/$(basename "$1")" \
   --hostname "jail" \
   --unshare-user \
   --unshare-pid \
@@ -57,4 +57,4 @@ stderr_log_name="$HOME/sandbox-logs/okular-ro"/"$cur_time"."stderr"
   --unshare-net \
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/okular-ro_seccomp_filter.bpf \
-  /usr/bin/okular /home/sandbox/$(basename $1) >$stdout_log_name 2>$stderr_log_name )
+  /usr/bin/okular "/home/sandbox/$(basename "$1")" >$stdout_log_name 2>$stderr_log_name )
