@@ -68,6 +68,20 @@ Following serves as rough descriptions only, check the scripts directly to see i
   - RO mounts only the specified PDF file in sandbox home
   - No network access
 
+- `okular-rw`
+  - No persistent home
+  - Accepts exactly one argument for file to be read, e.g. `sandbox-okular-ro file.pdf`
+  - RW mounts only the specified PDF file in sandbox home
+  - No network access
+
+#### Image viewing
+
+- `eom-ro`
+  - No persistent home
+  - Accepts exactly one argument for file to be read, e.g. `sandbox-eom-ro file.png`
+  - RO mounts only the specified file in sandbox home
+  - No network access
+
 ## Development
 
 #### TODO
