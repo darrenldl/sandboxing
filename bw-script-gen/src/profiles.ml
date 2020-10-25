@@ -436,6 +436,88 @@ let okular_ro : profile =
       ];
   }
 
+let okular_rw : profile =
+  let name = "okular-rw" in
+  let pdf_file_in_home =
+    Filename.concat Config.home_inside_jail "$(basename \"$1\")"
+  in
+  {
+    name;
+    cmd = Printf.sprintf "/usr/bin/okular \"%s\"" pdf_file_in_home;
+    home_jail_dir = None;
+    preserved_temp_home_dirs = [];
+    log_stdout = true;
+    log_stderr = true;
+    syscall_blacklist = default_syscall_blacklist;
+    args =
+      usr_share_common
+      @ usr_lib_lib64_common
+      @ paths_of_binary "okular"
+      @ etc_common
+      @ etc_ssl
+      @ etc_localtime
+      @ proc_dev_common
+      @ tmp_run_common
+      @ wayland_common
+      @ set_up_jail_home ~tmp:true ~name
+      @ [
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("SHELL", "/bin/false");
+        Setenv ("USER", "nobody");
+        Setenv ("LOGNAME", "nobody");
+        Bind ("$1", Some pdf_file_in_home);
+        Hostname "jail";
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+        Unshare_net;
+        New_session;
+      ];
+  }
+
+let eom_ro : profile =
+  let name = "eom-ro" in
+  let image_file_in_home =
+    Filename.concat Config.home_inside_jail "$(basename \"$1\")"
+  in
+  {
+    name;
+    cmd = Printf.sprintf "/usr/bin/eom \"%s\"" image_file_in_home;
+    home_jail_dir = None;
+    preserved_temp_home_dirs = [];
+    log_stdout = true;
+    log_stderr = true;
+    syscall_blacklist = default_syscall_blacklist;
+    args =
+      usr_share_common
+      @ usr_lib_lib64_common
+      @ paths_of_binary "eom"
+      @ etc_common
+      @ etc_ssl
+      @ etc_localtime
+      @ proc_dev_common
+      @ tmp_run_common
+      @ wayland_common
+      @ set_up_jail_home ~tmp:true ~name
+      @ [
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("SHELL", "/bin/false");
+        Setenv ("USER", "nobody");
+        Setenv ("LOGNAME", "nobody");
+        Ro_bind ("$1", Some image_file_in_home);
+        Hostname "jail";
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+        Unshare_net;
+        New_session;
+      ];
+  }
+
 let archive_handling : profile =
   let name = "archive-handling" in
   {
@@ -523,6 +605,8 @@ let suite =
     deluge;
     (* zoom; *)
     okular_ro;
+    okular_rw;
+    eom_ro;
     archive_handling;
     make_workspace;
   ]
