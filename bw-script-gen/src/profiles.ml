@@ -84,6 +84,33 @@ let bash_hide_home_hide_net : profile =
       ];
   }
 
+let bash_loose_hide_home : profile =
+  let name = "bash-loose-hide-hom" in
+  {
+    name;
+    cmd = "/usr/bin/bash";
+    home_jail_dir = Some name;
+    preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
+    syscall_blacklist = default_syscall_blacklist;
+    args =
+      [ Ro_bind ("/usr/share", None) ]
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ proc_dev_common
+      @ tmp_run_common
+      @ set_up_jail_home ~tmp:false ~name
+      @ dbus_common
+      @ [
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+      ];
+  }
+
 let make_firefox_profile ~(use_main_user_profile : bool)
     ~(suffix : string option) : profile =
   let name = match suffix with None -> "firefox" | Some s -> "firefox-" ^ s in
@@ -593,6 +620,7 @@ let suite =
     bash;
     bash_hide_home;
     bash_hide_home_hide_net;
+    bash_loose_hide_home;
     make_firefox_profile ~use_main_user_profile:true ~suffix:None;
     make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "school");
     make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "bank");
