@@ -85,7 +85,7 @@ let bash_hide_home_hide_net : profile =
   }
 
 let bash_loose_hide_home : profile =
-  let name = "bash-loose-hide-hom" in
+  let name = "bash-loose-hide-home" in
   {
     name;
     cmd = "/usr/bin/bash";
