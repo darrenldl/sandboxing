@@ -102,13 +102,7 @@ let bash_loose_hide_home : profile =
       @ tmp_run_common
       @ set_up_jail_home ~tmp:false ~name
       @ dbus_common
-      @ [
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-      ];
+      @ [ Unshare_user; Unshare_pid; Unshare_uts; Unshare_ipc; Unshare_cgroup ];
   }
 
 let make_firefox_profile ~(use_main_user_profile : bool)
