@@ -1,7 +1,7 @@
 open Bw_script
 open Profile_components
 
-let bash : profile =
+let bash : Profile.t =
   {
     name = "bash";
     cmd = "/usr/bin/bash";
@@ -27,7 +27,7 @@ let bash : profile =
       ];
   }
 
-let bash_hide_home : profile =
+let bash_hide_home : Profile.t =
   let name = "bash-hide-home" in
   {
     name;
@@ -54,7 +54,7 @@ let bash_hide_home : profile =
       ];
   }
 
-let bash_hide_home_hide_net : profile =
+let bash_hide_home_hide_net : Profile.t =
   let name = "bash-hide-home-hide-net" in
   {
     name;
@@ -84,7 +84,7 @@ let bash_hide_home_hide_net : profile =
       ];
   }
 
-let bash_loose_hide_home : profile =
+let bash_loose_hide_home : Profile.t =
   let name = "bash-loose-hide-home" in
   {
     name;
@@ -106,7 +106,7 @@ let bash_loose_hide_home : profile =
   }
 
 let make_firefox_profile ~(use_main_user_profile : bool)
-    ~(suffix : string option) : profile =
+    ~(suffix : string option) : Profile.t =
   let name = match suffix with None -> "firefox" | Some s -> "firefox-" ^ s in
   {
     name;
@@ -160,7 +160,7 @@ let make_firefox_profile ~(use_main_user_profile : bool)
       ];
   }
 
-let firefox_private : profile =
+let firefox_private : Profile.t =
   let name = "firefox-private" in
   {
     name;
@@ -200,7 +200,7 @@ let firefox_private : profile =
       ];
   }
 
-let discord : profile =
+let discord : Profile.t =
   let name = "discord" in
   {
     name;
@@ -246,7 +246,7 @@ let discord : profile =
       ];
   }
 
-let thunderbird : profile =
+let thunderbird : Profile.t =
   let name = "thunderbird" in
   {
     name;
@@ -292,7 +292,7 @@ let thunderbird : profile =
       ];
   }
 
-let chromium : profile =
+let chromium : Profile.t =
   let name = "chromium" in
   {
     name;
@@ -332,7 +332,7 @@ let chromium : profile =
       ];
   }
 
-let deluge =
+let deluge : Profile.t =
   let name = "deluge" in
   {
     name;
@@ -416,7 +416,7 @@ let deluge =
  *       ];
  *   } *)
 
-let okular_ro : profile =
+let okular_ro : Profile.t =
   let name = "okular-ro" in
   let pdf_file_in_home =
     Filename.concat Config.home_inside_jail "$(basename \"$1\")"
@@ -457,7 +457,7 @@ let okular_ro : profile =
       ];
   }
 
-let okular_rw : profile =
+let okular_rw : Profile.t =
   let name = "okular-rw" in
   let pdf_file_in_home =
     Filename.concat Config.home_inside_jail "$(basename \"$1\")"
@@ -498,7 +498,7 @@ let okular_rw : profile =
       ];
   }
 
-let eom_ro : profile =
+let eom_ro : Profile.t =
   let name = "eom-ro" in
   let image_file_in_home =
     Filename.concat Config.home_inside_jail "$(basename \"$1\")"
@@ -539,7 +539,7 @@ let eom_ro : profile =
       ];
   }
 
-let archive_handling : profile =
+let archive_handling : Profile.t =
   let name = "archive-handling" in
   {
     name;
@@ -575,7 +575,7 @@ let archive_handling : profile =
       ];
   }
 
-let make_workspace : profile =
+let make_workspace : Profile.t =
   let name = "make-workspace" in
   {
     name;
