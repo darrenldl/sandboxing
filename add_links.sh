@@ -11,7 +11,7 @@ if [[ "$dst" == "" ]]; then
   exit 1
 fi
 
-for file in "$script_dir"/bw-scripts/*.sh; do
+for file in "$script_dir"/scripts/*.sh; do
   name=$(basename $file | sed 's/\.sh//g')
 
   echo "Creating symbolic link for" $name
