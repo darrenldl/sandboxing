@@ -1,3 +1,6 @@
 #include <tunables/global>
 
-/home/**/sandboxing/scripts/firefox-private.sh
+/home/**/sandboxing/scripts/firefox-private.sh {
+  include <abstractions/base>
+  /home/**/sandboxing/scripts/firefox-private.sh r,
+}

@@ -1,3 +1,6 @@
 #include <tunables/global>
 
-/home/**/sandboxing/scripts/archive-handling.sh
+/home/**/sandboxing/scripts/archive-handling.sh {
+  include <abstractions/base>
+  /home/**/sandboxing/scripts/archive-handling.sh r,
+}

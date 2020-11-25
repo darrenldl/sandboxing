@@ -1,3 +1,6 @@
 #include <tunables/global>
 
-/home/**/sandboxing/scripts/bash-hide-home.sh
+/home/**/sandboxing/scripts/bash-hide-home.sh {
+  include <abstractions/base>
+  /home/**/sandboxing/scripts/bash-hide-home.sh r,
+}

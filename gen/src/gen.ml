@@ -113,7 +113,10 @@ let write_aa_profile (p : Profile.t) : unit =
       let write_line = CCIO.write_line oc in
       write_line "#include <tunables/global>";
       write_line "";
-      write_line (Printf.sprintf "/home/**/sandboxing/scripts/%s.sh" p.name);
+      write_line (Printf.sprintf "/home/**/sandboxing/scripts/%s.sh {" p.name);
+      write_line "  include <abstractions/base>";
+      write_line (Printf.sprintf "  /home/**/sandboxing/scripts/%s.sh r," p.name);
+      write_line "}";
     );
   FileUtil.chmod (`Octal 0o774) [ file_name ];
   ()

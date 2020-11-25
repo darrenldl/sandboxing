@@ -1,3 +1,6 @@
 #include <tunables/global>
 
-/home/**/sandboxing/scripts/make-workspace.sh
+/home/**/sandboxing/scripts/make-workspace.sh {
+  include <abstractions/base>
+  /home/**/sandboxing/scripts/make-workspace.sh r,
+}

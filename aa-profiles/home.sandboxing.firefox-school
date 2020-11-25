@@ -1,3 +1,6 @@
 #include <tunables/global>
 
-/home/**/sandboxing/scripts/firefox-school.sh
+/home/**/sandboxing/scripts/firefox-school.sh {
+  include <abstractions/base>
+  /home/**/sandboxing/scripts/firefox-school.sh r,
+}

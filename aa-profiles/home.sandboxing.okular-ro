@@ -1,3 +1,6 @@
 #include <tunables/global>
 
-/home/**/sandboxing/scripts/okular-ro.sh
+/home/**/sandboxing/scripts/okular-ro.sh {
+  include <abstractions/base>
+  /home/**/sandboxing/scripts/okular-ro.sh r,
+}

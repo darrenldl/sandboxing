@@ -1,3 +1,6 @@
 #include <tunables/global>
 
-/home/**/sandboxing/scripts/chromium.sh
+/home/**/sandboxing/scripts/chromium.sh {
+  include <abstractions/base>
+  /home/**/sandboxing/scripts/chromium.sh r,
+}
