@@ -1,4 +1,4 @@
-let write_bw_script (p : Profile.t) : unit =
+let write_script (p : Profile.t) : unit =
   FileUtil.mkdir ~parent:true Config.script_output_dir;
   let file_name = FilePath.concat Config.script_output_dir (p.name ^ ".sh") in
   CCIO.with_out file_name (fun oc ->
@@ -98,7 +98,25 @@ let write_bw_script (p : Profile.t) : unit =
           p.preserved_temp_home_dirs;
         write_line
           (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\""));
-  FileUtil.chmod (`Octal 0o774) [ file_name ];
+  FileUtil.chmod (`Octal 0o774) [ file_name ]
+
+let write_seccomp_bpf (p : Profile.t) : unit =
   Seccomp_bpf.write_c_file ~name:p.name ~blacklist:p.syscall_blacklist
 
-let () = List.iter write_bw_script Profiles.suite
+let write_aa_profile (p : Profile.t) : unit =
+  FileUtil.mkdir ~parent:true Config.aa_profile_output_dir;
+  let file_name =
+    FilePath.concat Config.aa_profile_output_dir
+      (Printf.sprintf "home.sandboxing.%s" p.name)
+  in
+  CCIO.with_out file_name (fun oc -> ());
+  FileUtil.chmod (`Octal 0o774) [ file_name ];
+  ()
+
+let () =
+  List.iter
+    (fun p ->
+       write_script p;
+       write_seccomp_bpf p;
+       write_aa_profile p)
+    Profiles.suite
