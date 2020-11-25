@@ -1,4 +1,4 @@
-open Bw_script
+open Bwrap
 open Profile_components
 
 let bash : Profile.t =

@@ -10,9 +10,9 @@ let log_date_format_str = "+%Y-%m-%d_%H%M%S"
 
 let home_inside_jail = "/home/sandbox"
 
-let aa_profile_output_dir = "../bw-scripts"
+let aa_profile_output_dir = "../aa-profiles"
 
-let script_output_dir = "../bw-scripts"
+let script_output_dir = "../scripts"
 
 let seccomp_bpf_output_dir = "../seccomp-bpf"
 

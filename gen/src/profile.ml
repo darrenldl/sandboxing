@@ -6,5 +6,5 @@ type t = {
   log_stdout : bool;
   log_stderr : bool;
   syscall_blacklist : Seccomp_bpf.syscall list;
-  args : Bw_script.arg list;
+  args : Bwrap.arg list;
 }

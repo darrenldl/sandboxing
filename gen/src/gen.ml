@@ -66,11 +66,11 @@ let write_script (p : Profile.t) : unit =
       write_line "( exec bwrap \\";
       List.iter
         (fun x ->
-           write_line (Printf.sprintf "  %s \\" (Bw_script.compile_arg x)))
+           write_line (Printf.sprintf "  %s \\" (Bwrap.compile_arg x)))
         ( p.args
           @ List.map
             (fun dir ->
-               Bw_script.Bind
+               Bwrap.Bind
                  ( Filename.concat "$tmp_dir" dir,
                    Some (Filename.concat Config.home_inside_jail dir) ))
             p.preserved_temp_home_dirs
@@ -109,7 +109,12 @@ let write_aa_profile (p : Profile.t) : unit =
     FilePath.concat Config.aa_profile_output_dir
       (Printf.sprintf "home.sandboxing.%s" p.name)
   in
-  CCIO.with_out file_name (fun oc -> ());
+  CCIO.with_out file_name (fun oc ->
+      let write_line = CCIO.write_line oc in
+      write_line "#include <tunables/global>";
+      write_line "";
+      write_line (Printf.sprintf "/home/**/sandboxing/scripts/%s.sh" p.name);
+    );
   FileUtil.chmod (`Octal 0o774) [ file_name ];
   ()
 

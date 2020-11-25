@@ -1,4 +1,4 @@
-open Bw_script
+open Bwrap
 open Seccomp_bpf
 
 let default_syscall_blacklist =
