@@ -65,8 +65,7 @@ let write_script (p : Profile.t) : unit =
           write_line "" );
       write_line "( exec bwrap \\";
       List.iter
-        (fun x ->
-           write_line (Printf.sprintf "  %s \\" (Bwrap.compile_arg x)))
+        (fun x -> write_line (Printf.sprintf "  %s \\" (Bwrap.compile_arg x)))
         ( p.args
           @ List.map
             (fun dir ->
@@ -115,9 +114,25 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "";
       write_line (Printf.sprintf "/home/**/sandboxing/scripts/%s.sh {" p.name);
       write_line "  include <abstractions/base>";
-      write_line (Printf.sprintf "  /home/**/sandboxing/scripts/%s.sh r," p.name);
-      write_line "}";
-    );
+      write_line "";
+      write_line
+        (Printf.sprintf "  /home/**/sandboxing/scripts/%s.sh r," p.name);
+      write_line "";
+      write_line "  /usr/bin/env ix,";
+      write_line "";
+      write_line "  / r,";
+      write_line "";
+      if p.allow_network then (
+        write_line "  network,";
+        write_line "" );
+      write_line "  dbus bus=session,";
+      write_line "";
+      write_line "  set rlimit nproc <= 200,";
+      write_line "";
+      write_line "  /usr/ r,";
+      write_line "  /{,usr/,usr/local/}{,s}bin/ r,";
+      write_line "  /{,usr/,usr/local/}{,s}bin/** rpix,";
+      write_line "}");
   FileUtil.chmod (`Octal 0o774) [ file_name ];
   ()
 

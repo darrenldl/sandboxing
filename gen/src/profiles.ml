@@ -25,6 +25,7 @@ let bash : Profile.t =
         Unshare_cgroup;
         New_session;
       ];
+    allow_network = true;
   }
 
 let bash_hide_home : Profile.t =
@@ -52,6 +53,7 @@ let bash_hide_home : Profile.t =
         Unshare_cgroup;
         New_session;
       ];
+    allow_network = true;
   }
 
 let bash_hide_home_hide_net : Profile.t =
@@ -82,6 +84,7 @@ let bash_hide_home_hide_net : Profile.t =
         Unshare_net;
         New_session;
       ];
+    allow_network = false;
   }
 
 let bash_loose_hide_home : Profile.t =
@@ -103,6 +106,7 @@ let bash_loose_hide_home : Profile.t =
       @ set_up_jail_home ~tmp:false ~name
       @ dbus_common
       @ [ Unshare_user; Unshare_pid; Unshare_uts; Unshare_ipc; Unshare_cgroup ];
+    allow_network = true;
   }
 
 let make_firefox_profile ~(use_main_user_profile : bool)
@@ -158,6 +162,7 @@ let make_firefox_profile ~(use_main_user_profile : bool)
         Unshare_cgroup;
         New_session;
       ];
+    allow_network = true;
   }
 
 let firefox_private : Profile.t =
@@ -198,6 +203,7 @@ let firefox_private : Profile.t =
         Unshare_cgroup;
         New_session;
       ];
+    allow_network = true;
   }
 
 let discord : Profile.t =
@@ -244,6 +250,7 @@ let discord : Profile.t =
         Unshare_cgroup;
         New_session;
       ];
+    allow_network = true;
   }
 
 let thunderbird : Profile.t =
@@ -290,6 +297,7 @@ let thunderbird : Profile.t =
         Unshare_cgroup;
         New_session;
       ];
+    allow_network = true;
   }
 
 let chromium : Profile.t =
@@ -330,6 +338,7 @@ let chromium : Profile.t =
         Unshare_cgroup;
         New_session;
       ];
+    allow_network = true;
   }
 
 let deluge : Profile.t =
@@ -369,6 +378,7 @@ let deluge : Profile.t =
         Unshare_cgroup;
         New_session;
       ];
+    allow_network = true;
   }
 
 (* let zoom : profile =
@@ -455,6 +465,7 @@ let okular_ro : Profile.t =
         Unshare_net;
         New_session;
       ];
+    allow_network = false;
   }
 
 let okular_rw : Profile.t =
@@ -496,6 +507,7 @@ let okular_rw : Profile.t =
         Unshare_net;
         New_session;
       ];
+    allow_network = false;
   }
 
 let eom_ro : Profile.t =
@@ -537,6 +549,7 @@ let eom_ro : Profile.t =
         Unshare_net;
         New_session;
       ];
+    allow_network = false;
   }
 
 let archive_handling : Profile.t =
@@ -573,6 +586,7 @@ let archive_handling : Profile.t =
         Unshare_net;
         New_session;
       ];
+    allow_network = false;
   }
 
 let make_workspace : Profile.t =
@@ -607,6 +621,7 @@ let make_workspace : Profile.t =
         Unshare_cgroup;
         New_session;
       ];
+    allow_network = true;
   }
 
 let suite =

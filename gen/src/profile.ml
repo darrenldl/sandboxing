@@ -7,4 +7,5 @@ type t = {
   log_stderr : bool;
   syscall_blacklist : Seccomp_bpf.syscall list;
   args : Bwrap.arg list;
+  allow_network : bool;
 }
