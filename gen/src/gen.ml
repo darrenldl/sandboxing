@@ -3,7 +3,7 @@ let write_main_script (p : Profile.t) : unit =
   let file_name = FilePath.concat Config.script_output_dir (p.name ^ ".sh") in
   CCIO.with_out file_name (fun oc ->
       let write_line = CCIO.write_line oc in
-      write_line "#!/usr/bin/env bash";
+      write_line "#!/usr/bin/bash";
       write_line "";
       write_line "set -euxo pipefail";
       write_line "";
@@ -87,8 +87,7 @@ let write_main_script (p : Profile.t) : unit =
                        (p.name ^ Config.seccomp_bpf_suffix));
                 ] )
           @ [
-            Ro_bind ("/usr/bin/", None);
-            (* Ro_bind (Printf.sprintf "$script_dir/%s.runner" p.name, None) *)
+            Ro_bind ("/usr/bin/bash", None);
             Ro_bind
               ( Printf.sprintf "$script_dir/%s.runner" p.name,
                 Some (Filename.concat Config.home_inside_jail "runner") );
@@ -119,7 +118,7 @@ let write_runner_script (p : Profile.t) : unit =
   in
   CCIO.with_out file_name (fun oc ->
       let write_line = CCIO.write_line oc in
-      write_line "#!/usr/bin/env bash";
+      write_line "#!/usr/bin/bash";
       write_line "";
       write_line "set -euxo pipefail";
       write_line "";

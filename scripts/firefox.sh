@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 
 set -euxo pipefail
 
@@ -59,7 +59,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/firefox_seccomp_filter.bpf \
-  --ro-bind "/usr/bin/" "/usr/bin/" \
+  --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
   --ro-bind "$script_dir/firefox.runner" "/home/sandbox/runner" \
   /home/sandbox/runner "$@" \
  )
