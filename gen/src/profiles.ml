@@ -26,6 +26,7 @@ let bash : Profile.t =
         New_session;
       ];
     allow_network = true;
+    aa_caps = [];
   }
 
 let bash_hide_home : Profile.t =
@@ -54,6 +55,7 @@ let bash_hide_home : Profile.t =
         New_session;
       ];
     allow_network = true;
+    aa_caps = [];
   }
 
 let bash_hide_home_hide_net : Profile.t =
@@ -85,6 +87,7 @@ let bash_hide_home_hide_net : Profile.t =
         New_session;
       ];
     allow_network = false;
+    aa_caps = [];
   }
 
 let bash_loose_hide_home : Profile.t =
@@ -107,6 +110,7 @@ let bash_loose_hide_home : Profile.t =
       @ dbus_common
       @ [ Unshare_user; Unshare_pid; Unshare_uts; Unshare_ipc; Unshare_cgroup ];
     allow_network = true;
+    aa_caps = [];
   }
 
 let make_firefox_profile ~(use_main_user_profile : bool)
@@ -163,6 +167,7 @@ let make_firefox_profile ~(use_main_user_profile : bool)
         New_session;
       ];
     allow_network = true;
+    aa_caps = [];
   }
 
 let firefox_private : Profile.t =
@@ -204,6 +209,7 @@ let firefox_private : Profile.t =
         New_session;
       ];
     allow_network = true;
+    aa_caps = [];
   }
 
 let discord : Profile.t =
@@ -251,6 +257,7 @@ let discord : Profile.t =
         New_session;
       ];
     allow_network = true;
+    aa_caps = [];
   }
 
 let thunderbird : Profile.t =
@@ -298,6 +305,7 @@ let thunderbird : Profile.t =
         New_session;
       ];
     allow_network = true;
+    aa_caps = [];
   }
 
 let chromium : Profile.t =
@@ -339,6 +347,7 @@ let chromium : Profile.t =
         New_session;
       ];
     allow_network = true;
+    aa_caps = [];
   }
 
 let deluge : Profile.t =
@@ -379,6 +388,7 @@ let deluge : Profile.t =
         New_session;
       ];
     allow_network = true;
+    aa_caps = [];
   }
 
 (* let zoom : profile =
@@ -466,6 +476,7 @@ let okular_ro : Profile.t =
         New_session;
       ];
     allow_network = false;
+    aa_caps = [];
   }
 
 let okular_rw : Profile.t =
@@ -508,6 +519,7 @@ let okular_rw : Profile.t =
         New_session;
       ];
     allow_network = false;
+    aa_caps = [];
   }
 
 let eom_ro : Profile.t =
@@ -550,6 +562,7 @@ let eom_ro : Profile.t =
         New_session;
       ];
     allow_network = false;
+    aa_caps = [];
   }
 
 let archive_handling : Profile.t =
@@ -587,6 +600,7 @@ let archive_handling : Profile.t =
         New_session;
       ];
     allow_network = false;
+    aa_caps = [];
   }
 
 let make_workspace : Profile.t =
@@ -622,6 +636,7 @@ let make_workspace : Profile.t =
         New_session;
       ];
     allow_network = true;
+    aa_caps = [];
   }
 
 let suite =

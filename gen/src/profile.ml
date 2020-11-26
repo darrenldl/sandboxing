@@ -8,4 +8,5 @@ type t = {
   syscall_blacklist : Seccomp_bpf.syscall list;
   args : Bwrap.arg list;
   allow_network : bool;
+  aa_caps : Aa.capability list;
 }
