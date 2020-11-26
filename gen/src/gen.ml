@@ -115,6 +115,14 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line (Printf.sprintf "/home/**/sandboxing/scripts/%s.sh {" p.name);
       write_line "  include <abstractions/base>";
       write_line "";
+      ( match p.aa_caps with
+        | [] -> ()
+        | l ->
+          List.iter
+            (fun x ->
+               write_line (Printf.sprintf "  %s" (Aa.string_of_capability x)))
+            l;
+          write_line "" );
       write_line
         (Printf.sprintf "  /home/**/sandboxing/scripts/%s.sh r," p.name);
       write_line "";

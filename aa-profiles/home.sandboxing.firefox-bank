@@ -3,6 +3,10 @@
 /home/**/sandboxing/scripts/firefox-bank.sh {
   include <abstractions/base>
 
+  sys_admin
+  sys_chroot
+  sys_ptrace
+
   /home/**/sandboxing/scripts/firefox-bank.sh r,
 
   /usr/bin/env ix,

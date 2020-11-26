@@ -152,7 +152,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
         New_session;
       ];
     allow_network = true;
-    aa_caps = [];
+    aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
   }
 
 let firefox_private : Profile.t =
