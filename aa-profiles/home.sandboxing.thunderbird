@@ -13,7 +13,6 @@ profile /home/sandbox/thunderbird.runner {
   / r,
 
   unix,
-  deny unix addr=@/tmp/.X11-unix/**,
 
   network,
 

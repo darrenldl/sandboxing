@@ -163,7 +163,6 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "  / r,";
       write_line "";
       write_line "  unix,";
-      write_line "  deny unix addr=@/tmp/.X11-unix/**,";
       write_line "";
       if p.allow_network then (
         write_line "  network,";

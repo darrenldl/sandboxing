@@ -17,7 +17,6 @@ profile /home/sandbox/firefox-google-play-book.runner {
   / r,
 
   unix,
-  deny unix addr=@/tmp/.X11-unix/**,
 
   network,
 
