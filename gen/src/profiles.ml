@@ -113,14 +113,11 @@ let bash_loose_hide_home : Profile.t =
     aa_caps = [];
   }
 
-let make_firefox_profile
-    ~(suffix : string option) : Profile.t =
+let make_firefox_profile ~(suffix : string option) : Profile.t =
   let name = match suffix with None -> "firefox" | Some s -> "firefox-" ^ s in
   {
     name;
-    cmd =
-      "/usr/lib/firefox/firefox --no-remote"
-        ;
+    cmd = "/usr/lib/firefox/firefox --no-remote";
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;

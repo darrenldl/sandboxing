@@ -42,8 +42,6 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --bind "$HOME/sandboxes/thunderbird" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
-  --bind "$HOME/.thunderbird" "/home/sandbox/.thunderbird" \
-  --bind "$HOME/.cache/thunderbird" "/home/sandbox/.cache/thunderbird" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
