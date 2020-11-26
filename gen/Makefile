@@ -15,6 +15,7 @@ all :
 .PHONY: run
 run: all
 	rm -f ../scripts/*.sh
+	rm -f ../scripts/*.runner
 	rm -f ../seccomp-bpf/*.c
 	rm -f ../seccomp-bpf/*.exe
 	rm -f ../seccomp-bpf/*.bpf

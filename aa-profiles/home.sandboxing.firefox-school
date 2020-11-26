@@ -1,13 +1,13 @@
 #include <tunables/global>
 
-/home/**/sandboxing/scripts/firefox-school.sh {
+/home/*/sandboxing/scripts/firefox-school.runner.sh {
   include <abstractions/base>
 
   capability sys_admin,
   capability sys_chroot,
   capability sys_ptrace,
 
-  /home/**/sandboxing/scripts/firefox-school.sh r,
+  /home/*/sandboxing/scripts/firefox-school.runner.sh r,
 
   /usr/bin/env ix,
 
@@ -17,9 +17,19 @@
 
   dbus bus=session,
 
-  set rlimit nproc <= 200,
-
+  # Programs and libraries
   /usr/ r,
   /{,usr/,usr/local/}{,s}bin/ r,
   /{,usr/,usr/local/}{,s}bin/** rpix,
+  /{,usr/,usr/local/}lib{,32,64}/ r,
+  /{,usr/,usr/local/}lib{,32,64}/** rmpix,
+  /usr/{,local/}{share,include}/ r,
+  /usr/{,local/}{share,include}/** rpix,
+
+  # Tmpfs
+  /{,var/}tmp/ r,
+  /{,var/}tmp/** r,
+  owner /{,var/}tmp/ rw,
+  owner /{,var/}tmp/** rw,
+
 }

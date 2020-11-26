@@ -1,4 +1,4 @@
-let write_script (p : Profile.t) : unit =
+let write_main_script (p : Profile.t) : unit =
   FileUtil.mkdir ~parent:true Config.script_output_dir;
   let file_name = FilePath.concat Config.script_output_dir (p.name ^ ".sh") in
   CCIO.with_out file_name (fun oc ->
@@ -63,6 +63,24 @@ let write_script (p : Profile.t) : unit =
                     (Filename.concat "$tmp_dir" dir)))
             p.preserved_temp_home_dirs;
           write_line "" );
+      write_line "export script_dir";
+      write_line "export tmp_dir";
+      write_line "export stdout_log_name";
+      write_line "export stderr_log_name";
+      write_line (Printf.sprintf "./%s.runner \"$@\"" p.name);
+    );
+  FileUtil.chmod (`Octal 0o774) [ file_name ]
+
+let write_runner_script (p : Profile.t) : unit =
+  FileUtil.mkdir ~parent:true Config.script_output_dir;
+  let file_name = FilePath.concat Config.script_output_dir (p.name ^ ".runner") in
+  CCIO.with_out file_name (fun oc ->
+      let write_line = CCIO.write_line oc in
+      write_line "#!/usr/bin/env bash";
+      write_line "";
+      let bpf_dir =
+        Printf.sprintf "\"$script_dir\"/%s" Config.seccomp_bpf_output_dir
+      in
       write_line "( exec bwrap \\";
       List.iter
         (fun x -> write_line (Printf.sprintf "  %s \\" (Bwrap.compile_arg x)))
@@ -96,7 +114,8 @@ let write_script (p : Profile.t) : unit =
                   (Filename.concat "$tmp_dir" dir)))
           p.preserved_temp_home_dirs;
         write_line
-          (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\""));
+          (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\"");
+    );
   FileUtil.chmod (`Octal 0o774) [ file_name ]
 
 let write_seccomp_bpf (p : Profile.t) : unit =
@@ -112,7 +131,7 @@ let write_aa_profile (p : Profile.t) : unit =
       let write_line = CCIO.write_line oc in
       write_line "#include <tunables/global>";
       write_line "";
-      write_line (Printf.sprintf "/home/**/sandboxing/scripts/%s.sh {" p.name);
+      write_line (Printf.sprintf "/home/*/sandboxing/scripts/%s.runner {" p.name);
       write_line "  include <abstractions/base>";
       write_line "";
       ( match p.aa_caps with
@@ -125,7 +144,7 @@ let write_aa_profile (p : Profile.t) : unit =
             l;
           write_line "" );
       write_line
-        (Printf.sprintf "  /home/**/sandboxing/scripts/%s.sh r," p.name);
+        (Printf.sprintf "  /home/*/sandboxing/scripts/%s.runner.sh r," p.name);
       write_line "";
       write_line "  /usr/bin/env ix,";
       write_line "";
@@ -136,11 +155,23 @@ let write_aa_profile (p : Profile.t) : unit =
         write_line "" );
       write_line "  dbus bus=session,";
       write_line "";
-      write_line "  set rlimit nproc <= 200,";
-      write_line "";
+      (* write_line "  set rlimit nproc <= 200,";
+       * write_line ""; *)
+      write_line "  # Programs and libraries";
       write_line "  /usr/ r,";
       write_line "  /{,usr/,usr/local/}{,s}bin/ r,";
       write_line "  /{,usr/,usr/local/}{,s}bin/** rpix,";
+      write_line "  /{,usr/,usr/local/}lib{,32,64}/ r,";
+      write_line "  /{,usr/,usr/local/}lib{,32,64}/** rmpix,";
+      write_line "  /usr/{,local/}{share,include}/ r,";
+      write_line "  /usr/{,local/}{share,include}/** rpix,";
+      write_line "";
+      write_line "  # Tmpfs";
+      write_line "  /{,var/}tmp/ r,";
+      write_line "  /{,var/}tmp/** r,";
+      write_line "  owner /{,var/}tmp/ rw,";
+      write_line "  owner /{,var/}tmp/** rw,";
+      write_line "";
       write_line "}");
   FileUtil.chmod (`Octal 0o774) [ file_name ];
   ()
@@ -148,7 +179,8 @@ let write_aa_profile (p : Profile.t) : unit =
 let () =
   List.iter
     (fun p ->
-       write_script p;
+       write_main_script p;
+       write_runner_script p;
        write_seccomp_bpf p;
        write_aa_profile p)
     Profiles.suite
