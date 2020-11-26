@@ -1,8 +1,6 @@
 #include <tunables/global>
 
 profile /home/sandbox/firefox-private.runner {
-  include <abstractions/base>
-
   capability sys_admin,
   capability sys_chroot,
   capability sys_ptrace,

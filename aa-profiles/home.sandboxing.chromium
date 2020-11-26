@@ -1,8 +1,6 @@
 #include <tunables/global>
 
 profile /home/sandbox/chromium.runner {
-  include <abstractions/base>
-
   # Runner self access
   /home/sandbox/chromium.runner r,
 

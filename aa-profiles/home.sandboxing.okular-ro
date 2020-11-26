@@ -1,8 +1,6 @@
 #include <tunables/global>
 
 profile /home/sandbox/okular-ro.runner {
-  include <abstractions/base>
-
   # Runner self access
   /home/sandbox/okular-ro.runner r,
 

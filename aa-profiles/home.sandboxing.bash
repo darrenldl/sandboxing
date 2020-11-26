@@ -1,8 +1,6 @@
 #include <tunables/global>
 
 profile /home/sandbox/bash.runner {
-  include <abstractions/base>
-
   # Runner self access
   /home/sandbox/bash.runner r,
 

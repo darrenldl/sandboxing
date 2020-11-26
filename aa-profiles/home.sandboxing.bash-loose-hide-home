@@ -1,8 +1,6 @@
 #include <tunables/global>
 
 profile /home/sandbox/bash-loose-hide-home.runner {
-  include <abstractions/base>
-
   # Runner self access
   /home/sandbox/bash-loose-hide-home.runner r,
 
