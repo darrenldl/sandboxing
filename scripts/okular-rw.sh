@@ -24,4 +24,4 @@ export script_dir
 export tmp_dir
 export stdout_log_name
 export stderr_log_name
-./okular-rw.runner "$@"
+bash "$script_dir"/okular-rw.runner "$@"

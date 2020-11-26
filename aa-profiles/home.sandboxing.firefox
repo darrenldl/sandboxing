@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/firefox.runner.sh {
+/home/*/sandboxing/scripts/firefox.runner {
   include <abstractions/base>
 
   capability sys_admin,

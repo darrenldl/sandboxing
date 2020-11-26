@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/bash.runner.sh {
+/home/*/sandboxing/scripts/bash.runner {
   include <abstractions/base>
 
   /home/*/sandboxing/scripts/bash.runner.sh r,

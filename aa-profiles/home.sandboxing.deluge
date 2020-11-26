@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/deluge.runner.sh {
+/home/*/sandboxing/scripts/deluge.runner {
   include <abstractions/base>
 
   /home/*/sandboxing/scripts/deluge.runner.sh r,

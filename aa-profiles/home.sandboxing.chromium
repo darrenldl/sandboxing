@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/chromium.runner.sh {
+/home/*/sandboxing/scripts/chromium.runner {
   include <abstractions/base>
 
   /home/*/sandboxing/scripts/chromium.runner.sh r,

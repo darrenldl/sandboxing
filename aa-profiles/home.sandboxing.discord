@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/discord.runner.sh {
+/home/*/sandboxing/scripts/discord.runner {
   include <abstractions/base>
 
   /home/*/sandboxing/scripts/discord.runner.sh r,

@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/archive-handling.runner.sh {
+/home/*/sandboxing/scripts/archive-handling.runner {
   include <abstractions/base>
 
   /home/*/sandboxing/scripts/archive-handling.runner.sh r,

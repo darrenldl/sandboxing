@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/thunderbird.runner.sh {
+/home/*/sandboxing/scripts/thunderbird.runner {
   include <abstractions/base>
 
   /home/*/sandboxing/scripts/thunderbird.runner.sh r,

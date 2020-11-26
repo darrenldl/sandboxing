@@ -27,4 +27,4 @@ export script_dir
 export tmp_dir
 export stdout_log_name
 export stderr_log_name
-./firefox-private.runner "$@"
+bash "$script_dir"/firefox-private.runner "$@"

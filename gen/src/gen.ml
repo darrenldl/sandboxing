@@ -67,7 +67,7 @@ let write_main_script (p : Profile.t) : unit =
       write_line "export tmp_dir";
       write_line "export stdout_log_name";
       write_line "export stderr_log_name";
-      write_line (Printf.sprintf "./%s.runner \"$@\"" p.name);
+      write_line (Printf.sprintf "bash \"$script_dir\"/%s.runner \"$@\"" p.name);
     );
   FileUtil.chmod (`Octal 0o774) [ file_name ]
 
@@ -77,6 +77,8 @@ let write_runner_script (p : Profile.t) : unit =
   CCIO.with_out file_name (fun oc ->
       let write_line = CCIO.write_line oc in
       write_line "#!/usr/bin/env bash";
+      write_line "";
+      write_line "set -euxo pipefail";
       write_line "";
       let bpf_dir =
         Printf.sprintf "\"$script_dir\"/%s" Config.seccomp_bpf_output_dir

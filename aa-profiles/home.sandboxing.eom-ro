@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/eom-ro.runner.sh {
+/home/*/sandboxing/scripts/eom-ro.runner {
   include <abstractions/base>
 
   /home/*/sandboxing/scripts/eom-ro.runner.sh r,

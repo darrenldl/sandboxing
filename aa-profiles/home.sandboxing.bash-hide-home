@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/bash-hide-home.runner.sh {
+/home/*/sandboxing/scripts/bash-hide-home.runner {
   include <abstractions/base>
 
   /home/*/sandboxing/scripts/bash-hide-home.runner.sh r,

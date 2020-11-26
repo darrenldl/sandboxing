@@ -21,4 +21,4 @@ export script_dir
 export tmp_dir
 export stdout_log_name
 export stderr_log_name
-./firefox-school.runner "$@"
+bash "$script_dir"/firefox-school.runner "$@"
