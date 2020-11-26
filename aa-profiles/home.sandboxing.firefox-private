@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/firefox-private.runner {
+profile home.sandboxing.firefox-private /home/*/sandboxing/scripts/firefox-private.runner {
   include <abstractions/base>
 
   # Sandboxing assets

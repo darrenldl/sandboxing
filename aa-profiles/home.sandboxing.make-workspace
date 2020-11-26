@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/make-workspace.runner {
+profile home.sandboxing.make-workspace /home/*/sandboxing/scripts/make-workspace.runner {
   include <abstractions/base>
 
   # Sandboxing assets

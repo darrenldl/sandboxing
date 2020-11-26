@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/archive-handling.runner {
+profile home.sandboxing.archive-handling /home/*/sandboxing/scripts/archive-handling.runner {
   include <abstractions/base>
 
   # Sandboxing assets

@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/okular-ro.runner {
+profile home.sandboxing.okular-ro /home/*/sandboxing/scripts/okular-ro.runner {
   include <abstractions/base>
 
   # Sandboxing assets

@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/deluge.runner {
+profile home.sandboxing.deluge /home/*/sandboxing/scripts/deluge.runner {
   include <abstractions/base>
 
   # Sandboxing assets

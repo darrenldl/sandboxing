@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/discord.runner {
+profile home.sandboxing.discord /home/*/sandboxing/scripts/discord.runner {
   include <abstractions/base>
 
   # Sandboxing assets

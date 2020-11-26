@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/bash-hide-home-hide-net.runner {
+profile home.sandboxing.bash-hide-home-hide-net /home/*/sandboxing/scripts/bash-hide-home-hide-net.runner {
   include <abstractions/base>
 
   # Sandboxing assets

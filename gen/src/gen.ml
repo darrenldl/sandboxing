@@ -63,11 +63,55 @@ let write_main_script (p : Profile.t) : unit =
                     (Filename.concat "$tmp_dir" dir)))
             p.preserved_temp_home_dirs;
           write_line "" );
-      write_line "export script_dir";
-      write_line "export tmp_dir";
-      write_line "export stdout_log_name";
-      write_line "export stderr_log_name";
-      write_line (Printf.sprintf "\"$script_dir\"/%s.runner \"$@\"" p.name));
+      (* write_line "export script_dir";
+       * write_line "export tmp_dir";
+       * write_line "export stdout_log_name";
+       * write_line "export stderr_log_name"; *)
+      write_line "( exec bwrap \\";
+      List.iter
+        (fun x -> write_line (Printf.sprintf "  %s \\" (Bwrap.compile_arg x)))
+        Bwrap.( p.args
+          @ List.map
+            (fun dir ->
+               Bind
+                 ( Filename.concat "$tmp_dir" dir,
+                   Some (Filename.concat Config.home_inside_jail dir) ))
+            p.preserved_temp_home_dirs
+          @ (
+            match p.syscall_blacklist with
+            | [] -> []
+            | _ ->
+              [
+                Seccomp
+                  (Filename.concat bpf_dir (p.name ^ Config.seccomp_bpf_suffix));
+              ]
+          )
+          @
+          [
+            Ro_bind ("/usr/bin/", None);
+            (* Ro_bind (Printf.sprintf "$script_dir/%s.runner" p.name, None) *)
+            Ro_bind (Printf.sprintf "$script_dir/%s.runner" p.name, Some (Filename.concat Config.home_inside_jail "runner"))
+          ]
+        );
+      write_line (Printf.sprintf "  %s/runner \"$@\" \\" Config.home_inside_jail);
+      if p.log_stdout then write_line "  >$stdout_log_name \\";
+      if p.log_stderr then write_line "  2>$stderr_log_name \\";
+      write_line " )";
+      (
+        match p.preserved_temp_home_dirs with
+        | [] -> ()
+        | _ ->
+          write_line "";
+          List.iter
+            (fun dir ->
+               write_line
+                 (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"%s\""
+                    (Filename.concat "$tmp_dir" dir)))
+            p.preserved_temp_home_dirs;
+          write_line
+            (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\"");
+      );
+    );
   FileUtil.chmod (`Octal 0o774) [ file_name ]
 
 let write_runner_script (p : Profile.t) : unit =
@@ -81,43 +125,8 @@ let write_runner_script (p : Profile.t) : unit =
       write_line "";
       write_line "set -euxo pipefail";
       write_line "";
-      let bpf_dir =
-        Printf.sprintf "\"$script_dir\"/%s" Config.seccomp_bpf_output_dir
-      in
-      write_line "( exec bwrap \\";
-      List.iter
-        (fun x -> write_line (Printf.sprintf "  %s \\" (Bwrap.compile_arg x)))
-        ( p.args
-          @ List.map
-            (fun dir ->
-               Bwrap.Bind
-                 ( Filename.concat "$tmp_dir" dir,
-                   Some (Filename.concat Config.home_inside_jail dir) ))
-            p.preserved_temp_home_dirs
-          @
-          match p.syscall_blacklist with
-          | [] -> []
-          | _ ->
-            [
-              Seccomp
-                (Filename.concat bpf_dir (p.name ^ Config.seccomp_bpf_suffix));
-            ] );
-      output_string oc (Printf.sprintf "  %s" p.cmd);
-      if p.log_stdout then output_string oc " >$stdout_log_name";
-      if p.log_stderr then output_string oc " 2>$stderr_log_name";
-      write_line " )";
-      match p.preserved_temp_home_dirs with
-      | [] -> ()
-      | _ ->
-        write_line "";
-        List.iter
-          (fun dir ->
-             write_line
-               (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"%s\""
-                  (Filename.concat "$tmp_dir" dir)))
-          p.preserved_temp_home_dirs;
-        write_line
-          (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\""));
+      write_line (Printf.sprintf "%s \"$@\"" p.cmd);
+    );
   FileUtil.chmod (`Octal 0o774) [ file_name ]
 
 let write_seccomp_bpf (p : Profile.t) : unit =
@@ -134,7 +143,7 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "#include <tunables/global>";
       write_line "";
       write_line
-        (Printf.sprintf "/home/*/sandboxing/scripts/%s.runner {" p.name);
+        (Printf.sprintf "profile home.sandboxing.%s /home/*/sandboxing/scripts/%s.runner {" p.name p.name);
       write_line "  include <abstractions/base>";
       write_line "";
       ( match p.aa_caps with

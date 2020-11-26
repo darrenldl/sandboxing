@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/bash.runner {
+profile home.sandboxing.bash /home/*/sandboxing/scripts/bash.runner {
   include <abstractions/base>
 
   # Sandboxing assets

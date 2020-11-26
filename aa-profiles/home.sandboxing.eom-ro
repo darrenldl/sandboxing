@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/eom-ro.runner {
+profile home.sandboxing.eom-ro /home/*/sandboxing/scripts/eom-ro.runner {
   include <abstractions/base>
 
   # Sandboxing assets

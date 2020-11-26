@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/firefox-bank.runner {
+profile home.sandboxing.firefox-bank /home/*/sandboxing/scripts/firefox-bank.runner {
   include <abstractions/base>
 
   capability sys_admin,

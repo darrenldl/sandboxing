@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/bash-loose-hide-home.runner {
+profile home.sandboxing.bash-loose-hide-home /home/*/sandboxing/scripts/bash-loose-hide-home.runner {
   include <abstractions/base>
 
   # Sandboxing assets

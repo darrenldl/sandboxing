@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/thunderbird.runner {
+profile home.sandboxing.thunderbird /home/*/sandboxing/scripts/thunderbird.runner {
   include <abstractions/base>
 
   # Sandboxing assets

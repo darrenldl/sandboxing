@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/home/*/sandboxing/scripts/chromium.runner {
+profile home.sandboxing.chromium /home/*/sandboxing/scripts/chromium.runner {
   include <abstractions/base>
 
   # Sandboxing assets
