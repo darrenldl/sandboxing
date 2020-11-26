@@ -1,13 +1,13 @@
 #include <tunables/global>
 
-profile /home/*/sandboxing/scripts/eom-ro.runner /home/sandbox/eom-ro.runner {
+profile /home/sandbox/eom-ro.runner {
   include <abstractions/base>
 
   # Runner self access
-  /home/*/sandboxing/scripts/eom-ro.runner r,
+  /home/sandbox/eom-ro.runner r,
 
   # Sandbox access
-  /home/*/sandboxes/eom-ro/** rwlk,
+  /home/sandbox/eom-ro/** rwlk,
 
   /usr/bin/env ix,
 
@@ -60,6 +60,10 @@ profile /home/*/sandboxing/scripts/eom-ro.runner /home/sandbox/eom-ro.runner {
   deny /proc/*/net/** r,
 
   # Tmpfs
+  /{,var/}tmp/ r,
+  /{,var/}tmp/** r,
+  owner /{,var/}tmp/ rw,
+  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

@@ -13,8 +13,8 @@ fi
 
 mv chromium_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/sandboxes/chromium"
-mkdir -p "$HOME/sandboxes/chromium/Downloads"
+mkdir -p "$HOME/sandboxing-sandboxes/chromium"
+mkdir -p "$HOME/sandboxing-sandboxes/chromium/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -45,7 +45,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --dev-bind "/dev/dri/card0" "/dev/dri/card0" \
-  --bind "$HOME/sandboxes/chromium" "/home/sandbox" \
+  --bind "$HOME/sandboxing-sandboxes/chromium" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \

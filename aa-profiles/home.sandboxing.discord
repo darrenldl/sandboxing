@@ -1,13 +1,13 @@
 #include <tunables/global>
 
-profile /home/*/sandboxing/scripts/discord.runner /home/sandbox/discord.runner {
+profile /home/sandbox/discord.runner {
   include <abstractions/base>
 
   # Runner self access
-  /home/*/sandboxing/scripts/discord.runner r,
+  /home/sandbox/discord.runner r,
 
   # Sandbox access
-  /home/*/sandboxes/discord/** rwlk,
+  /home/sandbox/discord/** rwlk,
 
   /usr/bin/env ix,
 
@@ -62,6 +62,10 @@ profile /home/*/sandboxing/scripts/discord.runner /home/sandbox/discord.runner {
   deny /proc/*/net/** r,
 
   # Tmpfs
+  /{,var/}tmp/ r,
+  /{,var/}tmp/** r,
+  owner /{,var/}tmp/ rw,
+  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

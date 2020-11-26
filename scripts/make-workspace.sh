@@ -13,8 +13,8 @@ fi
 
 mv make-workspace_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/sandboxes/make-workspace-$1"
-mkdir -p "$HOME/sandboxes/make-workspace-$1/Downloads"
+mkdir -p "$HOME/sandboxing-sandboxes/make-workspace-$1"
+mkdir -p "$HOME/sandboxing-sandboxes/make-workspace-$1/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -38,7 +38,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --tmpfs "/run" \
   --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
   --setenv "QT_QPA_PLATFORM" "wayland" \
-  --bind "$HOME/sandboxes/make-workspace-$1" "/home/sandbox" \
+  --bind "$HOME/sandboxing-sandboxes/make-workspace-$1" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "USER" "nobody" \

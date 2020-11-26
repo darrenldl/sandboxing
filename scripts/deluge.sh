@@ -13,8 +13,8 @@ fi
 
 mv deluge_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/sandboxes/deluge"
-mkdir -p "$HOME/sandboxes/deluge/Downloads"
+mkdir -p "$HOME/sandboxing-sandboxes/deluge"
+mkdir -p "$HOME/sandboxing-sandboxes/deluge/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -42,7 +42,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --ro-bind "/etc/lsb-release" "/etc/lsb-release" \
   --ro-bind "/etc/arch-release" "/etc/arch-release" \
-  --bind "$HOME/sandboxes/deluge" "/home/sandbox" \
+  --bind "$HOME/sandboxing-sandboxes/deluge" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \

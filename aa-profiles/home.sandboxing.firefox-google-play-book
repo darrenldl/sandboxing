@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile /home/*/sandboxing/scripts/firefox-google-play-book.runner /home/sandbox/firefox-google-play-book.runner {
+profile /home/sandbox/firefox-google-play-book.runner {
   include <abstractions/base>
 
   capability sys_admin,
@@ -8,10 +8,10 @@ profile /home/*/sandboxing/scripts/firefox-google-play-book.runner /home/sandbox
   capability sys_ptrace,
 
   # Runner self access
-  /home/*/sandboxing/scripts/firefox-google-play-book.runner r,
+  /home/sandbox/firefox-google-play-book.runner r,
 
   # Sandbox access
-  /home/*/sandboxes/firefox-google-play-book/** rwlk,
+  /home/sandbox/firefox-google-play-book/** rwlk,
 
   /usr/bin/env ix,
 
@@ -66,6 +66,10 @@ profile /home/*/sandboxing/scripts/firefox-google-play-book.runner /home/sandbox
   deny /proc/*/net/** r,
 
   # Tmpfs
+  /{,var/}tmp/ r,
+  /{,var/}tmp/** r,
+  owner /{,var/}tmp/ rw,
+  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

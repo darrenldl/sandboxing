@@ -1,13 +1,13 @@
 #include <tunables/global>
 
-profile /home/*/sandboxing/scripts/bash-hide-home-hide-net.runner /home/sandbox/bash-hide-home-hide-net.runner {
+profile /home/sandbox/bash-hide-home-hide-net.runner {
   include <abstractions/base>
 
   # Runner self access
-  /home/*/sandboxing/scripts/bash-hide-home-hide-net.runner r,
+  /home/sandbox/bash-hide-home-hide-net.runner r,
 
   # Sandbox access
-  /home/*/sandboxes/bash-hide-home-hide-net/** rwlk,
+  /home/sandbox/bash-hide-home-hide-net/** rwlk,
 
   /usr/bin/env ix,
 
@@ -60,6 +60,10 @@ profile /home/*/sandboxing/scripts/bash-hide-home-hide-net.runner /home/sandbox/
   deny /proc/*/net/** r,
 
   # Tmpfs
+  /{,var/}tmp/ r,
+  /{,var/}tmp/** r,
+  owner /{,var/}tmp/ rw,
+  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

@@ -1,13 +1,13 @@
 #include <tunables/global>
 
-profile /home/*/sandboxing/scripts/thunderbird.runner /home/sandbox/thunderbird.runner {
+profile /home/sandbox/thunderbird.runner {
   include <abstractions/base>
 
   # Runner self access
-  /home/*/sandboxing/scripts/thunderbird.runner r,
+  /home/sandbox/thunderbird.runner r,
 
   # Sandbox access
-  /home/*/sandboxes/thunderbird/** rwlk,
+  /home/sandbox/thunderbird/** rwlk,
 
   /usr/bin/env ix,
 
@@ -62,6 +62,10 @@ profile /home/*/sandboxing/scripts/thunderbird.runner /home/sandbox/thunderbird.
   deny /proc/*/net/** r,
 
   # Tmpfs
+  /{,var/}tmp/ r,
+  /{,var/}tmp/** r,
+  owner /{,var/}tmp/ rw,
+  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

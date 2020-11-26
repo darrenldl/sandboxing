@@ -1,6 +1,6 @@
-let jails_dir = "$HOME/sandboxes"
+let jails_dir = "$HOME/sandboxing-sandboxes"
 
-let jail_logs_dir = "$HOME/sandbox-logs"
+let jail_logs_dir = "$HOME/sandboxing-sandbox-logs"
 
 let stdout_log_suffix = "stdout"
 

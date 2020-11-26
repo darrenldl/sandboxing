@@ -13,8 +13,8 @@ fi
 
 mv thunderbird_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/sandboxes/thunderbird"
-mkdir -p "$HOME/sandboxes/thunderbird/Downloads"
+mkdir -p "$HOME/sandboxing-sandboxes/thunderbird"
+mkdir -p "$HOME/sandboxing-sandboxes/thunderbird/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -40,7 +40,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --bind "$HOME/sandboxes/thunderbird" "/home/sandbox" \
+  --bind "$HOME/sandboxing-sandboxes/thunderbird" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \

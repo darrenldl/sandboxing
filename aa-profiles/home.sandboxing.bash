@@ -1,13 +1,13 @@
 #include <tunables/global>
 
-profile /home/*/sandboxing/scripts/bash.runner /home/sandbox/bash.runner {
+profile /home/sandbox/bash.runner {
   include <abstractions/base>
 
   # Runner self access
-  /home/*/sandboxing/scripts/bash.runner r,
+  /home/sandbox/bash.runner r,
 
   # Sandbox access
-  /home/*/sandboxes/bash/** rwlk,
+  /home/sandbox/bash/** rwlk,
 
   /usr/bin/env ix,
 
@@ -62,6 +62,10 @@ profile /home/*/sandboxing/scripts/bash.runner /home/sandbox/bash.runner {
   deny /proc/*/net/** r,
 
   # Tmpfs
+  /{,var/}tmp/ r,
+  /{,var/}tmp/** r,
+  owner /{,var/}tmp/ rw,
+  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

@@ -13,8 +13,8 @@ fi
 
 mv archive-handling_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/sandboxes/archive-handling"
-mkdir -p "$HOME/sandboxes/archive-handling/Downloads"
+mkdir -p "$HOME/sandboxing-sandboxes/archive-handling"
+mkdir -p "$HOME/sandboxing-sandboxes/archive-handling/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \

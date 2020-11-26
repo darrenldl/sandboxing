@@ -1,13 +1,13 @@
 #include <tunables/global>
 
-profile /home/*/sandboxing/scripts/archive-handling.runner /home/sandbox/archive-handling.runner {
+profile /home/sandbox/archive-handling.runner {
   include <abstractions/base>
 
   # Runner self access
-  /home/*/sandboxing/scripts/archive-handling.runner r,
+  /home/sandbox/archive-handling.runner r,
 
   # Sandbox access
-  /home/*/sandboxes/archive-handling/** rwlk,
+  /home/sandbox/archive-handling/** rwlk,
 
   /usr/bin/env ix,
 
@@ -60,6 +60,10 @@ profile /home/*/sandboxing/scripts/archive-handling.runner /home/sandbox/archive
   deny /proc/*/net/** r,
 
   # Tmpfs
+  /{,var/}tmp/ r,
+  /{,var/}tmp/** r,
+  owner /{,var/}tmp/ rw,
+  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

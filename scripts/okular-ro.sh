@@ -14,11 +14,11 @@ fi
 mv okular-ro_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-mkdir -p "$HOME/sandbox-logs/okular-ro"
-stdout_log_name="$HOME/sandbox-logs/okular-ro"/"$cur_time"."stdout"
+mkdir -p "$HOME/sandboxing-sandbox-logs/okular-ro"
+stdout_log_name="$HOME/sandboxing-sandbox-logs/okular-ro"/"$cur_time"."stdout"
 
-mkdir -p "$HOME/sandbox-logs/okular-ro"
-stderr_log_name="$HOME/sandbox-logs/okular-ro"/"$cur_time"."stderr"
+mkdir -p "$HOME/sandboxing-sandbox-logs/okular-ro"
+stderr_log_name="$HOME/sandboxing-sandbox-logs/okular-ro"/"$cur_time"."stderr"
 
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \

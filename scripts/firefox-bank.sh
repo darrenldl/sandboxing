@@ -13,8 +13,8 @@ fi
 
 mv firefox-bank_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/sandboxes/firefox-bank"
-mkdir -p "$HOME/sandboxes/firefox-bank/Downloads"
+mkdir -p "$HOME/sandboxing-sandboxes/firefox-bank"
+mkdir -p "$HOME/sandboxing-sandboxes/firefox-bank/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -44,7 +44,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --bind "$HOME/sandboxes/firefox-bank" "/home/sandbox" \
+  --bind "$HOME/sandboxing-sandboxes/firefox-bank" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \

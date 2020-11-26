@@ -1,13 +1,13 @@
 #include <tunables/global>
 
-profile /home/*/sandboxing/scripts/firefox-private.runner /home/sandbox/firefox-private.runner {
+profile /home/sandbox/firefox-private.runner {
   include <abstractions/base>
 
   # Runner self access
-  /home/*/sandboxing/scripts/firefox-private.runner r,
+  /home/sandbox/firefox-private.runner r,
 
   # Sandbox access
-  /home/*/sandboxes/firefox-private/** rwlk,
+  /home/sandbox/firefox-private/** rwlk,
 
   /usr/bin/env ix,
 
@@ -62,6 +62,10 @@ profile /home/*/sandboxing/scripts/firefox-private.runner /home/sandbox/firefox-
   deny /proc/*/net/** r,
 
   # Tmpfs
+  /{,var/}tmp/ r,
+  /{,var/}tmp/** r,
+  owner /{,var/}tmp/ rw,
+  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

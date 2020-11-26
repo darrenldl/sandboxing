@@ -13,8 +13,8 @@ fi
 
 mv bash-loose-hide-home_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/sandboxes/bash-loose-hide-home"
-mkdir -p "$HOME/sandboxes/bash-loose-hide-home/Downloads"
+mkdir -p "$HOME/sandboxing-sandboxes/bash-loose-hide-home"
+mkdir -p "$HOME/sandboxing-sandboxes/bash-loose-hide-home/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -34,7 +34,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
-  --bind "$HOME/sandboxes/bash-loose-hide-home" "/home/sandbox" \
+  --bind "$HOME/sandboxing-sandboxes/bash-loose-hide-home" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --unshare-user \

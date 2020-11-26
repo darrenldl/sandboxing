@@ -13,8 +13,8 @@ fi
 
 mv bash-hide-home-hide-net_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/sandboxes/bash-hide-home-hide-net"
-mkdir -p "$HOME/sandboxes/bash-hide-home-hide-net/Downloads"
+mkdir -p "$HOME/sandboxing-sandboxes/bash-hide-home-hide-net"
+mkdir -p "$HOME/sandboxing-sandboxes/bash-hide-home-hide-net/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -34,7 +34,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
-  --bind "$HOME/sandboxes/bash-hide-home-hide-net" "/home/sandbox" \
+  --bind "$HOME/sandboxing-sandboxes/bash-hide-home-hide-net" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \

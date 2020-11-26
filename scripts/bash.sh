@@ -13,8 +13,8 @@ fi
 
 mv bash_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
-mkdir -p "$HOME/sandboxes/bash"
-mkdir -p "$HOME/sandboxes/bash/Downloads"
+mkdir -p "$HOME/sandboxing-sandboxes/bash"
+mkdir -p "$HOME/sandboxing-sandboxes/bash/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 ( exec bwrap \
@@ -34,7 +34,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
-  --bind "$HOME/sandboxes/bash" "/home/sandbox" \
+  --bind "$HOME/sandboxing-sandboxes/bash" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --unshare-user \
   --unshare-pid \

@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-profile /home/*/sandboxing/scripts/firefox.runner /home/sandbox/firefox.runner {
+profile /home/sandbox/firefox.runner {
   include <abstractions/base>
 
   capability sys_admin,
@@ -8,10 +8,10 @@ profile /home/*/sandboxing/scripts/firefox.runner /home/sandbox/firefox.runner {
   capability sys_ptrace,
 
   # Runner self access
-  /home/*/sandboxing/scripts/firefox.runner r,
+  /home/sandbox/firefox.runner r,
 
   # Sandbox access
-  /home/*/sandboxes/firefox/** rwlk,
+  /home/sandbox/firefox/** rwlk,
 
   /usr/bin/env ix,
 
@@ -66,6 +66,10 @@ profile /home/*/sandboxing/scripts/firefox.runner /home/sandbox/firefox.runner {
   deny /proc/*/net/** r,
 
   # Tmpfs
+  /{,var/}tmp/ r,
+  /{,var/}tmp/** r,
+  owner /{,var/}tmp/ rw,
+  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,
