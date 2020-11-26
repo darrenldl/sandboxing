@@ -7,7 +7,15 @@
   capability sys_chroot,
   capability sys_ptrace,
 
-  /home/*/sandboxing/scripts/firefox-google-play-book.runner.sh r,
+  # Sandboxing assets
+  /home/*/sandboxing/scripts/firefox-google-play-book.runner r,
+  /home/*/sandboxing/seccomp-bpf/*.bpf r,
+
+  # Sandbox access
+  /home/*/sandboxes/firefox-google-play-book/** rwlk,
+
+  # Sandbox logging
+  /home/*/sandbox-logs/firefox-google-play-book/** ra,
 
   /usr/bin/env ix,
 
@@ -26,10 +34,88 @@
   /usr/{,local/}{share,include}/ r,
   /usr/{,local/}{share,include}/** rpix,
 
+  # Sysfs
+  /sys/ r,
+  /sys/devices/ r,
+  /sys/devices/**/{uevent,config} r,
+  /sys/devices/pci[0-9]*/**/ r,
+  /sys/devices/pci[0-9]*/**/{resource,boot_vga,class,vendor,device,irq,revision,subsystem_vendor,port_no} r,
+  /sys/devices/pci[0-9]*/**/drm/**/{,enabled,status} r,
+  /sys/devices/pci[0-9]*/**/sound/**/pcm_class r,
+  /sys/devices/pci[0-9]*/**/backlight/**/* r,
+  /sys/devices/virtual/tty/tty[0-9]*/active r,
+  /sys/devices/virtual/tty/console/active r,
+  /sys/devices/virtual/dmi/id/{sys,board,bios}_vendor r,
+  /sys/devices/virtual/dmi/id/product_name r,
+  /sys/devices/system/node/ r,
+  /sys/devices/system/node/node[0-9]*/meminfo r,
+  /sys/devices/system/cpu/ r,
+  /sys/devices/system/cpu/{present,online} r,
+  /sys/devices/system/cpu/cpu[0-9]*/cache/index2/size r,
+  /sys/class/ r,
+  /sys/class/{tty,input,drm,sound}/ r,
+  /sys/bus/ r,
+  /sys/bus/pci/devices/ r,
+  /sys/fs/cgroup/** rw,
+
+  # Procfs
+  @{PROC}/ r,
+  owner @{PROC}/@{pid}/{cgroup,cmdline,comm,sessionid,mounts,stat,status,sched,maps,auxv,attr/current,fd/,environ,limits,mountinfo,task/,task/*/stat,task/*/status,fdinfo/*,mem} r,
+  owner @{PROC}/@{pid}/{setgroups,gid_map,uid_map,attr/exec,oom_score_adj} rw,
+  @{PROC}/{stat,cpuinfo,filesystems,meminfo,swaps,uptime} r,
+  @{PROC}/sys/** r,
+  deny /proc/*/{statm,smaps} r,
+  deny /proc/*/net/ r,
+  deny /proc/*/net/** r,
+
   # Tmpfs
   /{,var/}tmp/ r,
   /{,var/}tmp/** r,
   owner /{,var/}tmp/ rw,
   owner /{,var/}tmp/** rw,
+
+  # /etc
+  /etc/ r,
+  /etc/** r,
+
+  # Device access
+  /dev/ r,
+  /dev/console r,
+  /dev/random rw,
+  /dev/urandom rw,
+  /dev/null rw,
+  /dev/zero rw,
+  /dev/full rw,
+  owner /dev/stdin rw,
+  owner /dev/stdout r,
+  owner /dev/stderr rw,
+  /dev/tty rw,
+  owner /dev/ptmx rw,
+  /dev/pts/ r,
+  owner /dev/pts/* rw,
+  owner /dev/shm/ r,
+  owner /dev/shm/** rw,
+  /dev/video* rw,
+  /dev/snd/ r,
+  /dev/snd/** rw,
+
+  # /var and /run
+  /var/ r,
+  /var/{lib,cache}/ r,
+  /var/lib/** r,
+  /var/lib/command-not-found/commands.db rwk,
+  /var/cache/** rwl,
+  owner /var/lib/ rw,
+  owner /var/lib/** rw,
+  /{,var/}run/ r,
+  /{,var/}run/** rw,
+  /{,var/}run/shm/** rwl,
+  owner /{,var/}run/** rwk,
+
+  # Prevent leak of some important kernel info
+  deny /{,usr/}lib/modules/ rw,
+  deny /{,usr/}lib/modules/** rw,
+  deny /**vmlinu{,z,x}* rw,
+  deny /**System.map* rw,
 
 }

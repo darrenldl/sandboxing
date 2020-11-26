@@ -67,13 +67,14 @@ let write_main_script (p : Profile.t) : unit =
       write_line "export tmp_dir";
       write_line "export stdout_log_name";
       write_line "export stderr_log_name";
-      write_line (Printf.sprintf "bash \"$script_dir\"/%s.runner \"$@\"" p.name);
-    );
+      write_line (Printf.sprintf "\"$script_dir\"/%s.runner \"$@\"" p.name));
   FileUtil.chmod (`Octal 0o774) [ file_name ]
 
 let write_runner_script (p : Profile.t) : unit =
   FileUtil.mkdir ~parent:true Config.script_output_dir;
-  let file_name = FilePath.concat Config.script_output_dir (p.name ^ ".runner") in
+  let file_name =
+    FilePath.concat Config.script_output_dir (p.name ^ ".runner")
+  in
   CCIO.with_out file_name (fun oc ->
       let write_line = CCIO.write_line oc in
       write_line "#!/usr/bin/env bash";
@@ -116,8 +117,7 @@ let write_runner_script (p : Profile.t) : unit =
                   (Filename.concat "$tmp_dir" dir)))
           p.preserved_temp_home_dirs;
         write_line
-          (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\"");
-    );
+          (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\""));
   FileUtil.chmod (`Octal 0o774) [ file_name ]
 
 let write_seccomp_bpf (p : Profile.t) : unit =
@@ -133,7 +133,8 @@ let write_aa_profile (p : Profile.t) : unit =
       let write_line = CCIO.write_line oc in
       write_line "#include <tunables/global>";
       write_line "";
-      write_line (Printf.sprintf "/home/*/sandboxing/scripts/%s.runner {" p.name);
+      write_line
+        (Printf.sprintf "/home/*/sandboxing/scripts/%s.runner {" p.name);
       write_line "  include <abstractions/base>";
       write_line "";
       ( match p.aa_caps with
@@ -145,8 +146,16 @@ let write_aa_profile (p : Profile.t) : unit =
                  (Printf.sprintf "  capability %s," (Aa.string_of_capability x)))
             l;
           write_line "" );
+      write_line "  # Sandboxing assets";
       write_line
-        (Printf.sprintf "  /home/*/sandboxing/scripts/%s.runner.sh r," p.name);
+        (Printf.sprintf "  /home/*/sandboxing/scripts/%s.runner r," p.name);
+      write_line "  /home/*/sandboxing/seccomp-bpf/*.bpf r,";
+      write_line "";
+      write_line "  # Sandbox access";
+      write_line (Printf.sprintf "  /home/*/sandboxes/%s/** rwlk," p.name);
+      write_line "";
+      write_line "  # Sandbox logging";
+      write_line (Printf.sprintf "  /home/*/sandbox-logs/%s/** ra," p.name);
       write_line "";
       write_line "  /usr/bin/env ix,";
       write_line "";
@@ -168,11 +177,98 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "  /usr/{,local/}{share,include}/ r,";
       write_line "  /usr/{,local/}{share,include}/** rpix,";
       write_line "";
+      write_line "  # Sysfs";
+      write_line "  /sys/ r,";
+      write_line "  /sys/devices/ r,";
+      write_line "  /sys/devices/**/{uevent,config} r,";
+      write_line "  /sys/devices/pci[0-9]*/**/ r,";
+      write_line
+        "  \
+         /sys/devices/pci[0-9]*/**/{resource,boot_vga,class,vendor,device,irq,revision,subsystem_vendor,port_no} \
+         r,";
+      write_line "  /sys/devices/pci[0-9]*/**/drm/**/{,enabled,status} r,";
+      write_line "  /sys/devices/pci[0-9]*/**/sound/**/pcm_class r,";
+      write_line "  /sys/devices/pci[0-9]*/**/backlight/**/* r,";
+      write_line "  /sys/devices/virtual/tty/tty[0-9]*/active r,";
+      write_line "  /sys/devices/virtual/tty/console/active r,";
+      write_line "  /sys/devices/virtual/dmi/id/{sys,board,bios}_vendor r,";
+      write_line "  /sys/devices/virtual/dmi/id/product_name r,";
+      write_line "  /sys/devices/system/node/ r,";
+      write_line "  /sys/devices/system/node/node[0-9]*/meminfo r,";
+      write_line "  /sys/devices/system/cpu/ r,";
+      write_line "  /sys/devices/system/cpu/{present,online} r,";
+      write_line "  /sys/devices/system/cpu/cpu[0-9]*/cache/index2/size r,";
+      write_line "  /sys/class/ r,";
+      write_line "  /sys/class/{tty,input,drm,sound}/ r,";
+      write_line "  /sys/bus/ r,";
+      write_line "  /sys/bus/pci/devices/ r,";
+      write_line "  /sys/fs/cgroup/** rw,";
+      write_line "";
+      write_line "  # Procfs";
+      write_line "  @{PROC}/ r,";
+      write_line
+        "  owner \
+         @{PROC}/@{pid}/{cgroup,cmdline,comm,sessionid,mounts,stat,status,sched,maps,auxv,attr/current,fd/,environ,limits,mountinfo,task/,task/*/stat,task/*/status,fdinfo/*,mem} \
+         r,";
+      write_line
+        "  owner \
+         @{PROC}/@{pid}/{setgroups,gid_map,uid_map,attr/exec,oom_score_adj} \
+         rw,";
+      write_line "  @{PROC}/{stat,cpuinfo,filesystems,meminfo,swaps,uptime} r,";
+      write_line "  @{PROC}/sys/** r,";
+      write_line "  deny /proc/*/{statm,smaps} r,";
+      write_line "  deny /proc/*/net/ r,";
+      write_line "  deny /proc/*/net/** r,";
+      write_line "";
       write_line "  # Tmpfs";
       write_line "  /{,var/}tmp/ r,";
       write_line "  /{,var/}tmp/** r,";
       write_line "  owner /{,var/}tmp/ rw,";
       write_line "  owner /{,var/}tmp/** rw,";
+      write_line "";
+      write_line "  # /etc";
+      write_line "  /etc/ r,";
+      write_line "  /etc/** r,";
+      write_line "";
+      write_line "  # Device access";
+      write_line "  /dev/ r,";
+      write_line "  /dev/console r,";
+      write_line "  /dev/random rw,";
+      write_line "  /dev/urandom rw,";
+      write_line "  /dev/null rw,";
+      write_line "  /dev/zero rw,";
+      write_line "  /dev/full rw,";
+      write_line "  owner /dev/stdin rw,";
+      write_line "  owner /dev/stdout r,";
+      write_line "  owner /dev/stderr rw,";
+      write_line "  /dev/tty rw,";
+      write_line "  owner /dev/ptmx rw,";
+      write_line "  /dev/pts/ r,";
+      write_line "  owner /dev/pts/* rw,";
+      write_line "  owner /dev/shm/ r,";
+      write_line "  owner /dev/shm/** rw,";
+      write_line "  /dev/video* rw,";
+      write_line "  /dev/snd/ r,";
+      write_line "  /dev/snd/** rw,";
+      write_line "";
+      write_line "  # /var and /run";
+      write_line "  /var/ r,";
+      write_line "  /var/{lib,cache}/ r,";
+      write_line "  /var/lib/** r,";
+      write_line "  /var/lib/command-not-found/commands.db rwk,";
+      write_line "  /var/cache/** rwl,";
+      write_line "  owner /var/lib/ rw,";
+      write_line "  owner /var/lib/** rw,";
+      write_line "  /{,var/}run/ r,";
+      write_line "  /{,var/}run/** rw,";
+      write_line "  /{,var/}run/shm/** rwl,";
+      write_line "  owner /{,var/}run/** rwk,";
+      write_line "";
+      write_line "  # Prevent leak of some important kernel info";
+      write_line "  deny /{,usr/}lib/modules/ rw,";
+      write_line "  deny /{,usr/}lib/modules/** rw,";
+      write_line "  deny /**vmlinu{,z,x}* rw,";
+      write_line "  deny /**System.map* rw,";
       write_line "";
       write_line "}");
   FileUtil.chmod (`Octal 0o774) [ file_name ];

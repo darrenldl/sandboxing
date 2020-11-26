@@ -21,4 +21,4 @@ export script_dir
 export tmp_dir
 export stdout_log_name
 export stderr_log_name
-bash "$script_dir"/discord.runner "$@"
+"$script_dir"/discord.runner "$@"
