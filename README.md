@@ -17,11 +17,17 @@ Note that some profiles assume usage of Wayland
 
 Simply `git clone https://github.com/darrenldl/sandboxing.git` in home
 
-Your system needs to have `bubblewrap` and `gcc` to run the scripts
+Your system needs to have `bubblewrap`, `gcc` and `apparmor` to run the scripts
 
 ## General usage
 
-All bash scripts in `bw-scripts/` directory should work out of the box on most Linux distros
+__Important__: Please make sure the following directories are not already in use in your `$HOME`
+
+- `sandboxing/`
+- `sandboxing-sandboxes/`
+- `sandboxing-sandbox-logs/`
+
+All bash scripts in `scripts/` directory should work out of the box on most Linux distros
 
 The scripts assume they stay in their original positions in the local copy of the repository, however
 
@@ -49,14 +55,12 @@ Following serves as rough descriptions only, check the scripts directly to see i
 
 - `firefox`
   - Persistent home as `~/sandboxes/firefox` on host
-  - RW mounts `~/.mozilla` and `~/.cache/mozilla` in sandbox home
 - `firefox-private`
   - No persistent home
   - Temporary persistent `Downloads` folder in sandbox home, created as temporary directory under `/tmp` on host
     - This is the only directory that host and sandbox share
 - `thunderbird`
   - Persistent home as `~/sandboxes/firefox` on host
-  - RW mounts `~/.thunderbird` and `~/.cache/thunderbird` in sandbox home
 - `discord`
   - Persistent home as `~/sandboxes/discord` on host
 
