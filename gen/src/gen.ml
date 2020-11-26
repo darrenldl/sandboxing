@@ -141,10 +141,7 @@ let write_aa_profile (p : Profile.t) : unit =
       let write_line = CCIO.write_line oc in
       write_line "#include <tunables/global>";
       write_line "";
-      write_line
-        (Printf.sprintf
-           "profile /home/sandbox/%s.runner {"
-           p.name);
+      write_line (Printf.sprintf "profile /home/sandbox/%s.runner {" p.name);
       write_line "  include <abstractions/base>";
       write_line "";
       ( match p.aa_caps with
@@ -157,8 +154,7 @@ let write_aa_profile (p : Profile.t) : unit =
             l;
           write_line "" );
       write_line "  # Runner self access";
-      write_line
-        (Printf.sprintf "  /home/sandbox/%s.runner r," p.name);
+      write_line (Printf.sprintf "  /home/sandbox/%s.runner r," p.name);
       write_line "";
       write_line "  # Sandbox access";
       write_line (Printf.sprintf "  /home/sandbox/ r,");
