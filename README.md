@@ -86,7 +86,11 @@ Following serves as rough descriptions only, check the scripts directly to see i
 
 #### TODO
 
-- AppArmor profiles (most likely would be hand written, but wouldn't mind if they can be automatically generated somehow)
+- Transition to syscall whitelist instead of blacklist
+
+#### WIP
+
+- AppArmor profiles
 
 #### Index
 
