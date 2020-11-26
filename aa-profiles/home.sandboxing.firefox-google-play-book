@@ -3,9 +3,9 @@
 /home/**/sandboxing/scripts/firefox-google-play-book.sh {
   include <abstractions/base>
 
-  sys_admin
-  sys_chroot
-  sys_ptrace
+  capability sys_admin,
+  capability sys_chroot,
+  capability sys_ptrace,
 
   /home/**/sandboxing/scripts/firefox-google-play-book.sh r,
 

@@ -120,7 +120,8 @@ let write_aa_profile (p : Profile.t) : unit =
         | l ->
           List.iter
             (fun x ->
-               write_line (Printf.sprintf "  %s" (Aa.string_of_capability x)))
+               write_line
+                 (Printf.sprintf "  capability %s," (Aa.string_of_capability x)))
             l;
           write_line "" );
       write_line
