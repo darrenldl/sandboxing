@@ -7,11 +7,15 @@ profile /home/sandbox/firefox-private.runner {
   /home/sandbox/firefox-private.runner r,
 
   # Sandbox access
-  /home/sandbox/firefox-private/** rwlk,
+  /home/sandbox/ r,
+  /home/sandbox/** rwlk,
 
   /usr/bin/env ix,
 
   / r,
+
+  unix,
+  deny unix addr=@/tmp/.X11-unix/**,
 
   network,
 

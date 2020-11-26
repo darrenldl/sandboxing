@@ -7,11 +7,15 @@ profile /home/sandbox/okular-rw.runner {
   /home/sandbox/okular-rw.runner r,
 
   # Sandbox access
-  /home/sandbox/okular-rw/** rwlk,
+  /home/sandbox/ r,
+  /home/sandbox/** rwlk,
 
   /usr/bin/env ix,
 
   / r,
+
+  unix,
+  deny unix addr=@/tmp/.X11-unix/**,
 
   dbus bus=session,
 

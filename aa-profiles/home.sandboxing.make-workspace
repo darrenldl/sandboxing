@@ -7,11 +7,15 @@ profile /home/sandbox/make-workspace.runner {
   /home/sandbox/make-workspace.runner r,
 
   # Sandbox access
-  /home/sandbox/make-workspace/** rwlk,
+  /home/sandbox/ r,
+  /home/sandbox/** rwlk,
 
   /usr/bin/env ix,
 
   / r,
+
+  unix,
+  deny unix addr=@/tmp/.X11-unix/**,
 
   network,
 

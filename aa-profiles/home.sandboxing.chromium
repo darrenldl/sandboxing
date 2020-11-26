@@ -7,11 +7,15 @@ profile /home/sandbox/chromium.runner {
   /home/sandbox/chromium.runner r,
 
   # Sandbox access
-  /home/sandbox/chromium/** rwlk,
+  /home/sandbox/ r,
+  /home/sandbox/** rwlk,
 
   /usr/bin/env ix,
 
   / r,
+
+  unix,
+  deny unix addr=@/tmp/.X11-unix/**,
 
   network,
 

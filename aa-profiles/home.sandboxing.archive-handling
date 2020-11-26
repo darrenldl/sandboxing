@@ -7,11 +7,15 @@ profile /home/sandbox/archive-handling.runner {
   /home/sandbox/archive-handling.runner r,
 
   # Sandbox access
-  /home/sandbox/archive-handling/** rwlk,
+  /home/sandbox/ r,
+  /home/sandbox/** rwlk,
 
   /usr/bin/env ix,
 
   / r,
+
+  unix,
+  deny unix addr=@/tmp/.X11-unix/**,
 
   dbus bus=session,
 

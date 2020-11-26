@@ -7,11 +7,15 @@ profile /home/sandbox/eom-ro.runner {
   /home/sandbox/eom-ro.runner r,
 
   # Sandbox access
-  /home/sandbox/eom-ro/** rwlk,
+  /home/sandbox/ r,
+  /home/sandbox/** rwlk,
 
   /usr/bin/env ix,
 
   / r,
+
+  unix,
+  deny unix addr=@/tmp/.X11-unix/**,
 
   dbus bus=session,
 

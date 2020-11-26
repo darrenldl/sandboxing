@@ -161,11 +161,15 @@ let write_aa_profile (p : Profile.t) : unit =
         (Printf.sprintf "  /home/sandbox/%s.runner r," p.name);
       write_line "";
       write_line "  # Sandbox access";
-      write_line (Printf.sprintf "  /home/sandbox/%s/** rwlk," p.name);
+      write_line (Printf.sprintf "  /home/sandbox/ r,");
+      write_line (Printf.sprintf "  /home/sandbox/** rwlk,");
       write_line "";
       write_line "  /usr/bin/env ix,";
       write_line "";
       write_line "  / r,";
+      write_line "";
+      write_line "  unix,";
+      write_line "  deny unix addr=@/tmp/.X11-unix/**,";
       write_line "";
       if p.allow_network then (
         write_line "  network,";

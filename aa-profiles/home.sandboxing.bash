@@ -7,11 +7,15 @@ profile /home/sandbox/bash.runner {
   /home/sandbox/bash.runner r,
 
   # Sandbox access
-  /home/sandbox/bash/** rwlk,
+  /home/sandbox/ r,
+  /home/sandbox/** rwlk,
 
   /usr/bin/env ix,
 
   / r,
+
+  unix,
+  deny unix addr=@/tmp/.X11-unix/**,
 
   network,
 

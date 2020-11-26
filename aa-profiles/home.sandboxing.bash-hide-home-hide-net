@@ -7,11 +7,15 @@ profile /home/sandbox/bash-hide-home-hide-net.runner {
   /home/sandbox/bash-hide-home-hide-net.runner r,
 
   # Sandbox access
-  /home/sandbox/bash-hide-home-hide-net/** rwlk,
+  /home/sandbox/ r,
+  /home/sandbox/** rwlk,
 
   /usr/bin/env ix,
 
   / r,
+
+  unix,
+  deny unix addr=@/tmp/.X11-unix/**,
 
   dbus bus=session,
 

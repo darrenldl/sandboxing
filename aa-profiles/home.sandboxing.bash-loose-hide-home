@@ -7,11 +7,15 @@ profile /home/sandbox/bash-loose-hide-home.runner {
   /home/sandbox/bash-loose-hide-home.runner r,
 
   # Sandbox access
-  /home/sandbox/bash-loose-hide-home/** rwlk,
+  /home/sandbox/ r,
+  /home/sandbox/** rwlk,
 
   /usr/bin/env ix,
 
   / r,
+
+  unix,
+  deny unix addr=@/tmp/.X11-unix/**,
 
   network,
 
