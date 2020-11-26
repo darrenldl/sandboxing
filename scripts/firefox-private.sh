@@ -67,8 +67,8 @@ mkdir -p "$tmp_dir/Downloads"
   --bind "$tmp_dir/Downloads" "/home/sandbox/Downloads" \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/firefox-private_seccomp_filter.bpf \
   --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/firefox-private.runner" "/home/sandbox/runner" \
-  /home/sandbox/runner "$@" \
+  --ro-bind "$script_dir/firefox-private.runner" "/home/sandbox/firefox-private.runner" \
+  /home/sandbox/firefox-private.runner "$@" \
   >$stdout_log_name \
   2>$stderr_log_name \
  )

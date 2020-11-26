@@ -1,21 +1,17 @@
 #include <tunables/global>
 
-profile home.sandboxing.firefox-school /home/*/sandboxing/scripts/firefox-school.runner {
+profile /home/*/sandboxing/scripts/firefox-school.runner /home/sandbox/firefox-school.runner {
   include <abstractions/base>
 
   capability sys_admin,
   capability sys_chroot,
   capability sys_ptrace,
 
-  # Sandboxing assets
+  # Runner self access
   /home/*/sandboxing/scripts/firefox-school.runner r,
-  /home/*/sandboxing/seccomp-bpf/*.bpf r,
 
   # Sandbox access
   /home/*/sandboxes/firefox-school/** rwlk,
-
-  # Sandbox logging
-  /home/*/sandbox-logs/firefox-school/** rw,
 
   /usr/bin/env ix,
 
@@ -70,10 +66,6 @@ profile home.sandboxing.firefox-school /home/*/sandboxing/scripts/firefox-school
   deny /proc/*/net/** r,
 
   # Tmpfs
-  /{,var/}tmp/ r,
-  /{,var/}tmp/** r,
-  owner /{,var/}tmp/ rw,
-  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

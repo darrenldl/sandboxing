@@ -1,17 +1,13 @@
 #include <tunables/global>
 
-profile home.sandboxing.make-workspace /home/*/sandboxing/scripts/make-workspace.runner {
+profile /home/*/sandboxing/scripts/make-workspace.runner /home/sandbox/make-workspace.runner {
   include <abstractions/base>
 
-  # Sandboxing assets
+  # Runner self access
   /home/*/sandboxing/scripts/make-workspace.runner r,
-  /home/*/sandboxing/seccomp-bpf/*.bpf r,
 
   # Sandbox access
   /home/*/sandboxes/make-workspace/** rwlk,
-
-  # Sandbox logging
-  /home/*/sandbox-logs/make-workspace/** rw,
 
   /usr/bin/env ix,
 
@@ -66,10 +62,6 @@ profile home.sandboxing.make-workspace /home/*/sandboxing/scripts/make-workspace
   deny /proc/*/net/** r,
 
   # Tmpfs
-  /{,var/}tmp/ r,
-  /{,var/}tmp/** r,
-  owner /{,var/}tmp/ rw,
-  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

@@ -58,8 +58,8 @@ stderr_log_name="$HOME/sandbox-logs/okular-ro"/"$cur_time"."stderr"
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/okular-ro_seccomp_filter.bpf \
   --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/okular-ro.runner" "/home/sandbox/runner" \
-  /home/sandbox/runner "$@" \
+  --ro-bind "$script_dir/okular-ro.runner" "/home/sandbox/okular-ro.runner" \
+  /home/sandbox/okular-ro.runner "$@" \
   >$stdout_log_name \
   2>$stderr_log_name \
  )

@@ -1,17 +1,13 @@
 #include <tunables/global>
 
-profile home.sandboxing.okular-rw /home/*/sandboxing/scripts/okular-rw.runner {
+profile /home/*/sandboxing/scripts/okular-rw.runner /home/sandbox/okular-rw.runner {
   include <abstractions/base>
 
-  # Sandboxing assets
+  # Runner self access
   /home/*/sandboxing/scripts/okular-rw.runner r,
-  /home/*/sandboxing/seccomp-bpf/*.bpf r,
 
   # Sandbox access
   /home/*/sandboxes/okular-rw/** rwlk,
-
-  # Sandbox logging
-  /home/*/sandbox-logs/okular-rw/** rw,
 
   /usr/bin/env ix,
 
@@ -64,10 +60,6 @@ profile home.sandboxing.okular-rw /home/*/sandboxing/scripts/okular-rw.runner {
   deny /proc/*/net/** r,
 
   # Tmpfs
-  /{,var/}tmp/ r,
-  /{,var/}tmp/** r,
-  owner /{,var/}tmp/ rw,
-  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

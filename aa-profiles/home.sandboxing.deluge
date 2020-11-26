@@ -1,17 +1,13 @@
 #include <tunables/global>
 
-profile home.sandboxing.deluge /home/*/sandboxing/scripts/deluge.runner {
+profile /home/*/sandboxing/scripts/deluge.runner /home/sandbox/deluge.runner {
   include <abstractions/base>
 
-  # Sandboxing assets
+  # Runner self access
   /home/*/sandboxing/scripts/deluge.runner r,
-  /home/*/sandboxing/seccomp-bpf/*.bpf r,
 
   # Sandbox access
   /home/*/sandboxes/deluge/** rwlk,
-
-  # Sandbox logging
-  /home/*/sandbox-logs/deluge/** rw,
 
   /usr/bin/env ix,
 
@@ -66,10 +62,6 @@ profile home.sandboxing.deluge /home/*/sandboxing/scripts/deluge.runner {
   deny /proc/*/net/** r,
 
   # Tmpfs
-  /{,var/}tmp/ r,
-  /{,var/}tmp/** r,
-  owner /{,var/}tmp/ rw,
-  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

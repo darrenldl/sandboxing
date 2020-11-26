@@ -1,21 +1,17 @@
 #include <tunables/global>
 
-profile home.sandboxing.firefox-google-play-book /home/*/sandboxing/scripts/firefox-google-play-book.runner {
+profile /home/*/sandboxing/scripts/firefox-google-play-book.runner /home/sandbox/firefox-google-play-book.runner {
   include <abstractions/base>
 
   capability sys_admin,
   capability sys_chroot,
   capability sys_ptrace,
 
-  # Sandboxing assets
+  # Runner self access
   /home/*/sandboxing/scripts/firefox-google-play-book.runner r,
-  /home/*/sandboxing/seccomp-bpf/*.bpf r,
 
   # Sandbox access
   /home/*/sandboxes/firefox-google-play-book/** rwlk,
-
-  # Sandbox logging
-  /home/*/sandbox-logs/firefox-google-play-book/** rw,
 
   /usr/bin/env ix,
 
@@ -70,10 +66,6 @@ profile home.sandboxing.firefox-google-play-book /home/*/sandboxing/scripts/fire
   deny /proc/*/net/** r,
 
   # Tmpfs
-  /{,var/}tmp/ r,
-  /{,var/}tmp/** r,
-  owner /{,var/}tmp/ rw,
-  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

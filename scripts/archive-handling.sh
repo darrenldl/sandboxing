@@ -54,6 +54,6 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/archive-handling_seccomp_filter.bpf \
   --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/archive-handling.runner" "/home/sandbox/runner" \
-  /home/sandbox/runner "$@" \
+  --ro-bind "$script_dir/archive-handling.runner" "/home/sandbox/archive-handling.runner" \
+  /home/sandbox/archive-handling.runner "$@" \
  )

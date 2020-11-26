@@ -1,17 +1,13 @@
 #include <tunables/global>
 
-profile home.sandboxing.firefox-private /home/*/sandboxing/scripts/firefox-private.runner {
+profile /home/*/sandboxing/scripts/firefox-private.runner /home/sandbox/firefox-private.runner {
   include <abstractions/base>
 
-  # Sandboxing assets
+  # Runner self access
   /home/*/sandboxing/scripts/firefox-private.runner r,
-  /home/*/sandboxing/seccomp-bpf/*.bpf r,
 
   # Sandbox access
   /home/*/sandboxes/firefox-private/** rwlk,
-
-  # Sandbox logging
-  /home/*/sandbox-logs/firefox-private/** rw,
 
   /usr/bin/env ix,
 
@@ -66,10 +62,6 @@ profile home.sandboxing.firefox-private /home/*/sandboxing/scripts/firefox-priva
   deny /proc/*/net/** r,
 
   # Tmpfs
-  /{,var/}tmp/ r,
-  /{,var/}tmp/** r,
-  owner /{,var/}tmp/ rw,
-  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,

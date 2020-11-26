@@ -90,10 +90,13 @@ let write_main_script (p : Profile.t) : unit =
             Ro_bind ("/usr/bin/bash", None);
             Ro_bind
               ( Printf.sprintf "$script_dir/%s.runner" p.name,
-                Some (Filename.concat Config.home_inside_jail "runner") );
+                Some
+                  (Filename.concat Config.home_inside_jail
+                     (Printf.sprintf "%s.runner" p.name)) );
           ]);
       write_line
-        (Printf.sprintf "  %s/runner \"$@\" \\" Config.home_inside_jail);
+        (Printf.sprintf "  %s/%s.runner \"$@\" \\" Config.home_inside_jail
+           p.name);
       if p.log_stdout then write_line "  >$stdout_log_name \\";
       if p.log_stderr then write_line "  2>$stderr_log_name \\";
       write_line " )";
@@ -140,7 +143,8 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "";
       write_line
         (Printf.sprintf
-           "profile home.sandboxing.%s /home/*/sandboxing/scripts/%s.runner {"
+           "profile /home/*/sandboxing/scripts/%s.runner \
+            /home/sandbox/%s.runner {"
            p.name p.name);
       write_line "  include <abstractions/base>";
       write_line "";
@@ -153,16 +157,12 @@ let write_aa_profile (p : Profile.t) : unit =
                  (Printf.sprintf "  capability %s," (Aa.string_of_capability x)))
             l;
           write_line "" );
-      write_line "  # Sandboxing assets";
+      write_line "  # Runner self access";
       write_line
         (Printf.sprintf "  /home/*/sandboxing/scripts/%s.runner r," p.name);
-      write_line "  /home/*/sandboxing/seccomp-bpf/*.bpf r,";
       write_line "";
       write_line "  # Sandbox access";
       write_line (Printf.sprintf "  /home/*/sandboxes/%s/** rwlk," p.name);
-      write_line "";
-      write_line "  # Sandbox logging";
-      write_line (Printf.sprintf "  /home/*/sandbox-logs/%s/** rw," p.name);
       write_line "";
       write_line "  /usr/bin/env ix,";
       write_line "";
@@ -232,10 +232,10 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "  deny /proc/*/net/** r,";
       write_line "";
       write_line "  # Tmpfs";
-      write_line "  /{,var/}tmp/ r,";
-      write_line "  /{,var/}tmp/** r,";
-      write_line "  owner /{,var/}tmp/ rw,";
-      write_line "  owner /{,var/}tmp/** rw,";
+      (* write_line "  /{,var/}tmp/ r,";
+       * write_line "  /{,var/}tmp/** r,";
+       * write_line "  owner /{,var/}tmp/ rw,";
+       * write_line "  owner /{,var/}tmp/** rw,"; *)
       write_line "";
       write_line "  # /etc";
       write_line "  /etc/ r,";

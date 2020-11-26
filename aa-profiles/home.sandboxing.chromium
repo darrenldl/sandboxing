@@ -1,17 +1,13 @@
 #include <tunables/global>
 
-profile home.sandboxing.chromium /home/*/sandboxing/scripts/chromium.runner {
+profile /home/*/sandboxing/scripts/chromium.runner /home/sandbox/chromium.runner {
   include <abstractions/base>
 
-  # Sandboxing assets
+  # Runner self access
   /home/*/sandboxing/scripts/chromium.runner r,
-  /home/*/sandboxing/seccomp-bpf/*.bpf r,
 
   # Sandbox access
   /home/*/sandboxes/chromium/** rwlk,
-
-  # Sandbox logging
-  /home/*/sandbox-logs/chromium/** rw,
 
   /usr/bin/env ix,
 
@@ -66,10 +62,6 @@ profile home.sandboxing.chromium /home/*/sandboxing/scripts/chromium.runner {
   deny /proc/*/net/** r,
 
   # Tmpfs
-  /{,var/}tmp/ r,
-  /{,var/}tmp/** r,
-  owner /{,var/}tmp/ rw,
-  owner /{,var/}tmp/** rw,
 
   # /etc
   /etc/ r,
