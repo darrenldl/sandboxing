@@ -113,14 +113,14 @@ let bash_loose_hide_home : Profile.t =
     aa_caps = [];
   }
 
-let make_firefox_profile ~(use_main_user_profile : bool)
+let make_firefox_profile
     ~(suffix : string option) : Profile.t =
   let name = match suffix with None -> "firefox" | Some s -> "firefox-" ^ s in
   {
     name;
     cmd =
-      ( if use_main_user_profile then "/usr/lib/firefox/firefox --no-remote"
-        else "/usr/lib/firefox/firefox --no-remote" );
+      "/usr/lib/firefox/firefox --no-remote"
+        ;
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
@@ -140,18 +140,6 @@ let make_firefox_profile ~(use_main_user_profile : bool)
       @ dconf_common
       @ dbus_common
       @ set_up_jail_home ~tmp:false ~name
-      @ ( if use_main_user_profile then
-            [
-              Bind
-                ( "$HOME/.mozilla",
-                  Some (Printf.sprintf "%s/.mozilla" Config.home_inside_jail) );
-              Bind
-                ( "$HOME/.cache/mozilla",
-                  Some
-                    (Printf.sprintf "%s/.cache/mozilla" Config.home_inside_jail)
-                );
-            ]
-          else [] )
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
@@ -283,14 +271,6 @@ let thunderbird : Profile.t =
       @ dbus_common
       @ set_up_jail_home ~tmp:false ~name
       @ [
-        Bind
-          ( "$HOME/.thunderbird",
-            Some (Printf.sprintf "%s/.thunderbird" Config.home_inside_jail) );
-        Bind
-          ( "$HOME/.cache/thunderbird",
-            Some
-              (Printf.sprintf "%s/.cache/thunderbird" Config.home_inside_jail)
-          );
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
         Setenv ("USER", "nobody");
@@ -645,11 +625,10 @@ let suite =
     bash_hide_home;
     bash_hide_home_hide_net;
     bash_loose_hide_home;
-    make_firefox_profile ~use_main_user_profile:true ~suffix:None;
-    make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "school");
-    make_firefox_profile ~use_main_user_profile:false ~suffix:(Some "bank");
-    make_firefox_profile ~use_main_user_profile:false
-      ~suffix:(Some "google-play-book");
+    make_firefox_profile ~suffix:None;
+    make_firefox_profile ~suffix:(Some "school");
+    make_firefox_profile ~suffix:(Some "bank");
+    make_firefox_profile ~suffix:(Some "google-play-book");
     firefox_private;
     discord;
     thunderbird;
