@@ -11,7 +11,7 @@
   /home/*/sandboxes/bash-loose-hide-home/** rwlk,
 
   # Sandbox logging
-  /home/*/sandbox-logs/bash-loose-hide-home/** ra,
+  /home/*/sandbox-logs/bash-loose-hide-home/** rw,
 
   /usr/bin/env ix,
 
@@ -56,6 +56,7 @@
 
   # Procfs
   @{PROC}/ r,
+  owner @{PROC}/[0-9]*/{cgroup,cmdline,comm,sessionid,mounts,stat,status,sched,maps,auxv,attr/current,fd/,environ,limits,mountinfo,task/,task/*/stat,task/*/status,fdinfo/*,mem} r,
   owner @{PROC}/@{pid}/{cgroup,cmdline,comm,sessionid,mounts,stat,status,sched,maps,auxv,attr/current,fd/,environ,limits,mountinfo,task/,task/*/stat,task/*/status,fdinfo/*,mem} r,
   owner @{PROC}/@{pid}/{setgroups,gid_map,uid_map,attr/exec,oom_score_adj} rw,
   @{PROC}/{stat,cpuinfo,filesystems,meminfo,swaps,uptime} r,

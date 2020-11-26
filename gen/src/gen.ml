@@ -155,7 +155,7 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line (Printf.sprintf "  /home/*/sandboxes/%s/** rwlk," p.name);
       write_line "";
       write_line "  # Sandbox logging";
-      write_line (Printf.sprintf "  /home/*/sandbox-logs/%s/** ra," p.name);
+      write_line (Printf.sprintf "  /home/*/sandbox-logs/%s/** rw," p.name);
       write_line "";
       write_line "  /usr/bin/env ix,";
       write_line "";
@@ -206,6 +206,10 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "";
       write_line "  # Procfs";
       write_line "  @{PROC}/ r,";
+      write_line
+        "  owner \
+         @{PROC}/[0-9]*/{cgroup,cmdline,comm,sessionid,mounts,stat,status,sched,maps,auxv,attr/current,fd/,environ,limits,mountinfo,task/,task/*/stat,task/*/status,fdinfo/*,mem} \
+         r,";
       write_line
         "  owner \
          @{PROC}/@{pid}/{cgroup,cmdline,comm,sessionid,mounts,stat,status,sched,maps,auxv,attr/current,fd/,environ,limits,mountinfo,task/,task/*/stat,task/*/status,fdinfo/*,mem} \
