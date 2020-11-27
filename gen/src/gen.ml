@@ -287,6 +287,11 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "  deny /**vmlinu{,z,x}* rw,";
       write_line "  deny /**System.map* rw,";
       write_line "";
+      ( match p.extra_aa_lines with
+        | [] -> ()
+        | l ->
+          List.iter (fun x -> write_line (Printf.sprintf "  %s," x)) l;
+          write_line "" );
       write_line "}");
   FileUtil.chmod (`Octal 0o774) [ file_name ];
   ()

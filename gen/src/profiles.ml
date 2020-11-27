@@ -28,6 +28,7 @@ let bash : Profile.t =
     allow_network = true;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let bash_hide_home : Profile.t =
@@ -58,6 +59,7 @@ let bash_hide_home : Profile.t =
     allow_network = true;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let bash_hide_home_hide_net : Profile.t =
@@ -91,6 +93,7 @@ let bash_hide_home_hide_net : Profile.t =
     allow_network = false;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let bash_loose_hide_home : Profile.t =
@@ -115,6 +118,7 @@ let bash_loose_hide_home : Profile.t =
     allow_network = true;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let make_firefox_profile ~(suffix : string option) : Profile.t =
@@ -158,6 +162,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     allow_network = true;
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let firefox_private : Profile.t =
@@ -201,6 +206,7 @@ let firefox_private : Profile.t =
     allow_network = true;
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let discord : Profile.t =
@@ -250,6 +256,7 @@ let discord : Profile.t =
     allow_network = true;
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = true;
+    extra_aa_lines = [ "/opt/discord/Discord rix" ];
   }
 
 let thunderbird : Profile.t =
@@ -291,6 +298,7 @@ let thunderbird : Profile.t =
     allow_network = true;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let chromium : Profile.t =
@@ -334,6 +342,7 @@ let chromium : Profile.t =
     allow_network = true;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let deluge : Profile.t =
@@ -376,6 +385,7 @@ let deluge : Profile.t =
     allow_network = true;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 (* let zoom : profile =
@@ -465,6 +475,7 @@ let okular_ro : Profile.t =
     allow_network = false;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let okular_rw : Profile.t =
@@ -509,6 +520,7 @@ let okular_rw : Profile.t =
     allow_network = false;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let eom_ro : Profile.t =
@@ -553,6 +565,7 @@ let eom_ro : Profile.t =
     allow_network = false;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let archive_handling : Profile.t =
@@ -592,6 +605,7 @@ let archive_handling : Profile.t =
     allow_network = false;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let make_workspace : Profile.t =
@@ -629,6 +643,7 @@ let make_workspace : Profile.t =
     allow_network = true;
     aa_caps = [];
     allow_wx = false;
+    extra_aa_lines = [];
   }
 
 let suite =
