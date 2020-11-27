@@ -157,19 +157,16 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "  # Sandbox access";
       write_line (Printf.sprintf "  /home/sandbox/ r,");
       write_line (Printf.sprintf "  /home/sandbox/** rwlk,");
-      ( if p.allow_wx then (
-            write_line "owner /home/sandbox/** rwmlkix,";
-            write_line "owner /{,var/}/tmp/** rwmlkix,";
-            write_line "owner /dev/shm/** rwm,";
-            write_line "/sys/fs/cgroup/** rwm,";
-          )
-        else (
-          write_line "deny /home/sandbox/** xm,";
-          write_line "deny /{,var/}/tmp/** xm,";
-          write_line "deny /dev/shm/** m,";
-          write_line "deny /sys/fs/cgroup/** m,";
-        )
-      );
+      if p.allow_wx then (
+        write_line "owner /home/sandbox/** rwmlkix,";
+        write_line "owner /{,var/}/tmp/** rwmlkix,";
+        write_line "owner /dev/shm/** rwm,";
+        write_line "/sys/fs/cgroup/** rwm," )
+      else (
+        write_line "deny /home/sandbox/** xm,";
+        write_line "deny /{,var/}/tmp/** xm,";
+        write_line "deny /dev/shm/** m,";
+        write_line "deny /sys/fs/cgroup/** m," );
       write_line "";
       write_line "  /usr/bin/env ix,";
       write_line "";
