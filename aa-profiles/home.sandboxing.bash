@@ -7,10 +7,10 @@ profile /home/sandbox/bash.runner {
   # Sandbox access
   /home/sandbox/ r,
   /home/sandbox/** rwlk,
-deny /home/sandbox/** xm,
-deny /{,var/}/tmp/** xm,
-deny /dev/shm/** m,
-deny /sys/fs/cgroup/** m,
+  deny /home/sandbox/** xm,
+  deny /{,var/}/tmp/** xm,
+  deny /dev/shm/** m,
+  deny /sys/fs/cgroup/** m,
 
   /usr/bin/env ix,
 
