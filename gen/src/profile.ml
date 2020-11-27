@@ -9,4 +9,5 @@ type t = {
   args : Bwrap.arg list;
   allow_network : bool;
   aa_caps : Aa.capability list;
+  allow_wx : bool;
 }

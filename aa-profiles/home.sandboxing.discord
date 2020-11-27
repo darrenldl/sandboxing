@@ -1,6 +1,10 @@
 #include <tunables/global>
 
 profile /home/sandbox/discord.runner {
+  capability sys_admin,
+  capability sys_chroot,
+  capability sys_ptrace,
+
   # Runner self access
   /home/sandbox/discord.runner r,
 
