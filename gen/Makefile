@@ -19,6 +19,7 @@ run: all
 	rm -f ../seccomp-bpf/*.c
 	rm -f ../seccomp-bpf/*.exe
 	rm -f ../seccomp-bpf/*.bpf
+	rm -r ../aa-profiles/home.sandboxing.*
 	dune exec gen
 
 .PHONY: format
