@@ -623,9 +623,9 @@ let suite =
     bash_hide_home_hide_net;
     bash_loose_hide_home;
     make_firefox_profile ~suffix:None;
-    make_firefox_profile ~suffix:(Some "school");
-    make_firefox_profile ~suffix:(Some "bank");
-    make_firefox_profile ~suffix:(Some "google-play-book");
+    (* make_firefox_profile ~suffix:(Some "school");
+     * make_firefox_profile ~suffix:(Some "bank");
+     * make_firefox_profile ~suffix:(Some "google-play-book"); *)
     firefox_private;
     discord;
     thunderbird;
