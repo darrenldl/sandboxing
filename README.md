@@ -90,6 +90,8 @@ Following serves as rough descriptions only, check the scripts directly to see i
 
 #### TODO
 
+- Make each sandbox use a separate user
+
 - Transition to syscall whitelist instead of blacklist
 
 #### WIP
