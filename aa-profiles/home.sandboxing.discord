@@ -11,6 +11,10 @@ profile /home/sandbox/discord.runner {
   # Sandbox access
   /home/sandbox/ r,
   /home/sandbox/** rwlk,
+owner /home/sandbox/** rwmlkix,
+owner /{,var/}/tmp/** rwmlkix,
+owner /dev/shm/** rwm,
+/sys/fs/cgroup/** rwm,
 
   /usr/bin/env ix,
 
