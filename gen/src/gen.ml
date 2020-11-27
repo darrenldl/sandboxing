@@ -139,7 +139,9 @@ let write_aa_profile (p : Profile.t) : unit =
   in
   CCIO.with_out file_name (fun oc ->
       let write_line = CCIO.write_line oc in
-      write_line "#include <tunables/global>";
+      write_line "abi <abi/3.0>,";
+      write_line "";
+      write_line "include <tunables/global>";
       write_line "";
       write_line (Printf.sprintf "profile /home/sandbox/%s.runner {" p.name);
       ( match p.aa_caps with

@@ -1,4 +1,6 @@
-#include <tunables/global>
+abi <abi/3.0>,
+
+include <tunables/global>
 
 profile /home/sandbox/chromium.runner {
   # Runner self access
