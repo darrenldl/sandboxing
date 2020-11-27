@@ -120,6 +120,7 @@ profile /home/sandbox/discord.runner {
   deny /**vmlinu{,z,x}* rw,
   deny /**System.map* rw,
 
-  /opt/discord/Discord rix,
+  opt/discord/ r,
+  /opt/discord/** rix,
 
 }

@@ -256,7 +256,7 @@ let discord : Profile.t =
     allow_network = true;
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = true;
-    extra_aa_lines = [ "/opt/discord/Discord rix" ];
+    extra_aa_lines = [ "opt/discord/ r"; "/opt/discord/** rix" ];
   }
 
 let thunderbird : Profile.t =
