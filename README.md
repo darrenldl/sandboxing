@@ -6,10 +6,13 @@ Scripts, files and tools related to sandboxing
 
 This sandboxing suite primarily targets desktop use, but may include assets for server use
 
-One main focus is to provide a private home for programs, which is often where the most
-important files are stored
+Basics
 
-By default, a fairly strict seccomp filter is supplied to bubblewrap
+- Private home for programs
+- Shell interpreter access is removed in the sandbox
+- Access to number of binaries is minimized (via bubblewrap and AppArmor)
+- Fairly strict seccomp filters are supplied to bubblewrap
+- Fairly strict AppArmor profiles are generated
 
 Note that some profiles assume usage of Wayland
 
@@ -34,7 +37,7 @@ The scripts assume they stay in their original positions in the local copy of th
 One can invoke them via the full path
 
 ```
-./sandboxing/bw-scripts/firefox.sh &
+./sandboxing/scripts/firefox.sh &
 ```
 
 or use `add_links.sh DEST` to create symlinks to the scripts
@@ -63,6 +66,7 @@ Following serves as rough descriptions only, check the scripts directly to see i
   - Persistent home as `~/sandboxes/firefox` on host
 - `discord`
   - Persistent home as `~/sandboxes/discord` on host
+  - AppArmor profile not usable yet
 
 #### PDF reading
 
@@ -90,22 +94,23 @@ Following serves as rough descriptions only, check the scripts directly to see i
 
 #### TODO
 
-- Make each sandbox use a separate user
+- Make each sandbox use a separate user (not sure yet)
 
 - Transition to syscall whitelist instead of blacklist
 
 #### WIP
 
-- Transition to generating runner code in C instead of shell script, to allow disabling shell binaries altogether
+- Discord AppArmor profile
 
 #### Index
 
-- `gen/` contains the OCaml code responsible for generating the bubblewrap scripts and generating seccomp BPF generator C code
-- `scripts/` contains the generated bubblewrap scripts
-- `seccomp-bpf/` contains the generated seccomp BPF generator C code
 - `aa-profiles/` contains the generated AppArmor profiles
+- `gen/` contains the OCaml code responsible for generating the bubblewrap scripts and generating seccomp BPF generator C code
+- `runners/` contains the generated runner C code
+- `scripts/` contains the generated bubblewrap scripts
+- `seccomp-bpfs/` contains the generated seccomp BPF generator C code
 
-See `bw-script-gen/src/profiles.ml` for existing profiles
+See `gen/src/profiles.ml` for existing profiles
 
 Run `make run` in `bw-script-gen/` to generate scripts after making updates to the profiles
 
