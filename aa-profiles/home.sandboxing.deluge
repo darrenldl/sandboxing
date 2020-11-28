@@ -118,4 +118,6 @@ profile /home/sandbox/deluge.runner {
   deny /**vmlinu{,z,x}* rw,
   deny /**System.map* rw,
 
+  deny /usr/lib/firefox/** rx,
+
 }
