@@ -96,13 +96,14 @@ Following serves as rough descriptions only, check the scripts directly to see i
 
 #### WIP
 
-- AppArmor profiles
+- Transition to generating runner code in C instead of shell script, to allow disabling shell binaries altogether
 
 #### Index
 
-- `bw-script-gen/` contains the OCaml code responsible for generating the bubblewrap scripts and generating seccomp BPF generator C code
-- `bw-scripts/` contains the generated bubblewrap scripts
-- `seccomp-bpf/` contains the seccomp BPF generator C code
+- `gen/` contains the OCaml code responsible for generating the bubblewrap scripts and generating seccomp BPF generator C code
+- `scripts/` contains the generated bubblewrap scripts
+- `seccomp-bpf/` contains the generated seccomp BPF generator C code
+- `aa-profiles/` contains the generated AppArmor profiles
 
 See `bw-script-gen/src/profiles.ml` for existing profiles
 
