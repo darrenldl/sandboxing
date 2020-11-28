@@ -4,14 +4,14 @@ set -euxo pipefail
 
 script_dir=$(dirname $(readlink -f "$0"))
 
-gcc "$script_dir"/../seccomp-bpf/discord.c -lseccomp -o "$script_dir"/../seccomp-bpf/discord.exe
-"$script_dir"/../seccomp-bpf/discord.exe
+gcc "$script_dir"/../seccomp-bpfs/discord.c -lseccomp -o "$script_dir"/../seccomp-bpfs/discord.exe
+"$script_dir"/../seccomp-bpfs/discord.exe
 if [[ $? != 0 ]]; then
   echo "Failed to generate seccomp filter"
   exit 1
 fi
 
-mv discord_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
+mv discord_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
 
 gcc "$script_dir"/../runners/discord.c -o "$script_dir"/../runners/discord.runner
 
@@ -61,7 +61,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-uts \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$script_dir"/../seccomp-bpf/discord_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/discord_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/discord.runner" "/home/sandbox/discord.runner" \
   /home/sandbox/discord.runner \
  )

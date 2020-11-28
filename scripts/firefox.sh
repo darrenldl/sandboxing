@@ -4,14 +4,14 @@ set -euxo pipefail
 
 script_dir=$(dirname $(readlink -f "$0"))
 
-gcc "$script_dir"/../seccomp-bpf/firefox.c -lseccomp -o "$script_dir"/../seccomp-bpf/firefox.exe
-"$script_dir"/../seccomp-bpf/firefox.exe
+gcc "$script_dir"/../seccomp-bpfs/firefox.c -lseccomp -o "$script_dir"/../seccomp-bpfs/firefox.exe
+"$script_dir"/../seccomp-bpfs/firefox.exe
 if [[ $? != 0 ]]; then
   echo "Failed to generate seccomp filter"
   exit 1
 fi
 
-mv firefox_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
+mv firefox_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
 
 gcc "$script_dir"/../runners/firefox.c -o "$script_dir"/../runners/firefox.runner
 
@@ -60,7 +60,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$script_dir"/../seccomp-bpf/firefox_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/firefox_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/firefox.runner" "/home/sandbox/firefox.runner" \
   /home/sandbox/firefox.runner --no-remote\
  )

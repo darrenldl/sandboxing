@@ -4,14 +4,14 @@ set -euxo pipefail
 
 script_dir=$(dirname $(readlink -f "$0"))
 
-gcc "$script_dir"/../seccomp-bpf/chromium.c -lseccomp -o "$script_dir"/../seccomp-bpf/chromium.exe
-"$script_dir"/../seccomp-bpf/chromium.exe
+gcc "$script_dir"/../seccomp-bpfs/chromium.c -lseccomp -o "$script_dir"/../seccomp-bpfs/chromium.exe
+"$script_dir"/../seccomp-bpfs/chromium.exe
 if [[ $? != 0 ]]; then
   echo "Failed to generate seccomp filter"
   exit 1
 fi
 
-mv chromium_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
+mv chromium_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
 
 gcc "$script_dir"/../runners/chromium.c -o "$script_dir"/../runners/chromium.runner
 
@@ -60,7 +60,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$script_dir"/../seccomp-bpf/chromium_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/chromium_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/chromium.runner" "/home/sandbox/chromium.runner" \
   /home/sandbox/chromium.runner \
  )

@@ -4,14 +4,14 @@ set -euxo pipefail
 
 script_dir=$(dirname $(readlink -f "$0"))
 
-gcc "$script_dir"/../seccomp-bpf/bash-hide-home.c -lseccomp -o "$script_dir"/../seccomp-bpf/bash-hide-home.exe
-"$script_dir"/../seccomp-bpf/bash-hide-home.exe
+gcc "$script_dir"/../seccomp-bpfs/bash-hide-home.c -lseccomp -o "$script_dir"/../seccomp-bpfs/bash-hide-home.exe
+"$script_dir"/../seccomp-bpfs/bash-hide-home.exe
 if [[ $? != 0 ]]; then
   echo "Failed to generate seccomp filter"
   exit 1
 fi
 
-mv bash-hide-home_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
+mv bash-hide-home_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
 
 gcc "$script_dir"/../runners/bash-hide-home.c -o "$script_dir"/../runners/bash-hide-home.runner
 
@@ -44,7 +44,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$script_dir"/../seccomp-bpf/bash-hide-home_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/bash-hide-home_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/bash-hide-home.runner" "/home/sandbox/bash-hide-home.runner" \
   /home/sandbox/bash-hide-home.runner \
  )

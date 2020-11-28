@@ -4,14 +4,14 @@ set -euxo pipefail
 
 script_dir=$(dirname $(readlink -f "$0"))
 
-gcc "$script_dir"/../seccomp-bpf/eom-ro.c -lseccomp -o "$script_dir"/../seccomp-bpf/eom-ro.exe
-"$script_dir"/../seccomp-bpf/eom-ro.exe
+gcc "$script_dir"/../seccomp-bpfs/eom-ro.c -lseccomp -o "$script_dir"/../seccomp-bpfs/eom-ro.exe
+"$script_dir"/../seccomp-bpfs/eom-ro.exe
 if [[ $? != 0 ]]; then
   echo "Failed to generate seccomp filter"
   exit 1
 fi
 
-mv eom-ro_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
+mv eom-ro_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
 
 gcc "$script_dir"/../runners/eom-ro.c -o "$script_dir"/../runners/eom-ro.runner
 
@@ -58,7 +58,7 @@ stderr_log_name="$HOME/sandboxing-sandbox-logs/eom-ro"/"$cur_time"."stderr"
   --unshare-cgroup \
   --unshare-net \
   --new-session \
-  --seccomp 10 10<"$script_dir"/../seccomp-bpf/eom-ro_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/eom-ro_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/eom-ro.runner" "/home/sandbox/eom-ro.runner" \
   /home/sandbox/eom-ro.runner "/home/sandbox/$(basename "$1")"\
   >$stdout_log_name \

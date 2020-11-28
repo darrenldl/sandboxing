@@ -4,14 +4,14 @@ set -euxo pipefail
 
 script_dir=$(dirname $(readlink -f "$0"))
 
-gcc "$script_dir"/../seccomp-bpf/okular-rw.c -lseccomp -o "$script_dir"/../seccomp-bpf/okular-rw.exe
-"$script_dir"/../seccomp-bpf/okular-rw.exe
+gcc "$script_dir"/../seccomp-bpfs/okular-rw.c -lseccomp -o "$script_dir"/../seccomp-bpfs/okular-rw.exe
+"$script_dir"/../seccomp-bpfs/okular-rw.exe
 if [[ $? != 0 ]]; then
   echo "Failed to generate seccomp filter"
   exit 1
 fi
 
-mv okular-rw_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
+mv okular-rw_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
 
 gcc "$script_dir"/../runners/okular-rw.c -o "$script_dir"/../runners/okular-rw.runner
 
@@ -58,7 +58,7 @@ stderr_log_name="$HOME/sandboxing-sandbox-logs/okular-rw"/"$cur_time"."stderr"
   --unshare-cgroup \
   --unshare-net \
   --new-session \
-  --seccomp 10 10<"$script_dir"/../seccomp-bpf/okular-rw_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/okular-rw_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/okular-rw.runner" "/home/sandbox/okular-rw.runner" \
   /home/sandbox/okular-rw.runner "/home/sandbox/$(basename "$1")"\
   >$stdout_log_name \

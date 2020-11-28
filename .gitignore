@@ -1,2 +1,3 @@
-seccomp-bpf/*.exe
-seccomp-bpf/*.bpf
+runners/*.runner
+seccomp-bpfs/*.exe
+seccomp-bpfs/*.bpf

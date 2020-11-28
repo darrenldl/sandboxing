@@ -14,7 +14,7 @@ let aa_profile_output_dir = "../aa-profiles"
 
 let script_output_dir = "../scripts"
 
-let seccomp_bpf_output_dir = "../seccomp-bpf"
+let seccomp_bpf_output_dir = "../seccomp-bpfs"
 
 let seccomp_bpf_suffix = "_seccomp_filter.bpf"
 

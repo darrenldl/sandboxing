@@ -4,14 +4,14 @@ set -euxo pipefail
 
 script_dir=$(dirname $(readlink -f "$0"))
 
-gcc "$script_dir"/../seccomp-bpf/make-workspace.c -lseccomp -o "$script_dir"/../seccomp-bpf/make-workspace.exe
-"$script_dir"/../seccomp-bpf/make-workspace.exe
+gcc "$script_dir"/../seccomp-bpfs/make-workspace.c -lseccomp -o "$script_dir"/../seccomp-bpfs/make-workspace.exe
+"$script_dir"/../seccomp-bpfs/make-workspace.exe
 if [[ $? != 0 ]]; then
   echo "Failed to generate seccomp filter"
   exit 1
 fi
 
-mv make-workspace_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
+mv make-workspace_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
 
 gcc "$script_dir"/../runners/make-workspace.c -o "$script_dir"/../runners/make-workspace.runner
 
@@ -52,7 +52,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-ipc \
   --unshare-cgroup \
   --new-session \
-  --seccomp 10 10<"$script_dir"/../seccomp-bpf/make-workspace_seccomp_filter.bpf \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/make-workspace_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/make-workspace.runner" "/home/sandbox/make-workspace.runner" \
   /home/sandbox/make-workspace.runner \
  )
