@@ -130,7 +130,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
   {
     name;
     prog = "/usr/lib/firefox/firefox";
-    args = ["--no-remote"];
+    args = [ "--no-remote" ];
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
@@ -175,7 +175,7 @@ let firefox_private : Profile.t =
   {
     name;
     prog = "/usr/lib/firefox/firefox";
-    args = ["--no-remote"];
+    args = [ "--no-remote" ];
     home_jail_dir = None;
     preserved_temp_home_dirs = [ "Downloads" ];
     log_stdout = true;
@@ -450,7 +450,7 @@ let okular_ro : Profile.t =
   {
     name;
     prog = "/usr/bin/okular";
-    args = [Printf.sprintf "\"%s\"" pdf_file_in_home];
+    args = [ Printf.sprintf "\"%s\"" pdf_file_in_home ];
     home_jail_dir = None;
     preserved_temp_home_dirs = [];
     log_stdout = true;
@@ -496,7 +496,7 @@ let okular_rw : Profile.t =
   {
     name;
     prog = "/usr/bin/okular";
-    args = [Printf.sprintf "\"%s\"" pdf_file_in_home];
+    args = [ Printf.sprintf "\"%s\"" pdf_file_in_home ];
     home_jail_dir = None;
     preserved_temp_home_dirs = [];
     log_stdout = true;
@@ -542,7 +542,7 @@ let eom_ro : Profile.t =
   {
     name;
     prog = "/usr/bin/eom";
-    args = [Printf.sprintf "\"%s\"" image_file_in_home];
+    args = [ Printf.sprintf "\"%s\"" image_file_in_home ];
     home_jail_dir = None;
     preserved_temp_home_dirs = [];
     log_stdout = true;

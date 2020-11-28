@@ -9,6 +9,5 @@ let write_c_file ~name ~prog =
       write_line "int main(int _argc, char * argv[]) {";
       write_line (Printf.sprintf "  return execv(\"%s\", argv);" prog);
       write_line "}";
-      write_line "";
-    );
+      write_line "");
   FileUtil.chmod (`Octal 0o664) [ file_name ]

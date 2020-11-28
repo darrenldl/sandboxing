@@ -29,16 +29,13 @@ let write_main_script (p : Profile.t) : unit =
         (Printf.sprintf "mv %s%s %s" p.name Config.seccomp_bpf_suffix bpf_dir);
       write_line "";
       let runner_src_path =
-        Printf.sprintf "\"$script_dir\"/%s/%s.c" Config.runner_output_dir
-          p.name
+        Printf.sprintf "\"$script_dir\"/%s/%s.c" Config.runner_output_dir p.name
       in
       let runner_bin_path =
         Printf.sprintf "\"$script_dir\"/%s/%s.runner" Config.runner_output_dir
           p.name
       in
-      write_line
-        (Printf.sprintf "gcc %s -o %s" runner_src_path
-           runner_bin_path);
+      write_line (Printf.sprintf "gcc %s -o %s" runner_src_path runner_bin_path);
       write_line "";
       ( match p.home_jail_dir with
         | None -> ()
@@ -106,10 +103,8 @@ let write_main_script (p : Profile.t) : unit =
                      (Printf.sprintf "%s.runner" p.name)) );
           ]);
       write_line
-        (Printf.sprintf "  %s/%s.runner %s\\" Config.home_inside_jail
-           p.name
-           (String.concat " " p.args)
-        );
+        (Printf.sprintf "  %s/%s.runner %s\\" Config.home_inside_jail p.name
+           (String.concat " " p.args));
       if p.log_stdout then write_line "  >$stdout_log_name \\";
       if p.log_stderr then write_line "  2>$stderr_log_name \\";
       write_line " )";
