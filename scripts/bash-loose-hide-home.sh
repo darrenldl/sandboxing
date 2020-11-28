@@ -13,6 +13,8 @@ fi
 
 mv bash-loose-hide-home_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
+gcc "$script_dir"/../runners/bash-loose-hide-home.c -o "$script_dir"/../runners/bash-loose-hide-home.runner
+
 mkdir -p "$HOME/sandboxing-sandboxes/bash-loose-hide-home"
 mkdir -p "$HOME/sandboxing-sandboxes/bash-loose-hide-home/Downloads"
 
@@ -43,7 +45,6 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-ipc \
   --unshare-cgroup \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/bash-loose-hide-home_seccomp_filter.bpf \
-  --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/bash-loose-hide-home.runner" "/home/sandbox/bash-loose-hide-home.runner" \
-  /home/sandbox/bash-loose-hide-home.runner "$@" \
+  --ro-bind ""$script_dir"/../runners/bash-loose-hide-home.runner" "/home/sandbox/bash-loose-hide-home.runner" \
+  /home/sandbox/bash-loose-hide-home.runner \
  )

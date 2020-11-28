@@ -13,6 +13,8 @@ fi
 
 mv bash_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
+gcc "$script_dir"/../runners/bash.c -o "$script_dir"/../runners/bash.runner
+
 mkdir -p "$HOME/sandboxing-sandboxes/bash"
 mkdir -p "$HOME/sandboxing-sandboxes/bash/Downloads"
 
@@ -43,7 +45,6 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/bash_seccomp_filter.bpf \
-  --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/bash.runner" "/home/sandbox/bash.runner" \
-  /home/sandbox/bash.runner "$@" \
+  --ro-bind ""$script_dir"/../runners/bash.runner" "/home/sandbox/bash.runner" \
+  /home/sandbox/bash.runner \
  )

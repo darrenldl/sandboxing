@@ -13,6 +13,8 @@ fi
 
 mv bash-hide-home-hide-net_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
+gcc "$script_dir"/../runners/bash-hide-home-hide-net.c -o "$script_dir"/../runners/bash-hide-home-hide-net.runner
+
 mkdir -p "$HOME/sandboxing-sandboxes/bash-hide-home-hide-net"
 mkdir -p "$HOME/sandboxing-sandboxes/bash-hide-home-hide-net/Downloads"
 
@@ -46,7 +48,6 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-net \
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/bash-hide-home-hide-net_seccomp_filter.bpf \
-  --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/bash-hide-home-hide-net.runner" "/home/sandbox/bash-hide-home-hide-net.runner" \
-  /home/sandbox/bash-hide-home-hide-net.runner "$@" \
+  --ro-bind ""$script_dir"/../runners/bash-hide-home-hide-net.runner" "/home/sandbox/bash-hide-home-hide-net.runner" \
+  /home/sandbox/bash-hide-home-hide-net.runner \
  )

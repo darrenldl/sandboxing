@@ -13,6 +13,8 @@ fi
 
 mv firefox-private_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
+gcc "$script_dir"/../runners/firefox-private.c -o "$script_dir"/../runners/firefox-private.runner
+
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 mkdir -p "$HOME/sandboxing-sandbox-logs/firefox-private"
 stdout_log_name="$HOME/sandboxing-sandbox-logs/firefox-private"/"$cur_time"."stdout"
@@ -66,9 +68,8 @@ mkdir -p "$tmp_dir/Downloads"
   --new-session \
   --bind "$tmp_dir/Downloads" "/home/sandbox/Downloads" \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/firefox-private_seccomp_filter.bpf \
-  --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/firefox-private.runner" "/home/sandbox/firefox-private.runner" \
-  /home/sandbox/firefox-private.runner "$@" \
+  --ro-bind ""$script_dir"/../runners/firefox-private.runner" "/home/sandbox/firefox-private.runner" \
+  /home/sandbox/firefox-private.runner --no-remote\
   >$stdout_log_name \
   2>$stderr_log_name \
  )

@@ -13,6 +13,8 @@ fi
 
 mv okular-ro_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
+gcc "$script_dir"/../runners/okular-ro.c -o "$script_dir"/../runners/okular-ro.runner
+
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 mkdir -p "$HOME/sandboxing-sandbox-logs/okular-ro"
 stdout_log_name="$HOME/sandboxing-sandbox-logs/okular-ro"/"$cur_time"."stdout"
@@ -57,9 +59,8 @@ stderr_log_name="$HOME/sandboxing-sandbox-logs/okular-ro"/"$cur_time"."stderr"
   --unshare-net \
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/okular-ro_seccomp_filter.bpf \
-  --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/okular-ro.runner" "/home/sandbox/okular-ro.runner" \
-  /home/sandbox/okular-ro.runner "$@" \
+  --ro-bind ""$script_dir"/../runners/okular-ro.runner" "/home/sandbox/okular-ro.runner" \
+  /home/sandbox/okular-ro.runner "/home/sandbox/$(basename "$1")"\
   >$stdout_log_name \
   2>$stderr_log_name \
  )

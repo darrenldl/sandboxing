@@ -13,6 +13,8 @@ fi
 
 mv make-workspace_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
+gcc "$script_dir"/../runners/make-workspace.c -o "$script_dir"/../runners/make-workspace.runner
+
 mkdir -p "$HOME/sandboxing-sandboxes/make-workspace-$1"
 mkdir -p "$HOME/sandboxing-sandboxes/make-workspace-$1/Downloads"
 
@@ -51,7 +53,6 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/make-workspace_seccomp_filter.bpf \
-  --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/make-workspace.runner" "/home/sandbox/make-workspace.runner" \
-  /home/sandbox/make-workspace.runner "$@" \
+  --ro-bind ""$script_dir"/../runners/make-workspace.runner" "/home/sandbox/make-workspace.runner" \
+  /home/sandbox/make-workspace.runner \
  )

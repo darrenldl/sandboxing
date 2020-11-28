@@ -28,6 +28,18 @@ let write_main_script (p : Profile.t) : unit =
       write_line
         (Printf.sprintf "mv %s%s %s" p.name Config.seccomp_bpf_suffix bpf_dir);
       write_line "";
+      let runner_src_path =
+        Printf.sprintf "\"$script_dir\"/%s/%s.c" Config.runner_output_dir
+          p.name
+      in
+      let runner_bin_path =
+        Printf.sprintf "\"$script_dir\"/%s/%s.runner" Config.runner_output_dir
+          p.name
+      in
+      write_line
+        (Printf.sprintf "gcc %s -o %s" runner_src_path
+           runner_bin_path);
+      write_line "";
       ( match p.home_jail_dir with
         | None -> ()
         | Some s ->
@@ -71,7 +83,7 @@ let write_main_script (p : Profile.t) : unit =
       List.iter
         (fun x -> write_line (Printf.sprintf "  %s \\" (Bwrap.compile_arg x)))
         Bwrap.(
-          p.args
+          p.bwrap_args
           @ List.map
             (fun dir ->
                Bind
@@ -87,16 +99,17 @@ let write_main_script (p : Profile.t) : unit =
                        (p.name ^ Config.seccomp_bpf_suffix));
                 ] )
           @ [
-            Ro_bind ("/usr/bin/bash", None);
             Ro_bind
-              ( Printf.sprintf "$script_dir/%s.runner" p.name,
+              ( runner_bin_path,
                 Some
                   (Filename.concat Config.home_inside_jail
                      (Printf.sprintf "%s.runner" p.name)) );
           ]);
       write_line
-        (Printf.sprintf "  %s/%s.runner \"$@\" \\" Config.home_inside_jail
-           p.name);
+        (Printf.sprintf "  %s/%s.runner %s\\" Config.home_inside_jail
+           p.name
+           (String.concat " " p.args)
+        );
       if p.log_stdout then write_line "  >$stdout_log_name \\";
       if p.log_stderr then write_line "  2>$stderr_log_name \\";
       write_line " )";
@@ -114,19 +127,22 @@ let write_main_script (p : Profile.t) : unit =
           (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\""));
   FileUtil.chmod (`Octal 0o774) [ file_name ]
 
-let write_runner_script (p : Profile.t) : unit =
-  FileUtil.mkdir ~parent:true Config.script_output_dir;
-  let file_name =
-    FilePath.concat Config.script_output_dir (p.name ^ ".runner")
-  in
-  CCIO.with_out file_name (fun oc ->
-      let write_line = CCIO.write_line oc in
-      write_line "#!/usr/bin/bash";
-      write_line "";
-      write_line "set -euxo pipefail";
-      write_line "";
-      write_line (Printf.sprintf "%s \"$@\"" p.cmd));
-  FileUtil.chmod (`Octal 0o774) [ file_name ]
+(* let write_runner_script (p : Profile.t) : unit =
+ *   FileUtil.mkdir ~parent:true Config.script_output_dir;
+ *   let file_name =
+ *     FilePath.concat Config.script_output_dir (p.name ^ ".runner")
+ *   in
+ *   CCIO.with_out file_name (fun oc ->
+ *       let write_line = CCIO.write_line oc in
+ *       write_line "#!/usr/bin/bash";
+ *       write_line "";
+ *       write_line "set -euxo pipefail";
+ *       write_line "";
+ *       write_line (Printf.sprintf "%s \"$@\"" p.prog));
+ *   FileUtil.chmod (`Octal 0o774) [ file_name ] *)
+
+let write_runner (p : Profile.t) : unit =
+  Runner.write_c_file ~name:p.name ~prog:p.prog
 
 let write_seccomp_bpf (p : Profile.t) : unit =
   Seccomp_bpf.write_c_file ~name:p.name ~blacklist:p.syscall_blacklist
@@ -302,7 +318,7 @@ let () =
   List.iter
     (fun p ->
        write_main_script p;
-       write_runner_script p;
+       write_runner p;
        write_seccomp_bpf p;
        write_aa_profile p)
     Profiles.suite

@@ -4,13 +4,14 @@ open Profile_components
 let bash : Profile.t =
   {
     name = "bash";
-    cmd = "/usr/bin/bash";
+    prog = "/usr/bin/bash";
+    args = [];
     home_jail_dir = Some "bash";
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       [ Ro_bind ("/usr/share", None) ]
       @ usr_lib_lib64_bin_common
       @ etc_common
@@ -35,13 +36,14 @@ let bash_hide_home : Profile.t =
   let name = "bash-hide-home" in
   {
     name;
-    cmd = "/usr/bin/bash";
+    prog = "/usr/bin/bash";
+    args = [];
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       [ Ro_bind ("/usr/share", None) ]
       @ usr_lib_lib64_bin_common
       @ etc_common
@@ -66,13 +68,14 @@ let bash_hide_home_hide_net : Profile.t =
   let name = "bash-hide-home-hide-net" in
   {
     name;
-    cmd = "/usr/bin/bash";
+    prog = "/usr/bin/bash";
+    args = [];
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       [ Ro_bind ("/usr/share", None) ]
       @ usr_lib_lib64_bin_common
       @ etc_common
@@ -100,13 +103,14 @@ let bash_loose_hide_home : Profile.t =
   let name = "bash-loose-hide-home" in
   {
     name;
-    cmd = "/usr/bin/bash";
+    prog = "/usr/bin/bash";
+    args = [];
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       [ Ro_bind ("/usr/share", None) ]
       @ usr_lib_lib64_bin_common
       @ etc_common
@@ -125,13 +129,14 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
   let name = match suffix with None -> "firefox" | Some s -> "firefox-" ^ s in
   {
     name;
-    cmd = "/usr/lib/firefox/firefox --no-remote";
+    prog = "/usr/lib/firefox/firefox";
+    args = ["--no-remote"];
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
       @ paths_of_binary "firefox"
@@ -169,13 +174,14 @@ let firefox_private : Profile.t =
   let name = "firefox-private" in
   {
     name;
-    cmd = "/usr/lib/firefox/firefox --no-remote";
+    prog = "/usr/lib/firefox/firefox";
+    args = ["--no-remote"];
     home_jail_dir = None;
     preserved_temp_home_dirs = [ "Downloads" ];
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
       @ paths_of_binary "firefox"
@@ -213,13 +219,14 @@ let discord : Profile.t =
   let name = "discord" in
   {
     name;
-    cmd = "/usr/bin/discord";
+    prog = "/usr/bin/discord";
+    args = [];
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
       (* @ usr_lib_lib64_common
@@ -263,13 +270,14 @@ let thunderbird : Profile.t =
   let name = "thunderbird" in
   {
     name;
-    cmd = "/usr/lib/thunderbird/thunderbird";
+    prog = "/usr/lib/thunderbird/thunderbird";
+    args = [];
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
@@ -305,14 +313,14 @@ let chromium : Profile.t =
   let name = "chromium" in
   {
     name;
-    cmd = "/usr/lib/chromium/chromium";
-    (* cmd = "glxinfo"; *)
+    prog = "/usr/lib/chromium/chromium";
+    args = [];
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
@@ -349,13 +357,14 @@ let deluge : Profile.t =
   let name = "deluge" in
   {
     name;
-    cmd = "/usr/bin/deluge";
+    prog = "/usr/bin/deluge";
+    args = [];
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
@@ -440,13 +449,14 @@ let okular_ro : Profile.t =
   in
   {
     name;
-    cmd = Printf.sprintf "/usr/bin/okular \"%s\"" pdf_file_in_home;
+    prog = "/usr/bin/okular";
+    args = [Printf.sprintf "\"%s\"" pdf_file_in_home];
     home_jail_dir = None;
     preserved_temp_home_dirs = [];
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
       @ paths_of_binary "okular"
@@ -485,13 +495,14 @@ let okular_rw : Profile.t =
   in
   {
     name;
-    cmd = Printf.sprintf "/usr/bin/okular \"%s\"" pdf_file_in_home;
+    prog = "/usr/bin/okular";
+    args = [Printf.sprintf "\"%s\"" pdf_file_in_home];
     home_jail_dir = None;
     preserved_temp_home_dirs = [];
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
       @ paths_of_binary "okular"
@@ -530,13 +541,14 @@ let eom_ro : Profile.t =
   in
   {
     name;
-    cmd = Printf.sprintf "/usr/bin/eom \"%s\"" image_file_in_home;
+    prog = "/usr/bin/eom";
+    args = [Printf.sprintf "\"%s\"" image_file_in_home];
     home_jail_dir = None;
     preserved_temp_home_dirs = [];
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
       @ paths_of_binary "eom"
@@ -572,13 +584,14 @@ let archive_handling : Profile.t =
   let name = "archive-handling" in
   {
     name;
-    cmd = "/usr/bin/bash";
+    prog = "/usr/bin/bash";
+    args = [];
     home_jail_dir = Some name;
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common
@@ -612,13 +625,14 @@ let make_workspace : Profile.t =
   let name = "make-workspace" in
   {
     name;
-    cmd = "/usr/bin/bash";
+    prog = "/usr/bin/bash";
+    args = [];
     home_jail_dir = Some (name ^ "-$1");
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    args =
+    bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
       @ etc_common

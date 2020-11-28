@@ -17,3 +17,7 @@ let script_output_dir = "../scripts"
 let seccomp_bpf_output_dir = "../seccomp-bpf"
 
 let seccomp_bpf_suffix = "_seccomp_filter.bpf"
+
+let runner_output_dir = "../runners"
+
+let runner_suffix = ".runner"

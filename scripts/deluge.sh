@@ -13,6 +13,8 @@ fi
 
 mv deluge_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
+gcc "$script_dir"/../runners/deluge.c -o "$script_dir"/../runners/deluge.runner
+
 mkdir -p "$HOME/sandboxing-sandboxes/deluge"
 mkdir -p "$HOME/sandboxing-sandboxes/deluge/Downloads"
 
@@ -57,7 +59,6 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/deluge_seccomp_filter.bpf \
-  --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/deluge.runner" "/home/sandbox/deluge.runner" \
-  /home/sandbox/deluge.runner "$@" \
+  --ro-bind ""$script_dir"/../runners/deluge.runner" "/home/sandbox/deluge.runner" \
+  /home/sandbox/deluge.runner \
  )

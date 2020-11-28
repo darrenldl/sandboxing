@@ -13,6 +13,8 @@ fi
 
 mv chromium_seccomp_filter.bpf "$script_dir"/../seccomp-bpf
 
+gcc "$script_dir"/../runners/chromium.c -o "$script_dir"/../runners/chromium.runner
+
 mkdir -p "$HOME/sandboxing-sandboxes/chromium"
 mkdir -p "$HOME/sandboxing-sandboxes/chromium/Downloads"
 
@@ -59,7 +61,6 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --unshare-cgroup \
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpf/chromium_seccomp_filter.bpf \
-  --ro-bind "/usr/bin/bash" "/usr/bin/bash" \
-  --ro-bind "$script_dir/chromium.runner" "/home/sandbox/chromium.runner" \
-  /home/sandbox/chromium.runner "$@" \
+  --ro-bind ""$script_dir"/../runners/chromium.runner" "/home/sandbox/chromium.runner" \
+  /home/sandbox/chromium.runner \
  )

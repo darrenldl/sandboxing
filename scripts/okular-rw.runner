@@ -1,5 +1,0 @@
-#!/usr/bin/bash
-
-set -euxo pipefail
-
-/usr/bin/okular "/home/sandbox/$(basename "$1")" "$@"
