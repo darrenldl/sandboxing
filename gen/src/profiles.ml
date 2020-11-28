@@ -298,7 +298,7 @@ let thunderbird : Profile.t =
     allow_network = true;
     aa_caps = [];
     allow_wx = false;
-    extra_aa_lines = [];
+    extra_aa_lines = [ "deny /usr/lib/firefox/** x" ];
   }
 
 let chromium : Profile.t =
