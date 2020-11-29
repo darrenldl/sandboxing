@@ -6,6 +6,10 @@ Scripts, files and tools related to sandboxing
 
 This sandboxing suite primarily targets desktop use, but may include assets for server use
 
+The scripts and files in this repo are designed to be readily usable on most systems
+
+- You only have to install OCaml toolchain if you want to develop upon the generator
+
 Basics
 
 - Private home for programs
@@ -97,6 +101,8 @@ Following serves as rough descriptions only, check the scripts directly to see i
 - Make each sandbox use a separate user (not sure yet)
 
 - Transition to syscall whitelist instead of blacklist
+
+- Network namespace set up with routing and DNS
 
 #### WIP
 
