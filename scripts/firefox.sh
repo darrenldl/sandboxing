@@ -63,5 +63,5 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpfs/firefox_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/firefox.runner" "/home/sandbox/firefox.runner" \
-  /home/sandbox/firefox.runner --no-remote\
+  /home/sandbox/firefox.runner --no-remote \
  )

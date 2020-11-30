@@ -84,7 +84,7 @@ done
   --bind "$tmp_dir/Downloads" "/home/sandbox/Downloads" \
   --seccomp 10 10<"$script_dir"/../seccomp-bpfs/firefox-private-arch_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/firefox-private-arch.runner" "/home/sandbox/firefox-private-arch.runner" \
-  /home/sandbox/firefox-private-arch.runner --no-remote\
+  /home/sandbox/firefox-private-arch.runner --no-remote \
   >$stdout_log_name \
   2>$stderr_log_name \
  )

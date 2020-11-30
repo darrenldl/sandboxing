@@ -127,7 +127,7 @@ let write_main_script (p : Profile.t) : unit =
         bwrap_args;
       write_line
         (Printf.sprintf "  %s/%s.runner %s\\" Config.home_inside_jail p.name
-           (String.concat " " p.args));
+           (match p.args with [] -> "" | _ -> String.concat " " p.args ^ " "));
       if p.log_stdout then write_line "  >$stdout_log_name \\";
       if p.log_stderr then write_line "  2>$stderr_log_name \\";
       write_line " )";

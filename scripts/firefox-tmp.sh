@@ -70,7 +70,7 @@ mkdir -p "$tmp_dir/Downloads"
   --bind "$tmp_dir/Downloads" "/home/sandbox/Downloads" \
   --seccomp 10 10<"$script_dir"/../seccomp-bpfs/firefox-tmp_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/firefox-tmp.runner" "/home/sandbox/firefox-tmp.runner" \
-  /home/sandbox/firefox-tmp.runner --no-remote\
+  /home/sandbox/firefox-tmp.runner --no-remote \
   >$stdout_log_name \
   2>$stderr_log_name \
  )

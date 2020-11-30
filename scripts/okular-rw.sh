@@ -61,7 +61,7 @@ stderr_log_name="$HOME/sandboxing-sandbox-logs/okular-rw"/"$cur_time"."stderr"
   --new-session \
   --seccomp 10 10<"$script_dir"/../seccomp-bpfs/okular-rw_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/okular-rw.runner" "/home/sandbox/okular-rw.runner" \
-  /home/sandbox/okular-rw.runner "/home/sandbox/$(basename "$1")"\
+  /home/sandbox/okular-rw.runner "/home/sandbox/$(basename "$1")" \
   >$stdout_log_name \
   2>$stderr_log_name \
  )
