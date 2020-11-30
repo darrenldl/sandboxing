@@ -21,3 +21,6 @@ let seccomp_bpf_suffix = "_seccomp_filter.bpf"
 let runner_output_dir = "../runners"
 
 let runner_suffix = ".runner"
+
+let firefox_hardened_user_js_path =
+  "$script_dir/../firefox-hardening/systemwide_user.js"

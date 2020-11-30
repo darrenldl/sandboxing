@@ -66,6 +66,7 @@ Following serves as rough descriptions only, check the scripts directly to see i
   - No persistent home
   - Temporary persistent `Downloads` folder in sandbox home, created as temporary directory under `/tmp` on host
     - This is the only directory that host and sandbox share
+  - Does __NOT__ use hardened `user.js` yet
 - `thunderbird`
   - Persistent home as `~/sandboxes/firefox` on host
 - `discord`
@@ -111,6 +112,7 @@ Following serves as rough descriptions only, check the scripts directly to see i
 #### Index
 
 - `aa-profiles/` contains the generated AppArmor profiles
+- `firefox-hardening/` contains files specific to Firefox
 - `gen/` contains the OCaml code responsible for generating the bubblewrap scripts and generating seccomp BPF generator C code
 - `runners/` contains the generated runner C code
 - `scripts/` contains the generated bubblewrap scripts
@@ -129,3 +131,7 @@ Some components (e.g. bubblewrap scripts, seccomp filter file generator) are bas
 AppArmor profile generation and other design choices are based on the following repo
 
 - https://github.com/Whonix/sandbox-app-launcher
+
+`*user.js` files in `firefox-hardening/` are from the following repo
+
+- https://github.com/pyllyukko/user.js/

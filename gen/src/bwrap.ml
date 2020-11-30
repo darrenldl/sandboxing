@@ -26,6 +26,9 @@ type arg =
   | Dev of string
   | Tmpfs of string
   | Dir of string
+  | File of int * string
+  | Bind_data of int * string
+  | Ro_bind_data of int * string
   | Symlink of string * string option
   | Seccomp of string
   | New_session
@@ -79,6 +82,9 @@ let compile_arg (x : arg) : string =
   | Dev s -> Printf.sprintf "--dev \"%s\"" s
   | Tmpfs s -> Printf.sprintf "--tmpfs \"%s\"" s
   | Dir s -> Printf.sprintf "--dir \"%s\"" s
+  | File (fd, dst) -> Printf.sprintf "--file %d \"%s\"" fd dst
+  | Bind_data (fd, dst) -> Printf.sprintf "--file %d \"%s\"" fd dst
+  | Ro_bind_data (fd, dst) -> Printf.sprintf "--file %d \"%s\"" fd dst
   | Symlink (src, dst) ->
     let dst = Option.value dst ~default:src in
     Printf.sprintf "--symlink \"%s\" \"%s\"" src dst
