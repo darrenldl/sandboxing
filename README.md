@@ -66,7 +66,10 @@ Following serves as rough descriptions only, check the scripts directly to see i
   - No persistent home
   - Temporary persistent `Downloads` folder in sandbox home, created as temporary directory under `/tmp` on host
     - This is the only directory that host and sandbox share
-  - Does __NOT__ use hardened `user.js` yet
+  - Does __NOT__ use hardened `user.js`
+- `firefox-private-arch`
+  - Same as `firefox-private`, but with Arch specific handling for using
+    hardened `user.js` transparently
 - `thunderbird`
   - Persistent home as `~/sandboxes/firefox` on host
 - `discord`
