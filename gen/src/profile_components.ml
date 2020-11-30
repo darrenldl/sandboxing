@@ -129,10 +129,7 @@ let usr_lib_lib64_common_rw =
   ]
 
 let usr_lib_lib64_common_remount_ro =
-  [
-    Remount_ro "/usr/lib";
-    Remount_ro "/usr/lib64";
-  ]
+  [ Remount_ro "/usr/lib"; Remount_ro "/usr/lib64" ]
 
 let usr_lib_lib64_bin_common =
   usr_lib_lib64_common

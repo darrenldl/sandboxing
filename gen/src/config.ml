@@ -22,5 +22,8 @@ let runner_output_dir = "../runners"
 
 let runner_suffix = ".runner"
 
+let firefox_hardened_pref_path =
+  "$script_dir/../firefox-hardening/local-settings.js"
+
 let firefox_hardened_user_js_path =
   "$script_dir/../firefox-hardening/systemwide_user.js"
