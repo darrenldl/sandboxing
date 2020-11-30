@@ -77,7 +77,7 @@ Following serves as rough descriptions only, check the scripts directly to see i
   - Is __NOT__ hardened against tracking/fingerprinting
 - `firefox-private-arch`
   - Same as `firefox-tmp`, but with Arch specific handling for using
-    hardened `user.js` transparently
+    the hardened `user.js` transparently
 - `thunderbird`
   - Persistent home as `~/sandboxing-sandboxes/firefox` on host
 - `discord`
