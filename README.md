@@ -26,7 +26,7 @@ Simply `git clone https://github.com/darrenldl/sandboxing.git` in home
 
 Your system needs to have `bubblewrap`, `gcc` and `apparmor` to run the scripts
 
-## General usage
+## Installation
 
 __Important__: Please make sure the following directories are not already in use in your `$HOME`
 
@@ -52,6 +52,14 @@ sandbox-firefox-private &        # all symlinks are prefixed with "sandbox-" to 
                                  # and avoid shadowing
 ```
 
+## General usage
+
+Invoke the script directly (or via symlink),
+stdout are stored as `~/sandboxing-sandbox-logs/profile/*.stdout`,
+stderr are stored as `~/sandboxing-sandbox-logs/profile/*.stderr`
+
+See the following section for profile specific usage
+
 ## Profiles
 
 Only the listed profiles are considered stable
@@ -61,19 +69,19 @@ Following serves as rough descriptions only, check the scripts directly to see i
 #### Internet
 
 - `firefox`
-  - Persistent home as `~/sandboxes/firefox` on host
-- `firefox-private`
+  - Persistent home as `~/sandboxing-sandboxes/firefox` on host
+- `firefox-tmp`
   - No persistent home
   - Temporary persistent `Downloads` folder in sandbox home, created as temporary directory under `/tmp` on host
     - This is the only directory that host and sandbox share
-  - Does __NOT__ use hardened `user.js`
+  - Is __NOT__ hardened against tracking/fingerprinting
 - `firefox-private-arch`
-  - Same as `firefox-private`, but with Arch specific handling for using
+  - Same as `firefox-tmp`, but with Arch specific handling for using
     hardened `user.js` transparently
 - `thunderbird`
-  - Persistent home as `~/sandboxes/firefox` on host
+  - Persistent home as `~/sandboxing-sandboxes/firefox` on host
 - `discord`
-  - Persistent home as `~/sandboxes/discord` on host
+  - Persistent home as `~/sandboxing-sandboxes/discord` on host
   - AppArmor profile not usable yet
 
 #### PDF reading
