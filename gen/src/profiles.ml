@@ -170,8 +170,8 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     extra_aa_lines = [];
   }
 
-let firefox_private : Profile.t =
-  let name = "firefox-private" in
+let firefox_tmp : Profile.t =
+  let name = "firefox-tmp" in
   {
     name;
     prog = "/usr/lib/firefox/firefox";
@@ -246,9 +246,8 @@ let firefox_private_arch : Profile.t =
           ( Config.firefox_hardened_user_js_path,
             Some "/usr/lib/firefox/mozilla.cfg" );
       ]
-      @ ( FileUtil.ls "/usr/lib/firefox/"
-          |> List.map (fun s -> Ro_bind (s, None)) )
       @ [
+        Ro_bind_as_is_glob "/usr/lib/firefox/*";
         Tmpfs "/usr/lib/firefox/defaults/pref/";
         Ro_bind
           ( Config.firefox_hardened_pref_path,
@@ -729,7 +728,7 @@ let suite =
     (* make_firefox_profile ~suffix:(Some "school");
      * make_firefox_profile ~suffix:(Some "bank");
      * make_firefox_profile ~suffix:(Some "google-play-book"); *)
-    firefox_private;
+    firefox_tmp;
     firefox_private_arch;
     discord;
     thunderbird;

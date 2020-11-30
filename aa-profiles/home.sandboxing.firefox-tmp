@@ -2,13 +2,13 @@ abi <abi/3.0>,
 
 include <tunables/global>
 
-profile /home/sandbox/firefox-private.runner {
+profile /home/sandbox/firefox-tmp.runner {
   capability sys_admin,
   capability sys_chroot,
   capability sys_ptrace,
 
   # Runner self access
-  /home/sandbox/firefox-private.runner r,
+  /home/sandbox/firefox-tmp.runner r,
 
   # Sandbox access
   /home/sandbox/ r,

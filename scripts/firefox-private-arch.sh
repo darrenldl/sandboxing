@@ -25,6 +25,16 @@ stderr_log_name="$HOME/sandboxing-sandbox-logs/firefox-private-arch"/"$cur_time"
 tmp_dir=$(mktemp -d -t firefox-private-arch-$cur_time-XXXX)
 mkdir -p "$tmp_dir/Downloads"
 
+shopt -s nullglob
+glob_list_30=(/usr/lib/firefox/*)
+shopt -u nullglob
+expanding_arg_30=""
+for x in ${glob_list_30[@]}; do
+  if [[ $x != "" ]]; then
+    expanding_arg_30+=" --ro-bind "$x" "$x" "
+  fi
+done
+
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
@@ -56,33 +66,7 @@ mkdir -p "$tmp_dir/Downloads"
   --setenv "HOME" "/home/sandbox" \
   --tmpfs "/usr/lib/firefox/" \
   --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/usr/lib/firefox/mozilla.cfg" \
-  --ro-bind "/usr/lib/firefox/dependentlibs.list" "/usr/lib/firefox/dependentlibs.list" \
-  --ro-bind "/usr/lib/firefox/pingsender" "/usr/lib/firefox/pingsender" \
-  --ro-bind "/usr/lib/firefox/browser" "/usr/lib/firefox/browser" \
-  --ro-bind "/usr/lib/firefox/libmozsandbox.so" "/usr/lib/firefox/libmozsandbox.so" \
-  --ro-bind "/usr/lib/firefox/libmozgtk.so" "/usr/lib/firefox/libmozgtk.so" \
-  --ro-bind "/usr/lib/firefox/removed-files" "/usr/lib/firefox/removed-files" \
-  --ro-bind "/usr/lib/firefox/firefox" "/usr/lib/firefox/firefox" \
-  --ro-bind "/usr/lib/firefox/liblgpllibs.so" "/usr/lib/firefox/liblgpllibs.so" \
-  --ro-bind "/usr/lib/firefox/Throbber-small.gif" "/usr/lib/firefox/Throbber-small.gif" \
-  --ro-bind "/usr/lib/firefox/fonts" "/usr/lib/firefox/fonts" \
-  --ro-bind "/usr/lib/firefox/minidump-analyzer" "/usr/lib/firefox/minidump-analyzer" \
-  --ro-bind "/usr/lib/firefox/platform.ini" "/usr/lib/firefox/platform.ini" \
-  --ro-bind "/usr/lib/firefox/application.ini" "/usr/lib/firefox/application.ini" \
-  --ro-bind "/usr/lib/firefox/libmozavutil.so" "/usr/lib/firefox/libmozavutil.so" \
-  --ro-bind "/usr/lib/firefox/libmozwayland.so" "/usr/lib/firefox/libmozwayland.so" \
-  --ro-bind "/usr/lib/firefox/distribution" "/usr/lib/firefox/distribution" \
-  --ro-bind "/usr/lib/firefox/firefox-bin" "/usr/lib/firefox/firefox-bin" \
-  --ro-bind "/usr/lib/firefox/libmozsqlite3.so" "/usr/lib/firefox/libmozsqlite3.so" \
-  --ro-bind "/usr/lib/firefox/plugin-container" "/usr/lib/firefox/plugin-container" \
-  --ro-bind "/usr/lib/firefox/crashreporter.ini" "/usr/lib/firefox/crashreporter.ini" \
-  --ro-bind "/usr/lib/firefox/crashreporter" "/usr/lib/firefox/crashreporter" \
-  --ro-bind "/usr/lib/firefox/libxul.so" "/usr/lib/firefox/libxul.so" \
-  --ro-bind "/usr/lib/firefox/defaults" "/usr/lib/firefox/defaults" \
-  --ro-bind "/usr/lib/firefox/libmozavcodec.so" "/usr/lib/firefox/libmozavcodec.so" \
-  --ro-bind "/usr/lib/firefox/omni.ja" "/usr/lib/firefox/omni.ja" \
-  --ro-bind "/usr/lib/firefox/gmp-clearkey" "/usr/lib/firefox/gmp-clearkey" \
-  --ro-bind "/usr/lib/firefox/gtk2" "/usr/lib/firefox/gtk2" \
+  $expanding_arg_30 \
   --tmpfs "/usr/lib/firefox/defaults/pref/" \
   --ro-bind "$script_dir/../firefox-hardening/local-settings.js" "/usr/lib/firefox/defaults/pref/local-settings.js" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \

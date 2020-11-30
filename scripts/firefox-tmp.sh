@@ -4,26 +4,27 @@ set -euxo pipefail
 
 script_dir=$(dirname $(readlink -f "$0"))
 
-gcc "$script_dir"/../seccomp-bpfs/firefox-private.c -lseccomp -o "$script_dir"/../seccomp-bpfs/firefox-private.exe
-"$script_dir"/../seccomp-bpfs/firefox-private.exe
+gcc "$script_dir"/../seccomp-bpfs/firefox-tmp.c -lseccomp -o "$script_dir"/../seccomp-bpfs/firefox-tmp.exe
+"$script_dir"/../seccomp-bpfs/firefox-tmp.exe
 if [[ $? != 0 ]]; then
   echo "Failed to generate seccomp filter"
   exit 1
 fi
 
-mv firefox-private_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
+mv firefox-tmp_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
 
-gcc "$script_dir"/../runners/firefox-private.c -o "$script_dir"/../runners/firefox-private.runner
+gcc "$script_dir"/../runners/firefox-tmp.c -o "$script_dir"/../runners/firefox-tmp.runner
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
-mkdir -p "$HOME/sandboxing-sandbox-logs/firefox-private"
-stdout_log_name="$HOME/sandboxing-sandbox-logs/firefox-private"/"$cur_time"."stdout"
+mkdir -p "$HOME/sandboxing-sandbox-logs/firefox-tmp"
+stdout_log_name="$HOME/sandboxing-sandbox-logs/firefox-tmp"/"$cur_time"."stdout"
 
-mkdir -p "$HOME/sandboxing-sandbox-logs/firefox-private"
-stderr_log_name="$HOME/sandboxing-sandbox-logs/firefox-private"/"$cur_time"."stderr"
+mkdir -p "$HOME/sandboxing-sandbox-logs/firefox-tmp"
+stderr_log_name="$HOME/sandboxing-sandbox-logs/firefox-tmp"/"$cur_time"."stderr"
 
-tmp_dir=$(mktemp -d -t firefox-private-$cur_time-XXXX)
+tmp_dir=$(mktemp -d -t firefox-tmp-$cur_time-XXXX)
 mkdir -p "$tmp_dir/Downloads"
+
 
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
@@ -67,9 +68,9 @@ mkdir -p "$tmp_dir/Downloads"
   --unshare-cgroup \
   --new-session \
   --bind "$tmp_dir/Downloads" "/home/sandbox/Downloads" \
-  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/firefox-private_seccomp_filter.bpf \
-  --ro-bind ""$script_dir"/../runners/firefox-private.runner" "/home/sandbox/firefox-private.runner" \
-  /home/sandbox/firefox-private.runner --no-remote\
+  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/firefox-tmp_seccomp_filter.bpf \
+  --ro-bind ""$script_dir"/../runners/firefox-tmp.runner" "/home/sandbox/firefox-tmp.runner" \
+  /home/sandbox/firefox-tmp.runner --no-remote\
   >$stdout_log_name \
   2>$stderr_log_name \
  )

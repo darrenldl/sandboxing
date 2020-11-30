@@ -76,9 +76,7 @@ let write_main_script (p : Profile.t) : unit =
        * write_line "export tmp_dir";
        * write_line "export stdout_log_name";
        * write_line "export stderr_log_name"; *)
-      write_line "( exec bwrap \\";
-      List.iter
-        (fun x -> write_line (Printf.sprintf "  %s \\" (Bwrap.compile_arg x)))
+      let bwrap_args =
         Bwrap.(
           p.bwrap_args
           @ List.map
@@ -101,7 +99,35 @@ let write_main_script (p : Profile.t) : unit =
                 Some
                   (Filename.concat Config.home_inside_jail
                      (Printf.sprintf "%s.runner" p.name)) );
-          ]);
+          ])
+      in
+      List.iteri
+        (fun i x ->
+           match Bwrap.compile_arg x with
+           | String _ -> ()
+           | Glob { arg_constr; glob } ->
+             write_line "shopt -s nullglob";
+             write_line (Printf.sprintf "glob_list_%d=(%s)" i glob);
+             write_line "shopt -u nullglob";
+             write_line (Printf.sprintf "expanding_arg_%d=\"\"" i);
+             write_line (Printf.sprintf "for x in ${glob_list_%d[@]}; do" i);
+             write_line "  if [[ $x != \"\" ]]; then";
+             write_line (Printf.sprintf "    expanding_arg_%d+=\" %s \"" i (arg_constr "$x"));
+             write_line "  fi";
+             write_line "done"
+        )
+        bwrap_args;
+      write_line "";
+      write_line "( exec bwrap \\";
+      List.iteri
+        (fun i x ->
+           match Bwrap.compile_arg x with
+           | String s ->
+             write_line (Printf.sprintf "  %s \\" s)
+           | Glob _ ->
+             write_line (Printf.sprintf "  $expanding_arg_%d \\" i)
+        )
+        bwrap_args;
       write_line
         (Printf.sprintf "  %s/%s.runner %s\\" Config.home_inside_jail p.name
            (String.concat " " p.args));

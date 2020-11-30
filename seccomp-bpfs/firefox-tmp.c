@@ -125,7 +125,7 @@ int main (void) {
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(vmsplice), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(vserver), 0) < 0) { goto out; }
 
-  filter_fd = open("firefox-private_seccomp_filter.bpf", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+  filter_fd = open("firefox-tmp_seccomp_filter.bpf", O_CREAT | O_WRONLY | O_TRUNC, 0644);
   if (filter_fd == -1) {
     rc = -errno;
     goto out;

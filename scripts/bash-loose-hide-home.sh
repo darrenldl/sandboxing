@@ -19,6 +19,7 @@ mkdir -p "$HOME/sandboxing-sandboxes/bash-loose-hide-home"
 mkdir -p "$HOME/sandboxing-sandboxes/bash-loose-hide-home/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
+
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \

@@ -22,6 +22,7 @@ stdout_log_name="$HOME/sandboxing-sandbox-logs/okular-rw"/"$cur_time"."stdout"
 mkdir -p "$HOME/sandboxing-sandbox-logs/okular-rw"
 stderr_log_name="$HOME/sandboxing-sandbox-logs/okular-rw"/"$cur_time"."stderr"
 
+
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \

@@ -32,61 +32,71 @@ type arg =
   | Symlink of string * string option
   | Seccomp of string
   | New_session
+  | Ro_bind_as_is_glob of string
+
+type res =
+  | String of string
+  | Glob of { arg_constr : string -> string; glob : string }
 
 let get_jail_dir s = Filename.concat Config.jails_dir s
 
-let compile_arg (x : arg) : string =
+let compile_arg (x : arg) : res =
   match x with
-  | Unshare_user -> "--unshare-user"
-  | Unshare_user_try -> "--unshare-user-try"
-  | Unshare_ipc -> "--unshare-ipc"
-  | Unshare_pid -> "--unshare-pid"
-  | Unshare_net -> "--unshare-net"
-  | Unshare_uts -> "--unshare-uts"
-  | Unshare_cgroup -> "--unshare-cgroup"
-  | Unshare_cgroup_try -> "--unshare-cgroup-try"
-  | Unshare_all -> "--unshare-all"
+  | Unshare_user -> String "--unshare-user"
+  | Unshare_user_try -> String "--unshare-user-try"
+  | Unshare_ipc -> String "--unshare-ipc"
+  | Unshare_pid -> String "--unshare-pid"
+  | Unshare_net -> String "--unshare-net"
+  | Unshare_uts -> String "--unshare-uts"
+  | Unshare_cgroup -> String "--unshare-cgroup"
+  | Unshare_cgroup_try -> String "--unshare-cgroup-try"
+  | Unshare_all -> String "--unshare-all"
   | Uid id -> (
       match id with
-      | None -> Printf.sprintf "--uid $(%s)" Commands.get_unused_uid
-      | Some x -> Printf.sprintf "--uid %d" x )
+      | None -> String (Printf.sprintf "--uid $(%s)" Commands.get_unused_uid)
+      | Some x -> String (Printf.sprintf "--uid %d" x ))
   | Gid id -> (
       match id with
-      | None -> Printf.sprintf "--gid $(%s)" Commands.get_unused_gid
-      | Some x -> Printf.sprintf "--gid \"%d\"" x )
-  | Hostname s -> Printf.sprintf "--hostname \"%s\"" s
-  | Chdir s -> Printf.sprintf "--chdir \"%s\"" s
-  | Setenv (key, value) -> Printf.sprintf "--setenv \"%s\" \"%s\"" key value
-  | Unsetenv key -> Printf.sprintf "--unsetenv \"%s\"" key
-  | Lock_file s -> Printf.sprintf "--lock-file \"%s\"" s
+      | None -> String (Printf.sprintf "--gid $(%s)" Commands.get_unused_gid)
+      | Some x -> String (Printf.sprintf "--gid \"%d\"" x ))
+  | Hostname s -> String (Printf.sprintf "--hostname \"%s\"" s)
+  | Chdir s -> String (Printf.sprintf "--chdir \"%s\"" s)
+  | Setenv (key, value) -> String (Printf.sprintf "--setenv \"%s\" \"%s\"" key value)
+  | Unsetenv key -> String (Printf.sprintf "--unsetenv \"%s\"" key)
+  | Lock_file s -> String (Printf.sprintf "--lock-file \"%s\"" s)
   | Bind (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--bind \"%s\" \"%s\"" src dst
+    String (Printf.sprintf "--bind \"%s\" \"%s\"" src dst)
   | Bind_try (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--bind-try \"%s\" \"%s\"" src dst
+    String (Printf.sprintf "--bind-try \"%s\" \"%s\"" src dst)
   | Dev_bind (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--dev-bind \"%s\" \"%s\"" src dst
+    String (Printf.sprintf "--dev-bind \"%s\" \"%s\"" src dst)
   | Dev_bind_try (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--dev-bind-try \"%s\" \"%s\"" src dst
+    String (Printf.sprintf "--dev-bind-try \"%s\" \"%s\"" src dst)
   | Ro_bind (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--ro-bind \"%s\" \"%s\"" src dst
+    String (Printf.sprintf "--ro-bind \"%s\" \"%s\"" src dst)
   | Ro_bind_try (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--ro-bind-try \"%s\" \"%s\"" src dst
-  | Remount_ro s -> Printf.sprintf "--remount-ro \"%s\"" s
-  | Proc s -> Printf.sprintf "--proc \"%s\"" s
-  | Dev s -> Printf.sprintf "--dev \"%s\"" s
-  | Tmpfs s -> Printf.sprintf "--tmpfs \"%s\"" s
-  | Dir s -> Printf.sprintf "--dir \"%s\"" s
-  | File (fd, dst) -> Printf.sprintf "--file %d \"%s\"" fd dst
-  | Bind_data (fd, dst) -> Printf.sprintf "--file %d \"%s\"" fd dst
-  | Ro_bind_data (fd, dst) -> Printf.sprintf "--file %d \"%s\"" fd dst
+    String (Printf.sprintf "--ro-bind-try \"%s\" \"%s\"" src dst)
+  | Remount_ro s -> String (Printf.sprintf "--remount-ro \"%s\"" s)
+  | Proc s -> String (Printf.sprintf "--proc \"%s\"" s)
+  | Dev s -> String (Printf.sprintf "--dev \"%s\"" s)
+  | Tmpfs s -> String (Printf.sprintf "--tmpfs \"%s\"" s)
+  | Dir s -> String (Printf.sprintf "--dir \"%s\"" s)
+  | File (fd, dst) -> String (Printf.sprintf "--file %d \"%s\"" fd dst)
+  | Bind_data (fd, dst) -> String (Printf.sprintf "--file %d \"%s\"" fd dst)
+  | Ro_bind_data (fd, dst) -> String (Printf.sprintf "--file %d \"%s\"" fd dst)
   | Symlink (src, dst) ->
     let dst = Option.value dst ~default:src in
-    Printf.sprintf "--symlink \"%s\" \"%s\"" src dst
-  | Seccomp s -> Printf.sprintf "--seccomp 10 10<%s" s
-  | New_session -> "--new-session"
+    String (Printf.sprintf "--symlink \"%s\" \"%s\"" src dst)
+  | Seccomp s -> String (Printf.sprintf "--seccomp 10 10<%s" s)
+  | New_session -> String "--new-session"
+  | Ro_bind_as_is_glob glob ->
+    Glob {
+      arg_constr = (fun x -> Printf.sprintf "--ro-bind \"%s\" \"%s\"" x x);
+      glob
+    }
