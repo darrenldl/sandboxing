@@ -36,7 +36,10 @@ type arg =
 
 type res =
   | String of string
-  | Glob of { arg_constr : string -> string; glob : string }
+  | Glob of {
+      arg_constr : string -> string;
+      glob : string;
+    }
 
 let get_jail_dir s = Filename.concat Config.jails_dir s
 
@@ -54,14 +57,15 @@ let compile_arg (x : arg) : res =
   | Uid id -> (
       match id with
       | None -> String (Printf.sprintf "--uid $(%s)" Commands.get_unused_uid)
-      | Some x -> String (Printf.sprintf "--uid %d" x ))
+      | Some x -> String (Printf.sprintf "--uid %d" x) )
   | Gid id -> (
       match id with
       | None -> String (Printf.sprintf "--gid $(%s)" Commands.get_unused_gid)
-      | Some x -> String (Printf.sprintf "--gid \"%d\"" x ))
+      | Some x -> String (Printf.sprintf "--gid \"%d\"" x) )
   | Hostname s -> String (Printf.sprintf "--hostname \"%s\"" s)
   | Chdir s -> String (Printf.sprintf "--chdir \"%s\"" s)
-  | Setenv (key, value) -> String (Printf.sprintf "--setenv \"%s\" \"%s\"" key value)
+  | Setenv (key, value) ->
+    String (Printf.sprintf "--setenv \"%s\" \"%s\"" key value)
   | Unsetenv key -> String (Printf.sprintf "--unsetenv \"%s\"" key)
   | Lock_file s -> String (Printf.sprintf "--lock-file \"%s\"" s)
   | Bind (src, dst) ->
@@ -96,7 +100,8 @@ let compile_arg (x : arg) : res =
   | Seccomp s -> String (Printf.sprintf "--seccomp 10 10<%s" s)
   | New_session -> String "--new-session"
   | Ro_bind_as_is_glob glob ->
-    Glob {
-      arg_constr = (fun x -> Printf.sprintf "--ro-bind \"%s\" \"%s\"" x x);
-      glob
-    }
+    Glob
+      {
+        arg_constr = (fun x -> Printf.sprintf "--ro-bind \"%s\" \"%s\"" x x);
+        glob;
+      }
