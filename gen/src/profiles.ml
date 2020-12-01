@@ -215,6 +215,56 @@ let firefox_tmp : Profile.t =
     extra_aa_lines = [];
   }
 
+let firefox_private : Profile.t =
+  let name = "firefox-private" in
+  {
+    name;
+    prog = "/usr/lib/firefox/firefox";
+    args = [ "--no-remote" ];
+    home_jail_dir = None;
+    preserved_temp_home_dirs = [ "Downloads" ];
+    log_stdout = true;
+    log_stderr = true;
+    syscall_blacklist = default_syscall_blacklist;
+    bwrap_args =
+      usr_share_common
+      @ usr_lib_lib64_common
+      @ paths_of_binary "firefox"
+      @ etc_common
+      @ etc_ssl
+      @ etc_localtime
+      @ proc_dev_common
+      @ tmp_run_common
+      @ sound_common
+      @ wayland_common
+      @ dconf_common
+      @ dbus_common
+      @ set_up_jail_home ~tmp:true ~name
+      @ [
+        Ro_bind
+          ( Config.firefox_hardened_user_js_path,
+            Some "/etc/firefox/syspref.js" );
+      ]
+      @ [
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("SHELL", "/bin/false");
+        Setenv ("USER", "nobody");
+        Setenv ("LOGNAME", "nobody");
+        Setenv ("MOZ_ENABLE_WAYLAND", "1");
+        Hostname "jail";
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+        New_session;
+      ];
+    allow_network = true;
+    aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
+    allow_wx = false;
+    extra_aa_lines = [];
+  }
+
 let firefox_private_arch : Profile.t =
   let name = "firefox-private-arch" in
   {
@@ -729,6 +779,7 @@ let suite =
      * make_firefox_profile ~suffix:(Some "bank");
      * make_firefox_profile ~suffix:(Some "google-play-book"); *)
     firefox_tmp;
+    firefox_private;
     firefox_private_arch;
     discord;
     thunderbird;
