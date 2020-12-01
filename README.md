@@ -77,12 +77,12 @@ Following serves as rough descriptions only, check the scripts directly to see i
   - Is __NOT__ hardened against tracking/fingerprinting
 - `firefox-private`
   - Same as `firefox-tmp`, but uses the hardened `user.js` transparently
-  - __Important__: Please check the `user.js` indeed loaded correctly, see https://github.com/pyllyukko/user.js/#verifying for how to verify
+  - __Important__: Please check the `user.js` is indeed loaded correctly, see https://github.com/pyllyukko/user.js/#verifying for how to verify
 - `firefox-private-arch`
   - Same as `firefox-private`, but with Arch specific handling for using
     the hardened `user.js` transparently
 - `thunderbird`
-  - Persistent home as `~/sandboxing-sandboxes/firefox` on host
+  - Persistent home as `~/sandboxing-sandboxes/thunderbird` on host
 - `discord`
   - Persistent home as `~/sandboxing-sandboxes/discord` on host
   - AppArmor profile not usable yet
@@ -97,7 +97,7 @@ Following serves as rough descriptions only, check the scripts directly to see i
 
 - `okular-rw`
   - No persistent home
-  - Accepts exactly one argument for file to be read, e.g. `sandbox-okular-ro file.pdf`
+  - Accepts exactly one argument for file to be read, e.g. `sandbox-okular-rw file.pdf`
   - RW mounts only the specified PDF file in sandbox home
   - No network access
 
