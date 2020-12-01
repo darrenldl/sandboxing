@@ -146,6 +146,6 @@ AppArmor profile generation and other design choices are based on the following 
 
 - https://github.com/Whonix/sandbox-app-launcher
 
-`*user.js` files in `firefox-hardening/` are from the following repo
+Files in `firefox-hardening/` are from the following repo
 
 - https://github.com/pyllyukko/user.js/
