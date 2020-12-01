@@ -78,6 +78,7 @@ Following serves as rough descriptions only, check the scripts directly to see i
 - `firefox-private-arch`
   - Same as `firefox-tmp`, but with Arch specific handling for using
     the hardened `user.js` transparently
+  - __Important__: Please check the `user.js` indeed loaded correctly, see https://github.com/pyllyukko/user.js/#verifying for how to verify
 - `thunderbird`
   - Persistent home as `~/sandboxing-sandboxes/firefox` on host
 - `discord`
