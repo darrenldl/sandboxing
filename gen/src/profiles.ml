@@ -337,6 +337,7 @@ let discord : Profile.t =
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
+      @ disallow_browsers
       (* @ usr_lib_lib64_common
          @ paths_of_binary "discord"
          @ paths_of_binary "firefox"

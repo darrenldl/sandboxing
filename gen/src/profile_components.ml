@@ -118,18 +118,7 @@ let usr_lib_lib64_common =
     Symlink ("/usr/lib64", Some "/lib64");
   ]
 
-let usr_lib_lib64_common_rw =
-  [
-    Bind ("/usr/lib", None);
-    Bind ("/usr/lib64", None);
-    Tmpfs "/usr/lib/modules";
-    Tmpfs "/usr/lib/systemd";
-    Symlink ("/usr/lib", Some "/lib");
-    Symlink ("/usr/lib64", Some "/lib64");
-  ]
-
-let usr_lib_lib64_common_remount_ro =
-  [ Remount_ro "/usr/lib"; Remount_ro "/usr/lib64" ]
+let disallow_browsers = [ Tmpfs "/usr/lib/firefox" ]
 
 let usr_lib_lib64_bin_common =
   usr_lib_lib64_common

@@ -33,6 +33,7 @@ type arg =
   | Seccomp of string
   | New_session
   | Ro_bind_as_is_glob of string
+  | Tmpfs_glob of string
 
 type res =
   | String of string
@@ -105,3 +106,5 @@ let compile_arg (x : arg) : res =
         arg_constr = (fun x -> Printf.sprintf "--ro-bind \"%s\" \"%s\"" x x);
         glob;
       }
+  | Tmpfs_glob glob ->
+    Glob { arg_constr = (fun x -> Printf.sprintf "--tmpfs \"%s\"" x); glob }
