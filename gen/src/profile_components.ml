@@ -126,6 +126,7 @@ let usr_lib_lib64_bin_common =
     Ro_bind ("/usr/bin", None);
     Symlink ("/usr/bin", Some "/bin");
     Symlink ("/usr/bin", Some "/sbin");
+    Setenv ("PATH", "/usr/bin");
   ]
 
 let etc_common =

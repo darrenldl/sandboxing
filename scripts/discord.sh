@@ -31,6 +31,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --ro-bind "/usr/bin" "/usr/bin" \
   --symlink "/usr/bin" "/bin" \
   --symlink "/usr/bin" "/sbin" \
+  --setenv "PATH" "/usr/bin" \
   --tmpfs "/usr/lib/firefox" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
