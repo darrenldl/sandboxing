@@ -607,7 +607,7 @@ let okular_ro : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 1000;
   }
 
 let okular_rw : Profile.t =

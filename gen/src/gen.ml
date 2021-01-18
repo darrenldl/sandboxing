@@ -160,7 +160,7 @@ let write_main_script (p : Profile.t) : unit =
  *   FileUtil.chmod (`Octal 0o774) [ file_name ] *)
 
 let write_runner (p : Profile.t) : unit =
-  Runner.write_c_file ~name:p.name ~prog:p.prog
+  Runner.write_c_file ~name:p.name ~prog:p.prog ~heap_limit_MiB:p.heap_limit_MiB
 
 let write_seccomp_bpf (p : Profile.t) : unit =
   Seccomp_bpf.write_c_file ~name:p.name ~blacklist:p.syscall_blacklist
