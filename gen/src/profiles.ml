@@ -425,7 +425,7 @@ let thunderbird : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [ "deny /usr/lib/firefox/** x" ];
-    heap_limit_MiB = Some 200;
+    heap_limit_MiB = Some 1024;
   }
 
 let chromium : Profile.t =
