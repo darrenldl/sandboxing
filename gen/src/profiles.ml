@@ -30,6 +30,7 @@ let bash : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let bash_hide_home : Profile.t =
@@ -62,6 +63,7 @@ let bash_hide_home : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let bash_hide_home_hide_net : Profile.t =
@@ -97,6 +99,7 @@ let bash_hide_home_hide_net : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let bash_loose_hide_home : Profile.t =
@@ -123,6 +126,7 @@ let bash_loose_hide_home : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let make_firefox_profile ~(suffix : string option) : Profile.t =
@@ -168,6 +172,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let firefox_tmp : Profile.t =
@@ -213,6 +218,7 @@ let firefox_tmp : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let firefox_private : Profile.t =
@@ -263,6 +269,7 @@ let firefox_private : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let firefox_private_arch : Profile.t =
@@ -321,6 +328,7 @@ let firefox_private_arch : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let discord : Profile.t =
@@ -373,6 +381,7 @@ let discord : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = true;
     extra_aa_lines = [ "/opt/discord/ r"; "/opt/discord/** rix" ];
+    heap_limit_MiB = None;
   }
 
 let thunderbird : Profile.t =
@@ -416,6 +425,7 @@ let thunderbird : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [ "deny /usr/lib/firefox/** x" ];
+    heap_limit_MiB = None;
   }
 
 let chromium : Profile.t =
@@ -460,6 +470,7 @@ let chromium : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let deluge : Profile.t =
@@ -504,6 +515,7 @@ let deluge : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [ "deny /usr/lib/firefox/** rx" ];
+    heap_limit_MiB = None;
   }
 
 (* let zoom : profile =
@@ -595,6 +607,7 @@ let okular_ro : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let okular_rw : Profile.t =
@@ -641,6 +654,7 @@ let okular_rw : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let eom_ro : Profile.t =
@@ -687,6 +701,7 @@ let eom_ro : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let archive_handling : Profile.t =
@@ -728,6 +743,7 @@ let archive_handling : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let make_workspace : Profile.t =
@@ -767,6 +783,7 @@ let make_workspace : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    heap_limit_MiB = None;
   }
 
 let suite =
