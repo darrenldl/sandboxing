@@ -37,14 +37,14 @@ let write_main_script (p : Profile.t) : unit =
       in
       write_line (Printf.sprintf "gcc %s -o %s" runner_src_path runner_bin_path);
       write_line "";
-      ( match p.home_jail_dir with
-        | None -> ()
-        | Some s ->
-          let jail_dir = Filename.concat Config.jails_dir s in
-          let downloads_dir = Filename.concat jail_dir "Downloads" in
-          write_line (Printf.sprintf "mkdir -p \"%s\"" jail_dir);
-          write_line (Printf.sprintf "mkdir -p \"%s\"" downloads_dir);
-          write_line "" );
+      (match p.home_jail_dir with
+       | None -> ()
+       | Some s ->
+         let jail_dir = Filename.concat Config.jails_dir s in
+         let downloads_dir = Filename.concat jail_dir "Downloads" in
+         write_line (Printf.sprintf "mkdir -p \"%s\"" jail_dir);
+         write_line (Printf.sprintf "mkdir -p \"%s\"" downloads_dir);
+         write_line "");
       let log_dir = Filename.concat Config.jail_logs_dir p.name in
       write_line
         (Printf.sprintf "cur_time=$(date \"%s\")" Config.log_date_format_str);
@@ -53,25 +53,25 @@ let write_main_script (p : Profile.t) : unit =
         write_line
           (Printf.sprintf "stdout_log_name=\"%s\"/\"$cur_time\".\"%s\"" log_dir
              Config.stdout_log_suffix);
-        write_line "" );
+        write_line "");
       if p.log_stderr then (
         write_line (Printf.sprintf "mkdir -p \"%s\"" log_dir);
         write_line
           (Printf.sprintf "stderr_log_name=\"%s\"/\"$cur_time\".\"%s\"" log_dir
              Config.stderr_log_suffix);
-        write_line "" );
-      ( match p.preserved_temp_home_dirs with
-        | [] -> ()
-        | _ ->
-          write_line
-            (Printf.sprintf "tmp_dir=$(mktemp -d -t %s-$cur_time-XXXX)" p.name);
-          List.iter
-            (fun dir ->
-               write_line
-                 (Printf.sprintf "mkdir -p \"%s\""
-                    (Filename.concat "$tmp_dir" dir)))
-            p.preserved_temp_home_dirs;
-          write_line "" );
+        write_line "");
+      (match p.preserved_temp_home_dirs with
+       | [] -> ()
+       | _ ->
+         write_line
+           (Printf.sprintf "tmp_dir=$(mktemp -d -t %s-$cur_time-XXXX)" p.name);
+         List.iter
+           (fun dir ->
+              write_line
+                (Printf.sprintf "mkdir -p \"%s\""
+                   (Filename.concat "$tmp_dir" dir)))
+           p.preserved_temp_home_dirs;
+         write_line "");
       (* write_line "export script_dir";
        * write_line "export tmp_dir";
        * write_line "export stdout_log_name";
@@ -85,13 +85,13 @@ let write_main_script (p : Profile.t) : unit =
                ( Filename.concat "$tmp_dir" dir,
                  Some (Filename.concat Config.home_inside_jail dir) ))
           p.preserved_temp_home_dirs
-        @ ( match p.syscall_blacklist with
+        @ (match p.syscall_blacklist with
             | [] -> []
             | _ ->
               [
                 Seccomp
                   (Filename.concat bpf_dir (p.name ^ Config.seccomp_bpf_suffix));
-              ] )
+              ])
         @ [
           Ro_bind
             ( runner_bin_path,
@@ -178,15 +178,15 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "include <tunables/global>";
       write_line "";
       write_line (Printf.sprintf "profile /home/sandbox/%s.runner {" p.name);
-      ( match p.aa_caps with
-        | [] -> ()
-        | l ->
-          List.iter
-            (fun x ->
-               write_line
-                 (Printf.sprintf "  capability %s," (Aa.string_of_capability x)))
-            l;
-          write_line "" );
+      (match p.aa_caps with
+       | [] -> ()
+       | l ->
+         List.iter
+           (fun x ->
+              write_line
+                (Printf.sprintf "  capability %s," (Aa.string_of_capability x)))
+           l;
+         write_line "");
       write_line "  # Runner self access";
       write_line (Printf.sprintf "  /home/sandbox/%s.runner r," p.name);
       write_line "";
@@ -197,12 +197,12 @@ let write_aa_profile (p : Profile.t) : unit =
         write_line "  owner /home/sandbox/** rwmlkix,";
         write_line "  owner /{,var/}/tmp/** rwmlkix,";
         write_line "  owner /dev/shm/** rwm,";
-        write_line "  /sys/fs/cgroup/** rwm," )
+        write_line "  /sys/fs/cgroup/** rwm,")
       else (
         write_line "  deny /home/sandbox/** xm,";
         write_line "  deny /{,var/}/tmp/** xm,";
         write_line "  deny /dev/shm/** m,";
-        write_line "  deny /sys/fs/cgroup/** m," );
+        write_line "  deny /sys/fs/cgroup/** m,");
       write_line "";
       write_line "  /usr/bin/env ix,";
       write_line "";
@@ -212,7 +212,7 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "";
       if p.allow_network then (
         write_line "  network,";
-        write_line "" );
+        write_line "");
       write_line "  dbus bus=session,";
       write_line "";
       (* write_line "  set rlimit nproc <= 200,";
@@ -323,11 +323,11 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "  deny /**vmlinu{,z,x}* rw,";
       write_line "  deny /**System.map* rw,";
       write_line "";
-      ( match p.extra_aa_lines with
-        | [] -> ()
-        | l ->
-          List.iter (fun x -> write_line (Printf.sprintf "  %s," x)) l;
-          write_line "" );
+      (match p.extra_aa_lines with
+       | [] -> ()
+       | l ->
+         List.iter (fun x -> write_line (Printf.sprintf "  %s," x)) l;
+         write_line "");
       write_line "}");
   FileUtil.chmod (`Octal 0o774) [ file_name ];
   ()

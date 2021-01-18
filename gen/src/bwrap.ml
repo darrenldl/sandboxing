@@ -58,11 +58,11 @@ let compile_arg (x : arg) : res =
   | Uid id -> (
       match id with
       | None -> String (Printf.sprintf "--uid $(%s)" Commands.get_unused_uid)
-      | Some x -> String (Printf.sprintf "--uid %d" x) )
+      | Some x -> String (Printf.sprintf "--uid %d" x))
   | Gid id -> (
       match id with
       | None -> String (Printf.sprintf "--gid $(%s)" Commands.get_unused_gid)
-      | Some x -> String (Printf.sprintf "--gid \"%d\"" x) )
+      | Some x -> String (Printf.sprintf "--gid \"%d\"" x))
   | Hostname s -> String (Printf.sprintf "--hostname \"%s\"" s)
   | Chdir s -> String (Printf.sprintf "--chdir \"%s\"" s)
   | Setenv (key, value) ->

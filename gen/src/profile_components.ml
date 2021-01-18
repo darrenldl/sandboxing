@@ -166,8 +166,8 @@ let lsb_release_common =
 
 let set_up_jail_home ~tmp ~name =
   [
-    ( if tmp then Tmpfs Config.home_inside_jail
-      else Bind (get_jail_dir name, Some Config.home_inside_jail) );
+    (if tmp then Tmpfs Config.home_inside_jail
+     else Bind (get_jail_dir name, Some Config.home_inside_jail));
     Setenv ("HOME", Config.home_inside_jail);
   ]
 
