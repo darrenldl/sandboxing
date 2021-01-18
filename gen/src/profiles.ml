@@ -269,7 +269,7 @@ let firefox_private : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = Some 512;
+    heap_limit_MiB = Some 1024;
   }
 
 let firefox_private_arch : Profile.t =
@@ -328,7 +328,7 @@ let firefox_private_arch : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = Some 512;
+    heap_limit_MiB = Some 1024;
   }
 
 let discord : Profile.t =
