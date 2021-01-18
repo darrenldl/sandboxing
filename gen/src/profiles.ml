@@ -172,7 +172,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 1024;
   }
 
 let firefox_tmp : Profile.t =
@@ -218,7 +218,7 @@ let firefox_tmp : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 512;
   }
 
 let firefox_private : Profile.t =
@@ -269,7 +269,7 @@ let firefox_private : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 512;
   }
 
 let firefox_private_arch : Profile.t =
@@ -328,7 +328,7 @@ let firefox_private_arch : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 512;
   }
 
 let discord : Profile.t =
@@ -381,7 +381,7 @@ let discord : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = true;
     extra_aa_lines = [ "/opt/discord/ r"; "/opt/discord/** rix" ];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 1024;
   }
 
 let thunderbird : Profile.t =
@@ -425,7 +425,7 @@ let thunderbird : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [ "deny /usr/lib/firefox/** x" ];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 200;
   }
 
 let chromium : Profile.t =
@@ -515,7 +515,7 @@ let deluge : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [ "deny /usr/lib/firefox/** rx" ];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 200;
   }
 
 (* let zoom : profile =
@@ -607,7 +607,7 @@ let okular_ro : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = Some 1000;
+    heap_limit_MiB = Some 200;
   }
 
 let okular_rw : Profile.t =
@@ -654,7 +654,7 @@ let okular_rw : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 200;
   }
 
 let eom_ro : Profile.t =
@@ -701,7 +701,7 @@ let eom_ro : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 200;
   }
 
 let archive_handling : Profile.t =
