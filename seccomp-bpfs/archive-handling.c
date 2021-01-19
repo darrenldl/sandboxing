@@ -25,6 +25,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <seccomp.h>
+#include <sys/ioctl.h>
 
 int main (void) {
   int rc = -1;

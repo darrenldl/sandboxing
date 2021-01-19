@@ -218,6 +218,7 @@ let write_c_file ~name ~(blacklist : syscall list) =
       write_line "#include <fcntl.h>";
       write_line "#include <unistd.h>";
       write_line "#include <seccomp.h>";
+      write_line "#include <sys/ioctl.h>";
       write_line "";
       write_line "int main (void) {";
       write_line "  int rc = -1;";
