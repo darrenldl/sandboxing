@@ -127,7 +127,7 @@ int main (void) {
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(vserver), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(ioctl), 1, SCMP_A1 (SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int) TIOCSTI)) < 0) { goto out; }
 
-  filter_fd = open("bash-hide-home-hide-net_seccomp_filter.bpf", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+  filter_fd = open("bash-hide-net_seccomp_filter.bpf", O_CREAT | O_WRONLY | O_TRUNC, 0644);
   if (filter_fd == -1) {
     rc = -errno;
     goto out;

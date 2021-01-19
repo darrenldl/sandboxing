@@ -4,19 +4,16 @@ set -euxo pipefail
 
 script_dir=$(dirname $(readlink -f "$0"))
 
-gcc "$script_dir"/../seccomp-bpfs/bash-loose-hide-home.c -lseccomp -o "$script_dir"/../seccomp-bpfs/bash-loose-hide-home.exe
-"$script_dir"/../seccomp-bpfs/bash-loose-hide-home.exe
+gcc "$script_dir"/../seccomp-bpfs/bash-hide-net.c -lseccomp -o "$script_dir"/../seccomp-bpfs/bash-hide-net.exe
+"$script_dir"/../seccomp-bpfs/bash-hide-net.exe
 if [[ $? != 0 ]]; then
   echo "Failed to generate seccomp filter"
   exit 1
 fi
 
-mv bash-loose-hide-home_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
+mv bash-hide-net_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
 
-gcc "$script_dir"/../runners/bash-loose-hide-home.c -o "$script_dir"/../runners/bash-loose-hide-home.runner
-
-mkdir -p "$HOME/sandboxing-sandboxes/bash-loose-hide-home"
-mkdir -p "$HOME/sandboxing-sandboxes/bash-loose-hide-home/Downloads"
+gcc "$script_dir"/../runners/bash-hide-net.c -o "$script_dir"/../runners/bash-hide-net.runner
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 
@@ -38,15 +35,18 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
-  --bind "$HOME/sandboxing-sandboxes/bash-loose-hide-home" "/home/sandbox" \
+  --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "HOME" "/home/sandbox" \
-  --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
+  --setenv "USER" "sandbox" \
+  --setenv "LOGNAME" "sandbox" \
+  --bind "." "/home/sandbox" \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \
   --unshare-ipc \
   --unshare-cgroup \
-  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/bash-loose-hide-home_seccomp_filter.bpf \
-  --ro-bind ""$script_dir"/../runners/bash-loose-hide-home.runner" "/home/sandbox/bash-loose-hide-home.runner" \
-  /home/sandbox/bash-loose-hide-home.runner \
+  --unshare-net \
+  --seccomp 10 10<"$script_dir"/../seccomp-bpfs/bash-hide-net_seccomp_filter.bpf \
+  --ro-bind ""$script_dir"/../runners/bash-hide-net.runner" "/home/sandbox/bash-hide-net.runner" \
+  /home/sandbox/bash-hide-net.runner \
  )

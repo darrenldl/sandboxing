@@ -6,7 +6,7 @@ let bash : Profile.t =
     name = "bash";
     prog = "/usr/bin/bash";
     args = [];
-    home_jail_dir = Some "bash";
+    home_jail_dir = None;
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
@@ -17,116 +17,60 @@ let bash : Profile.t =
       @ etc_common
       @ proc_dev_common
       @ tmp_run_common
-      @ set_up_jail_home ~tmp:false ~name:"bash"
-      @ [
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
-    allow_network = true;
-    aa_caps = [];
-    allow_wx = false;
-    extra_aa_lines = [];
-    heap_limit_MiB = None;
-  }
-
-let bash_hide_home : Profile.t =
-  let name = "bash-hide-home" in
-  {
-    name;
-    prog = "/usr/bin/bash";
-    args = [];
-    home_jail_dir = Some name;
-    preserved_temp_home_dirs = [];
-    log_stdout = false;
-    log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
-    bwrap_args =
-      [ Ro_bind ("/usr/share", None) ]
-      @ usr_lib_lib64_bin_common
-      @ etc_common
-      @ proc_dev_common
-      @ tmp_run_common
-      @ set_up_jail_home ~tmp:false ~name
-      @ [
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
-    allow_network = true;
-    aa_caps = [];
-    allow_wx = false;
-    extra_aa_lines = [];
-    heap_limit_MiB = None;
-  }
-
-let bash_hide_home_hide_net : Profile.t =
-  let name = "bash-hide-home-hide-net" in
-  {
-    name;
-    prog = "/usr/bin/bash";
-    args = [];
-    home_jail_dir = Some name;
-    preserved_temp_home_dirs = [];
-    log_stdout = false;
-    log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
-    bwrap_args =
-      [ Ro_bind ("/usr/share", None) ]
-      @ usr_lib_lib64_bin_common
-      @ etc_common
-      @ proc_dev_common
-      @ tmp_run_common
-      @ set_up_jail_home ~tmp:false ~name
-      @ dbus_common
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("HOME", "/home/sandbox");
+        Setenv ("USER", "sandbox");
+        Setenv ("LOGNAME", "sandbox");
+        Bind (".", Some Config.home_inside_jail);
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+      ];
+    allow_network = true;
+    aa_caps = [];
+    allow_wx = false;
+    extra_aa_lines = [];
+    heap_limit_MiB = Some 2048;
+  }
+
+let bash_hide_net : Profile.t =
+  let name = "bash-hide-net" in
+  {
+    name;
+    prog = "/usr/bin/bash";
+    args = [];
+    home_jail_dir = None;
+    preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
+    syscall_blacklist = default_syscall_blacklist;
+    bwrap_args =
+      [ Ro_bind ("/usr/share", None) ]
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ proc_dev_common
+      @ tmp_run_common
+      @ [
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("HOME", "/home/sandbox");
+        Setenv ("USER", "sandbox");
+        Setenv ("LOGNAME", "sandbox");
+        Bind (".", Some Config.home_inside_jail);
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
         Unshare_ipc;
         Unshare_cgroup;
         Unshare_net;
-        New_session;
       ];
     allow_network = false;
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    heap_limit_MiB = None;
-  }
-
-let bash_loose_hide_home : Profile.t =
-  let name = "bash-loose-hide-home" in
-  {
-    name;
-    prog = "/usr/bin/bash";
-    args = [];
-    home_jail_dir = Some name;
-    preserved_temp_home_dirs = [];
-    log_stdout = false;
-    log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
-    bwrap_args =
-      [ Ro_bind ("/usr/share", None) ]
-      @ usr_lib_lib64_bin_common
-      @ etc_common
-      @ proc_dev_common
-      @ tmp_run_common
-      @ set_up_jail_home ~tmp:false ~name
-      @ dbus_common
-      @ [ Unshare_user; Unshare_pid; Unshare_uts; Unshare_ipc; Unshare_cgroup ];
-    allow_network = true;
-    aa_caps = [];
-    allow_wx = false;
-    extra_aa_lines = [];
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 2048;
   }
 
 let make_firefox_profile ~(suffix : string option) : Profile.t =
@@ -789,9 +733,7 @@ let make_workspace : Profile.t =
 let suite =
   [
     bash;
-    bash_hide_home;
-    bash_hide_home_hide_net;
-    bash_loose_hide_home;
+    bash_hide_net;
     make_firefox_profile ~suffix:None;
     (* make_firefox_profile ~suffix:(Some "school");
      * make_firefox_profile ~suffix:(Some "bank");

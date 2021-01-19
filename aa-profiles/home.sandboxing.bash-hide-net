@@ -2,9 +2,9 @@ abi <abi/3.0>,
 
 include <tunables/global>
 
-profile /home/sandbox/bash-hide-home-hide-net.runner {
+profile /home/sandbox/bash-hide-net.runner {
   # Runner self access
-  /home/sandbox/bash-hide-home-hide-net.runner r,
+  /home/sandbox/bash-hide-net.runner r,
 
   # Sandbox access
   /home/sandbox/ r,
