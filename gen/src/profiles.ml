@@ -33,7 +33,7 @@ let bash : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 500;
+    proc_limit = Some 1000;
     heap_limit_MiB = Some 2048;
   }
 
