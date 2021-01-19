@@ -236,6 +236,10 @@ let write_c_file ~name ~(blacklist : syscall list) =
                  0) { goto out; }"
                 s))
         blacklist;
+      write_line
+        "  if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(ioctl), 1, \
+         SCMP_A1 (SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int) TIOCSTI)) < 0) { goto \
+         out; }";
       write_line "";
       write_line
         (Printf.sprintf
