@@ -26,8 +26,6 @@ tmp_dir=$(mktemp -d -t firefox-tmp-$cur_time-XXXX)
 mkdir -p "$tmp_dir/Downloads"
 
 
-ulimit -u 500
-
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \

@@ -35,8 +35,6 @@ for x in ${glob_list_30[@]}; do
   fi
 done
 
-ulimit -u 500
-
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
