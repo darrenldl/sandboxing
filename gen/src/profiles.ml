@@ -33,7 +33,7 @@ let bash : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 1000;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 2048;
   }
 
@@ -71,7 +71,7 @@ let bash_hide_net : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 2048;
   }
 
@@ -118,7 +118,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 1024;
   }
 
@@ -165,7 +165,7 @@ let firefox_tmp : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 512;
   }
 
@@ -217,7 +217,7 @@ let firefox_private : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 1024;
   }
 
@@ -277,7 +277,7 @@ let firefox_private_arch : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 1024;
   }
 
@@ -331,7 +331,7 @@ let discord : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = true;
     extra_aa_lines = [ "/opt/discord/ r"; "/opt/discord/** rix" ];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 1024;
   }
 
@@ -376,7 +376,7 @@ let thunderbird : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [ "deny /usr/lib/firefox/** x" ];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 1024;
   }
 
@@ -422,7 +422,7 @@ let chromium : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = None;
   }
 
@@ -468,7 +468,7 @@ let deluge : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [ "deny /usr/lib/firefox/** rx" ];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 200;
   }
 
@@ -561,7 +561,7 @@ let okular_ro : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 200;
   }
 
@@ -609,7 +609,7 @@ let okular_rw : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 200;
   }
 
@@ -657,92 +657,8 @@ let eom_ro : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
-    proc_limit = Some 500;
+    proc_limit = Some 2000;
     heap_limit_MiB = Some 200;
-  }
-
-let archive_handling : Profile.t =
-  let name = "archive-handling" in
-  {
-    name;
-    prog = "/usr/bin/bash";
-    args = [];
-    home_jail_dir = Some name;
-    preserved_temp_home_dirs = [];
-    log_stdout = false;
-    log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
-    bwrap_args =
-      usr_share_common
-      @ usr_lib_lib64_bin_common
-      @ etc_common
-      @ etc_ssl
-      @ etc_localtime
-      @ proc_dev_common
-      @ tmp_run_common
-      @ wayland_common
-      @ set_up_jail_home ~tmp:true ~name
-      @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        Unshare_net;
-        New_session;
-      ];
-    allow_network = false;
-    aa_caps = [];
-    allow_wx = false;
-    extra_aa_lines = [];
-    proc_limit = Some 500;
-    heap_limit_MiB = None;
-  }
-
-let make_workspace : Profile.t =
-  let name = "make-workspace" in
-  {
-    name;
-    prog = "/usr/bin/bash";
-    args = [];
-    home_jail_dir = Some (name ^ "-$1");
-    preserved_temp_home_dirs = [];
-    log_stdout = false;
-    log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
-    bwrap_args =
-      usr_share_common
-      @ usr_lib_lib64_bin_common
-      @ etc_common
-      @ etc_ssl
-      @ etc_localtime
-      @ proc_dev_common
-      @ tmp_run_common
-      @ wayland_common
-      @ set_up_jail_home ~tmp:false ~name:(name ^ "-$1")
-      @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
-    allow_network = true;
-    aa_caps = [];
-    allow_wx = false;
-    extra_aa_lines = [];
-    proc_limit = Some 500;
-    heap_limit_MiB = None;
   }
 
 let suite =
@@ -764,6 +680,4 @@ let suite =
     okular_ro;
     okular_rw;
     eom_ro;
-    archive_handling;
-    make_workspace;
   ]
