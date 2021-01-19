@@ -118,6 +118,8 @@ let write_main_script (p : Profile.t) : unit =
              write_line "done")
         bwrap_args;
       write_line "";
+      write_line "ulimit -u 500";
+      write_line "";
       write_line "( exec bwrap \\";
       List.iteri
         (fun i x ->

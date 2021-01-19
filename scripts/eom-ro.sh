@@ -23,6 +23,8 @@ mkdir -p "$HOME/sandboxing-sandbox-logs/eom-ro"
 stderr_log_name="$HOME/sandboxing-sandbox-logs/eom-ro"/"$cur_time"."stderr"
 
 
+ulimit -u 500
+
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
   --ro-bind "/usr/lib" "/usr/lib" \
