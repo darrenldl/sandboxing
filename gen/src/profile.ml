@@ -12,5 +12,6 @@ type t = {
   aa_caps : Aa.capability list;
   allow_wx : bool;
   extra_aa_lines : string list;
+  proc_limit : int option;
   heap_limit_MiB : int option;
 }

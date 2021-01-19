@@ -33,6 +33,7 @@ let bash : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 2048;
   }
 
@@ -70,6 +71,7 @@ let bash_hide_net : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 2048;
   }
 
@@ -116,6 +118,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 1024;
   }
 
@@ -162,6 +165,7 @@ let firefox_tmp : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 512;
   }
 
@@ -213,6 +217,7 @@ let firefox_private : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 1024;
   }
 
@@ -272,6 +277,7 @@ let firefox_private_arch : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 1024;
   }
 
@@ -325,6 +331,7 @@ let discord : Profile.t =
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = true;
     extra_aa_lines = [ "/opt/discord/ r"; "/opt/discord/** rix" ];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 1024;
   }
 
@@ -369,6 +376,7 @@ let thunderbird : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [ "deny /usr/lib/firefox/** x" ];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 1024;
   }
 
@@ -414,6 +422,7 @@ let chromium : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = None;
   }
 
@@ -459,6 +468,7 @@ let deluge : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [ "deny /usr/lib/firefox/** rx" ];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 200;
   }
 
@@ -551,6 +561,7 @@ let okular_ro : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 200;
   }
 
@@ -598,6 +609,7 @@ let okular_rw : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 200;
   }
 
@@ -645,6 +657,7 @@ let eom_ro : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = Some 200;
   }
 
@@ -687,6 +700,7 @@ let archive_handling : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = None;
   }
 
@@ -727,6 +741,7 @@ let make_workspace : Profile.t =
     aa_caps = [];
     allow_wx = false;
     extra_aa_lines = [];
+    proc_limit = Some 500;
     heap_limit_MiB = None;
   }
 
