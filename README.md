@@ -138,11 +138,11 @@ Run `make run` in `bw-script-gen/` to generate scripts after making updates to t
 
 ## Acknowledgements
 
-Some components (e.g. bubblewrap scripts, seccomp filter file generator) are based on the following repo
+Some components (e.g. bubblewrap scripts, seccomp filter blacklist) are based on the following repo
 
 - https://github.com/valoq/bwscripts
 
-AppArmor profile generation and other design choices are based on the following repo
+AppArmor profile generation, seccomp filter whitelist, and other design choices are based on the following repo
 
 - https://github.com/Whonix/sandbox-app-launcher
 
