@@ -147,7 +147,7 @@ let default_syscall_whitelist : syscall list =
     { name = "fchmod"; args = [] };
     { name = "fchmodat"; args = [] };
     { name = "fchown"; args = [] };
-    { name = "fchwon32"; args = [] };
+    { name = "fchown32"; args = [] };
     { name = "fchownat"; args = [] };
     { name = "fcntl"; args = [] };
     { name = "fcntl64"; args = [] };
@@ -246,7 +246,7 @@ let default_syscall_whitelist : syscall list =
     { name = "mknod"; args = [(1, "S_IFIFO")] };
     { name = "mknod"; args = [(1, "S_IFSOCK")] };
     { name = "mknodat"; args = [(1, "S_IFREG")] };
-    { name = "mknodat"; args = [(1, "S_IFIFI")] };
+    { name = "mknodat"; args = [(1, "S_IFIFO")] };
     { name = "mknodat"; args = [(1, "S_IFSOCK")] };
     (**)
     { name = "mlock"; args = [] };
@@ -326,7 +326,7 @@ let default_syscall_whitelist : syscall list =
     { name = "sched_getaffinity"; args = [] };
     { name = "sched_getattr"; args = [] };
     { name = "sched_getparam"; args = [] };
-    { name = "sched_getschedular"; args = [] };
+    { name = "sched_getscheduler"; args = [] };
     { name = "sched_rr_get_interval"; args = [] };
     { name = "sched_setaffinity"; args = [] };
     { name = "sched_setattr"; args = [] };
@@ -377,7 +377,7 @@ let default_syscall_whitelist : syscall list =
     { name = "shmget"; args = [] };
     { name = "shutdown"; args = [] };
     { name = "sigaction"; args = [] };
-    { name = "signaltstack"; args = [] };
+    { name = "sigaltstack"; args = [] };
     { name = "signal"; args = [] };
     { name = "signalfd"; args = [] };
     { name = "signalfd4"; args = [] };
@@ -437,7 +437,7 @@ let default_syscall_whitelist : syscall list =
     { name = "waitid"; args = [] };
     { name = "waitpid"; args = [] };
     { name = "write"; args = [] };
-    { name = "writeev"; args = [] };
+    { name = "writev"; args = [] };
     (* W^X *)
     (* Disallow creating writable and executable mappings *)
     { name = "mmap"; args = [(2, "PROT_NONE")] };
