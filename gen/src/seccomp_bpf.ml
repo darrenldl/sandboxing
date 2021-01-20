@@ -74,7 +74,7 @@ let write_c_file ~name ~(blacklist : syscall list)
       write_line "  scmp_filter_ctx ctx;";
       write_line "  int filter_fd;";
       write_line "";
-      write_line "  ctx = seccomp_init(SCMP_ACT_ALLOW);";
+      write_line "  ctx = seccomp_init(SCMP_ACT_KILL);";
       write_line "  if (ctx == NULL) { goto out; }";
       write_line "";
       List.iter
@@ -84,6 +84,13 @@ let write_c_file ~name ~(blacklist : syscall list)
                       )
         )
         blacklist;
+      List.iter
+        (fun x ->
+           write_line (string_of_rule ~action:"SCMP_ACT_ALLOW"
+                         x
+                      )
+        )
+        whitelist;
       write_line "";
       write_line
         (Printf.sprintf

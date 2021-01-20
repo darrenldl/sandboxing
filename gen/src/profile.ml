@@ -7,6 +7,7 @@ type t = {
   log_stdout : bool;
   log_stderr : bool;
   syscall_blacklist : Seccomp_bpf.syscall list;
+  syscall_whitelist : Seccomp_bpf.syscall list;
   bwrap_args : Bwrap.arg list;
   allow_network : bool;
   aa_caps : Aa.capability list;

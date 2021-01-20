@@ -32,7 +32,7 @@ int main (void) {
   scmp_filter_ctx ctx;
   int filter_fd;
 
-  ctx = seccomp_init(SCMP_ACT_ALLOW);
+  ctx = seccomp_init(SCMP_ACT_KILL);
   if (ctx == NULL) { goto out; }
 
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(_sysctl), 0) < 0) { goto out; }

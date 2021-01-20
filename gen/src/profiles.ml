@@ -11,6 +11,7 @@ let bash : Profile.t =
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       [ Ro_bind ("/usr/share", None) ]
       @ usr_lib_lib64_bin_common
@@ -48,6 +49,7 @@ let bash_hide_net : Profile.t =
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       [ Ro_bind ("/usr/share", None) ]
       @ usr_lib_lib64_bin_common
@@ -86,6 +88,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
@@ -133,6 +136,7 @@ let firefox_tmp : Profile.t =
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
@@ -180,6 +184,7 @@ let firefox_private : Profile.t =
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
@@ -232,6 +237,7 @@ let firefox_private_arch : Profile.t =
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
@@ -292,6 +298,7 @@ let discord : Profile.t =
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -346,6 +353,7 @@ let thunderbird : Profile.t =
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -391,6 +399,7 @@ let chromium : Profile.t =
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -437,6 +446,7 @@ let deluge : Profile.t =
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -531,6 +541,7 @@ let okular_ro : Profile.t =
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
@@ -579,6 +590,7 @@ let okular_rw : Profile.t =
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
@@ -627,6 +639,7 @@ let eom_ro : Profile.t =
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
