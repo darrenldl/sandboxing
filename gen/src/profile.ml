@@ -6,6 +6,7 @@ type t = {
   preserved_temp_home_dirs : string list;
   log_stdout : bool;
   log_stderr : bool;
+  syscall_default_action : string;
   syscall_blacklist : Seccomp_bpf.syscall list;
   syscall_whitelist : Seccomp_bpf.syscall list;
   bwrap_args : Bwrap.arg list;

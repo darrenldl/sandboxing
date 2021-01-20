@@ -93,7 +93,7 @@ let default_syscall_blacklist : syscall list =
     { name = "vm86old"; args = [] };
     { name = "vmsplice"; args = [] };
     { name = "vserver"; args = [] };
-    { name = "ioctl"; args = [(1, "TIOCSTI")] };
+    { name = "ioctl"; args = [ (1, "TIOCSTI") ] };
   ]
 
 (* Based on https://github.com/Whonix/sandbox-app-launcher *)
@@ -207,18 +207,18 @@ let default_syscall_whitelist : syscall list =
     { name = "inotify_init"; args = [] };
     { name = "inotify_init1"; args = [] };
     { name = "inotify_rm_watch"; args = [] };
-    { name = "ioctl"; args = [(1, "FIOCLEX")] };
-    { name = "ioctl"; args = [(1, "FIONBIO")] };
-    { name = "ioctl"; args = [(1, "FIONREAD")] };
-    { name = "ioctl"; args = [(1, "RNDGETENTCNT")] };
-    { name = "ioctl"; args = [(1, "TCGETS")] };
-    { name = "ioctl"; args = [(1, "TCSETS")] };
-    { name = "ioctl"; args = [(1, "TCSETSW")] };
-    { name = "ioctl"; args = [(1, "TIOCGPGRP")] };
-    { name = "ioctl"; args = [(1, "TIOCGWINSZ")] };
-    { name = "ioctl"; args = [(1, "TIOCSPGRP")] };
-    { name = "ioctl"; args = [(1, "TIOCSWINSZ")] };
-    { name = "ioctl"; args = [(1, "VT_GETSTATE")] };
+    { name = "ioctl"; args = [ (1, "FIOCLEX") ] };
+    { name = "ioctl"; args = [ (1, "FIONBIO") ] };
+    { name = "ioctl"; args = [ (1, "FIONREAD") ] };
+    { name = "ioctl"; args = [ (1, "RNDGETENTCNT") ] };
+    { name = "ioctl"; args = [ (1, "TCGETS") ] };
+    { name = "ioctl"; args = [ (1, "TCSETS") ] };
+    { name = "ioctl"; args = [ (1, "TCSETSW") ] };
+    { name = "ioctl"; args = [ (1, "TIOCGPGRP") ] };
+    { name = "ioctl"; args = [ (1, "TIOCGWINSZ") ] };
+    { name = "ioctl"; args = [ (1, "TIOCSPGRP") ] };
+    { name = "ioctl"; args = [ (1, "TIOCSWINSZ") ] };
+    { name = "ioctl"; args = [ (1, "VT_GETSTATE") ] };
     { name = "ioprio_get"; args = [] };
     { name = "ipc"; args = [] };
     { name = "kill"; args = [] };
@@ -242,13 +242,13 @@ let default_syscall_whitelist : syscall list =
     { name = "mkdir"; args = [] };
     { name = "mkdirat"; args = [] };
     (* We don't need to allow creation of char/block devices *)
-    { name = "mknod"; args = [(1, "S_IFREG")] };
-    { name = "mknod"; args = [(1, "S_IFIFO")] };
-    { name = "mknod"; args = [(1, "S_IFSOCK")] };
-    { name = "mknodat"; args = [(1, "S_IFREG")] };
-    { name = "mknodat"; args = [(1, "S_IFIFO")] };
-    { name = "mknodat"; args = [(1, "S_IFSOCK")] };
-    (**)
+    { name = "mknod"; args = [ (1, "S_IFREG") ] };
+    { name = "mknod"; args = [ (1, "S_IFIFO") ] };
+    { name = "mknod"; args = [ (1, "S_IFSOCK") ] };
+    { name = "mknodat"; args = [ (1, "S_IFREG") ] };
+    { name = "mknodat"; args = [ (1, "S_IFIFO") ] };
+    { name = "mknodat"; args = [ (1, "S_IFSOCK") ] };
+    (* --- *)
     { name = "mlock"; args = [] };
     { name = "mlock2"; args = [] };
     { name = "mlockall"; args = [] };
@@ -385,12 +385,12 @@ let default_syscall_whitelist : syscall list =
     { name = "sigprocmask"; args = [] };
     { name = "sigreturn"; args = [] };
     { name = "sigsuspend"; args = [] };
-    { name = "socket"; args = [(0, "AF_INET")] };
-    { name = "socket"; args = [(0, "AF_INET6")] };
-    { name = "socket"; args = [(0, "AF_LOCAL")] };
-    { name = "socket"; args = [(0, "AF_NETLINK")] };
-    { name = "socket"; args = [(0, "AF_UNIX")] };
-    { name = "socket"; args = [(0, "AF_UNSPEC")] };
+    { name = "socket"; args = [ (0, "AF_INET") ] };
+    { name = "socket"; args = [ (0, "AF_INET6") ] };
+    { name = "socket"; args = [ (0, "AF_LOCAL") ] };
+    { name = "socket"; args = [ (0, "AF_NETLINK") ] };
+    { name = "socket"; args = [ (0, "AF_UNIX") ] };
+    { name = "socket"; args = [ (0, "AF_UNSPEC") ] };
     { name = "socketcall"; args = [] };
     { name = "socketpair"; args = [] };
     { name = "splice"; args = [] };
@@ -440,37 +440,37 @@ let default_syscall_whitelist : syscall list =
     { name = "writev"; args = [] };
     (* W^X *)
     (* Disallow creating writable and executable mappings *)
-    { name = "mmap"; args = [(2, "PROT_NONE")] };
-    { name = "mmap"; args = [(2, "PROT_READ")] };
-    { name = "mmap"; args = [(2, "PROT_WRITE")] };
-    { name = "mmap"; args = [(2, "PROT_EXEC")] };
-    { name = "mmap"; args = [(2, "PROT_READ|PROT_EXEC")] };
-    { name = "mmap"; args = [(2, "PROT_READ|PROT_WRITE")] };
-    { name = "mmap2"; args = [(2, "PROT_NONE")] };
-    { name = "mmap2"; args = [(2, "PROT_READ")] };
-    { name = "mmap2"; args = [(2, "PROT_WRITE")] };
-    { name = "mmap2"; args = [(2, "PROT_EXEC")] };
-    { name = "mmap2"; args = [(2, "PROT_READ|PROT_EXEC")] };
-    { name = "mmap2"; args = [(2, "PROT_READ|PROT_WRITE")] };
+    { name = "mmap"; args = [ (2, "PROT_NONE") ] };
+    { name = "mmap"; args = [ (2, "PROT_READ") ] };
+    { name = "mmap"; args = [ (2, "PROT_WRITE") ] };
+    { name = "mmap"; args = [ (2, "PROT_EXEC") ] };
+    { name = "mmap"; args = [ (2, "PROT_READ|PROT_EXEC") ] };
+    { name = "mmap"; args = [ (2, "PROT_READ|PROT_WRITE") ] };
+    { name = "mmap2"; args = [ (2, "PROT_NONE") ] };
+    { name = "mmap2"; args = [ (2, "PROT_READ") ] };
+    { name = "mmap2"; args = [ (2, "PROT_WRITE") ] };
+    { name = "mmap2"; args = [ (2, "PROT_EXEC") ] };
+    { name = "mmap2"; args = [ (2, "PROT_READ|PROT_EXEC") ] };
+    { name = "mmap2"; args = [ (2, "PROT_READ|PROT_WRITE") ] };
     (* Disallow transitioning mappings to executable *)
-    { name = "mprotect"; args = [(2, "PROT_NONE")] };
-    { name = "mprotect"; args = [(2, "PROT_READ")] };
-    { name = "mprotect"; args = [(2, "PROT_WRITE")] };
-    { name = "mprotect"; args = [(2, "PROT_READ|PROT_WRITE")] };
-    { name = "pkey_mprotect"; args = [(2, "PROT_NONE")] };
-    { name = "pkey_mprotect"; args = [(2, "PROT_READ")] };
-    { name = "pkey_mprotect"; args = [(2, "PROT_WRITE")] };
-    { name = "pkey_mprotect"; args = [(2, "PROT_READ|PROT_WRITE")] };
+    { name = "mprotect"; args = [ (2, "PROT_NONE") ] };
+    { name = "mprotect"; args = [ (2, "PROT_READ") ] };
+    { name = "mprotect"; args = [ (2, "PROT_WRITE") ] };
+    { name = "mprotect"; args = [ (2, "PROT_READ|PROT_WRITE") ] };
+    { name = "pkey_mprotect"; args = [ (2, "PROT_NONE") ] };
+    { name = "pkey_mprotect"; args = [ (2, "PROT_READ") ] };
+    { name = "pkey_mprotect"; args = [ (2, "PROT_WRITE") ] };
+    { name = "pkey_mprotect"; args = [ (2, "PROT_READ|PROT_WRITE") ] };
     (* Disallow mapping shared memory segments as executable *)
-    { name = "shmat"; args = [(2, "0")] };
-    { name = "shmat"; args = [(2, "SHM_RND")] };
-    { name = "shmat"; args = [(2, "SHM_RDONLY")] };
-    { name = "shmat"; args = [(2, "SHM_REMAP")] };
+    { name = "shmat"; args = [ (2, "0") ] };
+    { name = "shmat"; args = [ (2, "SHM_RND") ] };
+    { name = "shmat"; args = [ (2, "SHM_RDONLY") ] };
+    { name = "shmat"; args = [ (2, "SHM_REMAP") ] };
   ]
 
 let default_syscall_whitelist_wx : syscall list =
-  default_syscall_whitelist @
-  [
+  default_syscall_whitelist
+  @ [
     { name = "mmap"; args = [] };
     { name = "mmap2"; args = [] };
     { name = "mprotect"; args = [] };

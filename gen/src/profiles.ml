@@ -10,7 +10,8 @@ let bash : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       [ Ro_bind ("/usr/share", None) ]
@@ -48,7 +49,8 @@ let bash_hide_net : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       [ Ro_bind ("/usr/share", None) ]
@@ -87,7 +89,8 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
@@ -135,7 +138,8 @@ let firefox_tmp : Profile.t =
     preserved_temp_home_dirs = [ "Downloads" ];
     log_stdout = true;
     log_stderr = true;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
@@ -183,7 +187,8 @@ let firefox_private : Profile.t =
     preserved_temp_home_dirs = [ "Downloads" ];
     log_stdout = true;
     log_stderr = true;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
@@ -236,7 +241,8 @@ let firefox_private_arch : Profile.t =
     preserved_temp_home_dirs = [ "Downloads" ];
     log_stdout = true;
     log_stderr = true;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
@@ -297,8 +303,9 @@ let discord : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
+    syscall_default_action = "SCMP_ACT_ALLOW";
     syscall_blacklist = default_syscall_blacklist;
-    syscall_whitelist = default_syscall_whitelist;
+    syscall_whitelist = [];
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -352,8 +359,9 @@ let thunderbird : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
-    syscall_whitelist = default_syscall_whitelist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
+    syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -398,7 +406,8 @@ let chromium : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
@@ -445,7 +454,8 @@ let deluge : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
@@ -540,7 +550,8 @@ let okular_ro : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = true;
     log_stderr = true;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
@@ -589,7 +600,8 @@ let okular_rw : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = true;
     log_stderr = true;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common
@@ -638,7 +650,8 @@ let eom_ro : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = true;
     log_stderr = true;
-    syscall_blacklist = default_syscall_blacklist;
+    syscall_default_action = "SCMP_ACT_KILL";
+    syscall_blacklist = [];
     syscall_whitelist = default_syscall_whitelist;
     bwrap_args =
       usr_share_common

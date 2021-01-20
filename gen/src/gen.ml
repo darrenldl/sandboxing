@@ -85,9 +85,9 @@ let write_main_script (p : Profile.t) : unit =
                ( Filename.concat "$tmp_dir" dir,
                  Some (Filename.concat Config.home_inside_jail dir) ))
           p.preserved_temp_home_dirs
-        @ (match p.syscall_blacklist with
-            | [] -> []
-            | _ ->
+        @ (match p.syscall_blacklist, p.syscall_whitelist with
+            | [], [] -> []
+            | _, _ ->
               [
                 Seccomp
                   (Filename.concat bpf_dir (p.name ^ Config.seccomp_bpf_suffix));
@@ -164,7 +164,8 @@ let write_runner (p : Profile.t) : unit =
     ~heap_limit_MiB:p.heap_limit_MiB
 
 let write_seccomp_bpf (p : Profile.t) : unit =
-  Seccomp_bpf.write_c_file ~name:p.name ~blacklist:p.syscall_blacklist ~whitelist:p.syscall_whitelist
+  Seccomp_bpf.write_c_file ~name:p.name ~default_action:p.syscall_default_action
+    ~blacklist:p.syscall_blacklist ~whitelist:p.syscall_whitelist
 
 let write_aa_profile (p : Profile.t) : unit =
   FileUtil.mkdir ~parent:true Config.aa_profile_output_dir;

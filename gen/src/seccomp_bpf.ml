@@ -5,36 +5,29 @@ type syscall = {
 
 let string_of_rule ~action (x : syscall) =
   Printf.sprintf
-    "  if (seccomp_rule_add(ctx, %s, SCMP_SYS(%s), %d%s) < \
-     0) { goto out; }"
-    action
-    x.name
-    (List.length x.args)
+    "  if (seccomp_rule_add(ctx, %s, SCMP_SYS(%s), %d%s) < 0) { goto out; }"
+    action x.name (List.length x.args)
     (match x.args with
      | [] -> ""
      | _ ->
        ", "
-       ^ (
-         if x.name = "ioctl" then
-           String.concat ", "
-             (List.map (fun (n, arg) ->
-                  Printf.sprintf "SCMP_A%d(SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int) %s)" n arg
-                )
-                 x.args
-             )
-         else
-           String.concat ", "
-             (List.map (fun (n, arg) ->
-                  Printf.sprintf "SCMP_A%d(SCMP_CMP_EQ, %s)" n arg
-                )
-                 x.args
-             )
-       )
-    )
+       ^
+       if x.name = "ioctl" then
+         String.concat ", "
+           (List.map
+              (fun (n, arg) ->
+                 Printf.sprintf
+                   "SCMP_A%d(SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int) %s)" n arg)
+              x.args)
+       else
+         String.concat ", "
+           (List.map
+              (fun (n, arg) ->
+                 Printf.sprintf "SCMP_A%d(SCMP_CMP_EQ, %s)" n arg)
+              x.args))
 
-let write_c_file ~name ~(blacklist : syscall list)
-    ~(whitelist : syscall list)
-  =
+let write_c_file ~name ~default_action ~(blacklist : syscall list)
+    ~(whitelist : syscall list) =
   FileUtil.mkdir ~parent:true Config.seccomp_bpf_output_dir;
   let file_name = FilePath.concat Config.seccomp_bpf_output_dir (name ^ ".c") in
   CCIO.with_out file_name (fun oc ->
@@ -80,22 +73,14 @@ let write_c_file ~name ~(blacklist : syscall list)
       write_line "  scmp_filter_ctx ctx;";
       write_line "  int filter_fd;";
       write_line "";
-      write_line "  ctx = seccomp_init(SCMP_ACT_KILL);";
+      write_line (Printf.sprintf "  ctx = seccomp_init(%s);" default_action);
       write_line "  if (ctx == NULL) { goto out; }";
       write_line "";
-      (* List.iter
-       *   (fun x ->
-       *      write_line (string_of_rule ~action:"SCMP_ACT_KILL"
-       *                    x
-       *                 )
-       *   )
-       *   blacklist; *)
       List.iter
-        (fun x ->
-           write_line (string_of_rule ~action:"SCMP_ACT_ALLOW"
-                         x
-                      )
-        )
+        (fun x -> write_line (string_of_rule ~action:"SCMP_ACT_KILL" x))
+        blacklist;
+      List.iter
+        (fun x -> write_line (string_of_rule ~action:"SCMP_ACT_ALLOW" x))
         whitelist;
       write_line "";
       write_line
