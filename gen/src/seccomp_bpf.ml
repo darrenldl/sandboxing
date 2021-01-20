@@ -1,191 +1,40 @@
-type syscall =
-  | Sysctl
-  | Acct
-  | Add_key
-  | Adjtimex
-  | Afs_syscall
-  | Bdflush
-  | Bpf
-  | Break
-  | Chroot
-  | Clock_adjtime
-  | Clock_settime
-  | Create_module
-  | Delete_module
-  | Fanotify_init
-  | Finit_module
-  | Ftime
-  | Get_kernel_syms
-  | Getpmsg
-  | Gtty
-  | Get_mempolicy
-  | Init_module
-  | Io_cancel
-  | Io_destroy
-  | Io_getevents
-  | Io_setup
-  | Io_submit
-  | Ioperm
-  | Iopl
-  | Ioprio_set
-  | Kcmp
-  | Kexec_file_load
-  | Kexec_load
-  | Keyctl
-  | Lock
-  | Lookup_dcookie
-  | Mbind
-  | Migrate_pages
-  | Modify_ldt
-  | Mount
-  | Move_pages
-  | Mpx
-  | Name_to_handle_at
-  | Nfsservctl
-  | Open_by_handle_at
-  | Pciconfig_iobase
-  | Pciconfig_read
-  | Pciconfig_write
-  | Perf_event_open
-  | Personality
-  | Pivot_root
-  | Process_vm_readv
-  | Process_vm_writev
-  | Prof
-  | Profil
-  | Ptrace
-  | Putpmsg
-  | Query_module
-  | Reboot
-  | Remap_file_pages
-  | Request_key
-  | Rtas
-  | S390_pci_mmio_read
-  | S390_pci_mmio_write
-  | S390_runtime_instr
-  | Security
-  | Set_mempolicy
-  | Setdomainname
-  | Sethostname
-  | Settimeofday
-  | Sgetmask
-  | Ssetmask
-  | Stime
-  | Stty
-  | Subpage_prot
-  | Swapoff
-  | Swapon
-  | Switch_endian
-  | Sysfs
-  | Syslog
-  | Tuxcall
-  | Ulimit
-  | Umount
-  | Umount2
-  | Uselib
-  | Userfaultfd
-  | Ustat
-  | Vhangup
-  | Vm86
-  | Vm86old
-  | Vmsplice
-  | Vserver
+type syscall = {
+  name : string;
+  args : (int * string) list;
+}
 
-let string_of_syscall (x : syscall) : string =
-  match x with
-  | Sysctl -> "_sysctl"
-  | Acct -> "acct"
-  | Add_key -> "add_key"
-  | Adjtimex -> "adjtimex"
-  | Afs_syscall -> "afs_syscall"
-  | Bdflush -> "bdflush"
-  | Bpf -> "bpf"
-  | Break -> "break"
-  | Chroot -> "chroot"
-  | Clock_adjtime -> "clock_adjtime"
-  | Clock_settime -> "clock_settime"
-  | Create_module -> "create_module"
-  | Delete_module -> "delete_module"
-  | Fanotify_init -> "fanotify_init"
-  | Finit_module -> "finit_module"
-  | Ftime -> "ftime"
-  | Get_kernel_syms -> "get_kernel_syms"
-  | Getpmsg -> "getpmsg"
-  | Gtty -> "gtty"
-  | Get_mempolicy -> "get_mempolicy"
-  | Init_module -> "init_module"
-  | Io_cancel -> "io_cancel"
-  | Io_destroy -> "io_destroy"
-  | Io_getevents -> "io_getevents"
-  | Io_setup -> "io_setup"
-  | Io_submit -> "io_submit"
-  | Ioperm -> "ioperm"
-  | Iopl -> "iopl"
-  | Ioprio_set -> "ioprio_set"
-  | Kcmp -> "kcmp"
-  | Kexec_file_load -> "kexec_file_load"
-  | Kexec_load -> "kexec_load"
-  | Keyctl -> "keyctl"
-  | Lock -> "lock"
-  | Lookup_dcookie -> "lookup_dcookie"
-  | Mbind -> "mbind"
-  | Migrate_pages -> "migrate_pages"
-  | Modify_ldt -> "modify_ldt"
-  | Mount -> "mount"
-  | Move_pages -> "move_pages"
-  | Mpx -> "mpx"
-  | Name_to_handle_at -> "name_to_handle_at"
-  | Nfsservctl -> "nfsservctl"
-  | Open_by_handle_at -> "open_by_handle_at"
-  | Pciconfig_iobase -> "pciconfig_iobase"
-  | Pciconfig_read -> "pciconfig_read"
-  | Pciconfig_write -> "pciconfig_write"
-  | Perf_event_open -> "perf_event_open"
-  | Personality -> "personality"
-  | Pivot_root -> "pivot_root"
-  | Process_vm_readv -> "process_vm_readv"
-  | Process_vm_writev -> "process_vm_writev"
-  | Prof -> "prof"
-  | Profil -> "profil"
-  | Ptrace -> "ptrace"
-  | Putpmsg -> "putpmsg"
-  | Query_module -> "query_module"
-  | Reboot -> "reboot"
-  | Remap_file_pages -> "remap_file_pages"
-  | Request_key -> "request_key"
-  | Rtas -> "rtas"
-  | S390_pci_mmio_read -> "s390_pci_mmio_read"
-  | S390_pci_mmio_write -> "s390_pci_mmio_read"
-  | S390_runtime_instr -> "s390_runtime_instr"
-  | Security -> "security"
-  | Set_mempolicy -> "set_mempolicy"
-  | Setdomainname -> "setdomainname"
-  | Sethostname -> "sethostname"
-  | Settimeofday -> "settimeofday"
-  | Sgetmask -> "sgetmask"
-  | Ssetmask -> "ssetmask"
-  | Stime -> "stime"
-  | Stty -> "stty"
-  | Subpage_prot -> "subpage_prot"
-  | Swapoff -> "swapoff"
-  | Swapon -> "swapon"
-  | Switch_endian -> "switch_endian"
-  | Sysfs -> "sysfs"
-  | Syslog -> "syslog"
-  | Tuxcall -> "tuxcall"
-  | Ulimit -> "ulimit"
-  | Umount -> "umount"
-  | Umount2 -> "umount2"
-  | Uselib -> "uselib"
-  | Userfaultfd -> "userfaultfd"
-  | Ustat -> "ustat"
-  | Vhangup -> "vhangup"
-  | Vm86 -> "vm86"
-  | Vm86old -> "vm86old"
-  | Vmsplice -> "vmsplice"
-  | Vserver -> "vserver"
+let string_of_rule ~action (x : syscall) =
+  Printf.sprintf
+    "  if (seccomp_rule_add(ctx, %s, SCMP_SYS(%s), %d%s) < \
+     0) { goto out; }"
+    action
+    x.name
+    (List.length x.args)
+    (match x.args with
+     | [] -> ""
+     | _ ->
+       ", "
+       ^ (
+         if x.name = "ioctl" then
+           String.concat ", "
+             (List.map (fun (n, arg) ->
+                  Printf.sprintf "SCMP_A%d(SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int) %s)" n arg
+                )
+                 x.args
+             )
+         else
+           String.concat ", "
+             (List.map (fun (n, arg) ->
+                  Printf.sprintf "SCMP_A%d(SCMP_CMP_EQ, %s)" n arg
+                )
+                 x.args
+             )
+       )
+    )
 
-let write_c_file ~name ~(blacklist : syscall list) =
+let write_c_file ~name ~(blacklist : syscall list)
+    ~(whitelist : syscall list)
+  =
   FileUtil.mkdir ~parent:true Config.seccomp_bpf_output_dir;
   let file_name = FilePath.concat Config.seccomp_bpf_output_dir (name ^ ".c") in
   CCIO.with_out file_name (fun oc ->
@@ -230,17 +79,11 @@ let write_c_file ~name ~(blacklist : syscall list) =
       write_line "";
       List.iter
         (fun x ->
-           let s = string_of_syscall x in
-           write_line
-             (Printf.sprintf
-                "  if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(%s), 0) < \
-                 0) { goto out; }"
-                s))
+           write_line (string_of_rule ~action:"SCMP_ACT_KILL"
+                         x
+                      )
+        )
         blacklist;
-      write_line
-        "  if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(ioctl), 1, \
-         SCMP_A1 (SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int) TIOCSTI)) < 0) { goto \
-         out; }";
       write_line "";
       write_line
         (Printf.sprintf

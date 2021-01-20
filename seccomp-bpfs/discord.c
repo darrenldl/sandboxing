@@ -96,7 +96,6 @@ int main (void) {
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(request_key), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(rtas), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(s390_pci_mmio_read), 0) < 0) { goto out; }
-  if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(s390_pci_mmio_read), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(s390_runtime_instr), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(security), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(set_mempolicy), 0) < 0) { goto out; }
@@ -125,7 +124,7 @@ int main (void) {
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(vm86old), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(vmsplice), 0) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(vserver), 0) < 0) { goto out; }
-  if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(ioctl), 1, SCMP_A1 (SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int) TIOCSTI)) < 0) { goto out; }
+  if (seccomp_rule_add(ctx, SCMP_ACT_KILL, SCMP_SYS(ioctl), 1, SCMP_A1(SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int) TIOCSTI)) < 0) { goto out; }
 
   filter_fd = open("discord_seccomp_filter.bpf", O_CREAT | O_WRONLY | O_TRUNC, 0644);
   if (filter_fd == -1) {

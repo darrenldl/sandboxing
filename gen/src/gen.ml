@@ -164,7 +164,7 @@ let write_runner (p : Profile.t) : unit =
     ~heap_limit_MiB:p.heap_limit_MiB
 
 let write_seccomp_bpf (p : Profile.t) : unit =
-  Seccomp_bpf.write_c_file ~name:p.name ~blacklist:p.syscall_blacklist
+  Seccomp_bpf.write_c_file ~name:p.name ~blacklist:p.syscall_blacklist ~whitelist:[]
 
 let write_aa_profile (p : Profile.t) : unit =
   FileUtil.mkdir ~parent:true Config.aa_profile_output_dir;
