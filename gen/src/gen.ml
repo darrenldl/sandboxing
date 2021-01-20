@@ -85,7 +85,7 @@ let write_main_script (p : Profile.t) : unit =
                ( Filename.concat "$tmp_dir" dir,
                  Some (Filename.concat Config.home_inside_jail dir) ))
           p.preserved_temp_home_dirs
-        @ (match p.syscall_blacklist, p.syscall_whitelist with
+        @ (match (p.syscall_blacklist, p.syscall_whitelist) with
             | [], [] -> []
             | _, _ ->
               [
