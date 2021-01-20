@@ -46,6 +46,7 @@ let write_c_file ~name ~(blacklist : syscall list)
  *
  * File is based on example provided by libseccomp
  * and exportFilter.c from https://github.com/valoq/bwscripts
+ * and https://github.com/Whonix/sandbox-app-launcher
  */
 
 /*
@@ -63,11 +64,16 @@ let write_c_file ~name ~(blacklist : syscall list)
  */
 |};
       write_line "#include <stddef.h>";
-      write_line "#include <errno.h>";
       write_line "#include <fcntl.h>";
+      write_line "#include <errno.h>";
       write_line "#include <unistd.h>";
       write_line "#include <seccomp.h>";
       write_line "#include <sys/ioctl.h>";
+      write_line "#include <sys/socket.h>";
+      write_line "#include <sys/mman.h>";
+      write_line "#include <linux/shm.h>";
+      write_line "#include <linux/random.h>";
+      write_line "#include <linux/vt.h>";
       write_line "";
       write_line "int main (void) {";
       write_line "  int rc = -1;";
@@ -77,13 +83,13 @@ let write_c_file ~name ~(blacklist : syscall list)
       write_line "  ctx = seccomp_init(SCMP_ACT_KILL);";
       write_line "  if (ctx == NULL) { goto out; }";
       write_line "";
-      List.iter
-        (fun x ->
-           write_line (string_of_rule ~action:"SCMP_ACT_KILL"
-                         x
-                      )
-        )
-        blacklist;
+      (* List.iter
+       *   (fun x ->
+       *      write_line (string_of_rule ~action:"SCMP_ACT_KILL"
+       *                    x
+       *                 )
+       *   )
+       *   blacklist; *)
       List.iter
         (fun x ->
            write_line (string_of_rule ~action:"SCMP_ACT_ALLOW"
