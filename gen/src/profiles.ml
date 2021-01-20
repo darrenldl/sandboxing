@@ -552,7 +552,7 @@ let okular_ro : Profile.t =
     log_stderr = true;
     syscall_default_action = "SCMP_ACT_KILL";
     syscall_blacklist = [];
-    syscall_whitelist = default_syscall_whitelist;
+    syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
@@ -602,7 +602,7 @@ let okular_rw : Profile.t =
     log_stderr = true;
     syscall_default_action = "SCMP_ACT_KILL";
     syscall_blacklist = [];
-    syscall_whitelist = default_syscall_whitelist;
+    syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
