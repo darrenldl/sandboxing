@@ -402,6 +402,11 @@ int main (void) {
   if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(shmat), 1, SCMP_A2(SCMP_CMP_EQ, SHM_RND)) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(shmat), 1, SCMP_A2(SCMP_CMP_EQ, SHM_RDONLY)) < 0) { goto out; }
   if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(shmat), 1, SCMP_A2(SCMP_CMP_EQ, SHM_REMAP)) < 0) { goto out; }
+  if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(mmap), 0) < 0) { goto out; }
+  if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(mmap2), 0) < 0) { goto out; }
+  if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(mprotect), 0) < 0) { goto out; }
+  if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(pkey_mprotect), 0) < 0) { goto out; }
+  if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, SCMP_SYS(shmat), 0) < 0) { goto out; }
 
   filter_fd = open("firefox-private-arch_seccomp_filter.bpf", O_CREAT | O_WRONLY | O_TRUNC, 0644);
   if (filter_fd == -1) {

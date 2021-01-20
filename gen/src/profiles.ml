@@ -88,7 +88,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     log_stdout = false;
     log_stderr = false;
     syscall_blacklist = default_syscall_blacklist;
-    syscall_whitelist = default_syscall_whitelist;
+    syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
@@ -136,7 +136,7 @@ let firefox_tmp : Profile.t =
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
-    syscall_whitelist = default_syscall_whitelist;
+    syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
@@ -184,7 +184,7 @@ let firefox_private : Profile.t =
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
-    syscall_whitelist = default_syscall_whitelist;
+    syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
@@ -237,7 +237,7 @@ let firefox_private_arch : Profile.t =
     log_stdout = true;
     log_stderr = true;
     syscall_blacklist = default_syscall_blacklist;
-    syscall_whitelist = default_syscall_whitelist;
+    syscall_whitelist = default_syscall_whitelist_wx;
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_common
