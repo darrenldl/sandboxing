@@ -444,6 +444,54 @@ let chromium : Profile.t =
     heap_limit_MiB = Some 2048;
   }
 
+let chromium_tmp : Profile.t =
+  let name = "chromium-tmp" in
+  {
+    name;
+    prog = "/usr/lib/chromium/chromium";
+    args = [];
+    home_jail_dir = None;
+    preserved_temp_home_dirs = [ "Downloads" ];
+    log_stdout = false;
+    log_stderr = false;
+    syscall_default_action = "SCMP_ACT_ALLOW";
+    syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = [];
+    bwrap_args =
+      usr_share_common
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ etc_ssl
+      @ etc_localtime
+      @ proc_dev_common
+      @ tmp_run_common
+      @ sound_common
+      @ wayland_common
+      @ dconf_common
+      @ dbus_common
+      @ [ Dev_bind ("/dev/dri/card0", None) ]
+      @ set_up_jail_home ~tmp:true ~name
+      @ [
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("SHELL", "/bin/false");
+        Setenv ("USER", "nobody");
+        Setenv ("LOGNAME", "nobody");
+        Hostname "jail";
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+        New_session;
+      ];
+    allow_network = true;
+    aa_caps = [ Sys_admin; Sys_chroot; Sys_ptrace ];
+    allow_wx = false;
+    extra_aa_lines = [];
+    proc_limit = Some 2000;
+    heap_limit_MiB = Some 2048;
+  }
+
 let deluge : Profile.t =
   let name = "deluge" in
   {
@@ -701,6 +749,7 @@ let suite =
     discord;
     thunderbird;
     chromium;
+    chromium_tmp;
     deluge;
     (* zoom; *)
     okular_ro;
