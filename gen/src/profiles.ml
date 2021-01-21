@@ -632,7 +632,7 @@ let okular_ro : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 200;
+    heap_limit_MiB = Some 512;
   }
 
 let okular_rw : Profile.t =
@@ -682,7 +682,7 @@ let okular_rw : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 200;
+    heap_limit_MiB = Some 512;
   }
 
 let eom_ro : Profile.t =
@@ -732,7 +732,7 @@ let eom_ro : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 200;
+    heap_limit_MiB = Some 512;
   }
 
 let suite =
