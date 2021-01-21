@@ -406,9 +406,9 @@ let chromium : Profile.t =
     preserved_temp_home_dirs = [];
     log_stdout = false;
     log_stderr = false;
-    syscall_default_action = "SCMP_ACT_KILL";
-    syscall_blacklist = [];
-    syscall_whitelist = default_syscall_whitelist;
+    syscall_default_action = "SCMP_ACT_ALLOW";
+    syscall_blacklist = default_syscall_blacklist;
+    syscall_whitelist = [];
     bwrap_args =
       usr_share_common
       @ usr_lib_lib64_bin_common
@@ -437,11 +437,11 @@ let chromium : Profile.t =
         New_session;
       ];
     allow_network = true;
-    aa_caps = [];
+    aa_caps = [ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = None;
+    heap_limit_MiB = Some 2048;
   }
 
 let deluge : Profile.t =

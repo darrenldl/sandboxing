@@ -3,6 +3,10 @@ abi <abi/3.0>,
 include <tunables/global>
 
 profile /home/sandbox/chromium.runner {
+  capability sys_admin,
+  capability sys_chroot,
+  capability sys_ptrace,
+
   # Runner self access
   /home/sandbox/chromium.runner r,
 
