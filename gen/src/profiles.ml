@@ -174,7 +174,7 @@ let firefox_tmp : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 512;
+    heap_limit_MiB = Some 1024;
   }
 
 let firefox_private : Profile.t =
