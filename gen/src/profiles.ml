@@ -125,7 +125,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 1024;
+    heap_limit_MiB = Some 2048;
   }
 
 let firefox_tmp : Profile.t =
@@ -174,7 +174,7 @@ let firefox_tmp : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 1024;
+    heap_limit_MiB = Some 2048;
   }
 
 let firefox_private : Profile.t =
@@ -228,7 +228,7 @@ let firefox_private : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 1024;
+    heap_limit_MiB = Some 2048;
   }
 
 let firefox_private_arch : Profile.t =
@@ -290,7 +290,7 @@ let firefox_private_arch : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 1024;
+    heap_limit_MiB = Some 2048;
   }
 
 let discord : Profile.t =
@@ -346,7 +346,7 @@ let discord : Profile.t =
     allow_wx = true;
     extra_aa_lines = [ "/opt/discord/ r"; "/opt/discord/** rix" ];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 1024;
+    heap_limit_MiB = Some 2048;
   }
 
 let thunderbird : Profile.t =
