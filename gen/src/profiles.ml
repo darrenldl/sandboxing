@@ -174,7 +174,7 @@ let firefox_tmp : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 2048;
+    heap_limit_MiB = Some 4096;
   }
 
 let firefox_private : Profile.t =
@@ -734,6 +734,7 @@ let eom_ro : Profile.t =
     proc_limit = Some 2000;
     heap_limit_MiB = Some 512;
   }
+
 
 let suite =
   [
