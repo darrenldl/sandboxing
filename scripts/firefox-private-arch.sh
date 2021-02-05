@@ -34,6 +34,24 @@ for x in ${glob_list_30[@]}; do
     expanding_arg_30+=" --ro-bind "$x" "$x" "
   fi
 done
+shopt -s nullglob
+glob_list_35=(/usr/lib32/firefox/*)
+shopt -u nullglob
+expanding_arg_35=""
+for x in ${glob_list_35[@]}; do
+  if [[ $x != "" ]]; then
+    expanding_arg_35+=" --ro-bind "$x" "$x" "
+  fi
+done
+shopt -s nullglob
+glob_list_40=(/usr/lib64/firefox/*)
+shopt -u nullglob
+expanding_arg_40=""
+for x in ${glob_list_40[@]}; do
+  if [[ $x != "" ]]; then
+    expanding_arg_40+=" --ro-bind "$x" "$x" "
+  fi
+done
 
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
@@ -69,6 +87,16 @@ done
   $expanding_arg_30 \
   --tmpfs "/usr/lib/firefox/defaults/pref/" \
   --ro-bind "$script_dir/../firefox-hardening/local-settings.js" "/usr/lib/firefox/defaults/pref/local-settings.js" \
+  --tmpfs "/usr/lib32/firefox/" \
+  --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/usr/lib32/firefox/mozilla.cfg" \
+  $expanding_arg_35 \
+  --tmpfs "/usr/lib32/firefox/defaults/pref/" \
+  --ro-bind "$script_dir/../firefox-hardening/local-settings.js" "/usr/lib32/firefox/defaults/pref/local-settings.js" \
+  --tmpfs "/usr/lib64/firefox/" \
+  --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/usr/lib64/firefox/mozilla.cfg" \
+  $expanding_arg_40 \
+  --tmpfs "/usr/lib64/firefox/defaults/pref/" \
+  --ro-bind "$script_dir/../firefox-hardening/local-settings.js" "/usr/lib64/firefox/defaults/pref/local-settings.js" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
