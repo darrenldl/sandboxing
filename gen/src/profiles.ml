@@ -235,16 +235,18 @@ let firefox_private_arch : Profile.t =
   let install_user_js ~usr_lib_dir =
     [
       Tmpfs (Filename.concat usr_lib_dir "firefox/");
-        Ro_bind
-          ( Config.firefox_hardened_user_js_path,
-            Some (Filename.concat usr_lib_dir "firefox/mozilla.cfg") );
+      Ro_bind
+        ( Config.firefox_hardened_user_js_path,
+          Some (Filename.concat usr_lib_dir "firefox/mozilla.cfg") );
     ]
     @ [
       Ro_bind_as_is_glob (Filename.concat usr_lib_dir "firefox/*");
-        Tmpfs (Filename.concat usr_lib_dir "firefox/defaults/pref/");
-        Ro_bind
-          ( Config.firefox_hardened_pref_path,
-            Some (Filename.concat usr_lib_dir "firefox/defaults/pref/local-settings.js") );
+      Tmpfs (Filename.concat usr_lib_dir "firefox/defaults/pref/");
+      Ro_bind
+        ( Config.firefox_hardened_pref_path,
+          Some
+            (Filename.concat usr_lib_dir
+               "firefox/defaults/pref/local-settings.js") );
     ]
   in
   let name = "firefox-private-arch" in
@@ -739,7 +741,6 @@ let eom_ro : Profile.t =
     proc_limit = Some 2000;
     heap_limit_MiB = Some 512;
   }
-
 
 let suite =
   [
