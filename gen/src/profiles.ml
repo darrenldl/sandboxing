@@ -174,7 +174,7 @@ let firefox_tmp : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 2048;
+    heap_limit_MiB = Some 3072;
   }
 
 let firefox_private : Profile.t =
@@ -232,6 +232,21 @@ let firefox_private : Profile.t =
   }
 
 let firefox_private_arch : Profile.t =
+  let install_user_js ~usr_lib_dir =
+    [
+      Tmpfs (Filename.concat usr_lib_dir "firefox/");
+        Ro_bind
+          ( Config.firefox_hardened_user_js_path,
+            Some (Filename.concat usr_lib_dir "firefox/mozilla.cfg") );
+    ]
+    @ [
+      Ro_bind_as_is_glob (Filename.concat usr_lib_dir "firefox/*");
+        Tmpfs (Filename.concat usr_lib_dir "firefox/defaults/pref/");
+        Ro_bind
+          ( Config.firefox_hardened_pref_path,
+            Some (Filename.concat usr_lib_dir "firefox/defaults/pref/local-settings.js") );
+    ]
+  in
   let name = "firefox-private-arch" in
   {
     name;
@@ -258,19 +273,9 @@ let firefox_private_arch : Profile.t =
       @ dconf_common
       @ dbus_common
       @ set_up_jail_home ~tmp:true ~name
-      @ [
-        Tmpfs "/usr/lib/firefox/";
-        Ro_bind
-          ( Config.firefox_hardened_user_js_path,
-            Some "/usr/lib/firefox/mozilla.cfg" );
-      ]
-      @ [
-        Ro_bind_as_is_glob "/usr/lib/firefox/*";
-        Tmpfs "/usr/lib/firefox/defaults/pref/";
-        Ro_bind
-          ( Config.firefox_hardened_pref_path,
-            Some "/usr/lib/firefox/defaults/pref/local-settings.js" );
-      ]
+      @ install_user_js ~usr_lib_dir:"/usr/lib"
+      @ install_user_js ~usr_lib_dir:"/usr/lib32"
+      @ install_user_js ~usr_lib_dir:"/usr/lib64"
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
