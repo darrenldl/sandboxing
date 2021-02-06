@@ -178,6 +178,30 @@ let firefox_tmp : Profile.t =
   }
 
 let firefox_private : Profile.t =
+  let install_user_js_to_dir ~dir ~as_name =
+    [
+      Tmpfs dir;
+      Ro_bind_as_is_glob (Filename.concat dir "*");
+      Ro_bind
+        ( Config.firefox_hardened_user_js_path,
+          Some (Filename.concat dir as_name) );
+    ]
+  in
+  let install_user_js_to_usr_lib_dir usr_lib_dir =
+    [
+      Tmpfs (Filename.concat usr_lib_dir "firefox/");
+      Ro_bind_as_is_glob (Filename.concat usr_lib_dir "firefox/*");
+      Ro_bind
+        ( Config.firefox_hardened_user_js_path,
+          Some (Filename.concat usr_lib_dir "firefox/mozilla.cfg") );
+      Tmpfs (Filename.concat usr_lib_dir "firefox/defaults/pref/");
+      Ro_bind
+        ( Config.firefox_hardened_pref_path,
+          Some
+            (Filename.concat usr_lib_dir
+               "firefox/defaults/pref/local-settings.js") );
+    ]
+  in
   let name = "firefox-private" in
   {
     name;
@@ -204,80 +228,12 @@ let firefox_private : Profile.t =
       @ dconf_common
       @ dbus_common
       @ set_up_jail_home ~tmp:true ~name
-      @ [
-        Ro_bind
-          ( Config.firefox_hardened_user_js_path,
-            Some "/etc/firefox/syspref.js" );
-      ]
-      @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Setenv ("MOZ_ENABLE_WAYLAND", "1");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
-    allow_network = true;
-    aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
-    allow_wx = false;
-    extra_aa_lines = [];
-    proc_limit = Some 2000;
-    heap_limit_MiB = Some 2048;
-  }
-
-let firefox_private_arch : Profile.t =
-  let install_user_js ~usr_lib_dir =
-    [
-      Tmpfs (Filename.concat usr_lib_dir "firefox/");
-      Ro_bind
-        ( Config.firefox_hardened_user_js_path,
-          Some (Filename.concat usr_lib_dir "firefox/mozilla.cfg") );
-    ]
-    @ [
-      Ro_bind_as_is_glob (Filename.concat usr_lib_dir "firefox/*");
-      Tmpfs (Filename.concat usr_lib_dir "firefox/defaults/pref/");
-      Ro_bind
-        ( Config.firefox_hardened_pref_path,
-          Some
-            (Filename.concat usr_lib_dir
-               "firefox/defaults/pref/local-settings.js") );
-    ]
-  in
-  let name = "firefox-private-arch" in
-  {
-    name;
-    prog = "/usr/lib/firefox/firefox";
-    args = [ "--no-remote" ];
-    home_jail_dir = None;
-    preserved_temp_home_dirs = [ "Downloads" ];
-    log_stdout = true;
-    log_stderr = true;
-    syscall_default_action = "SCMP_ACT_KILL";
-    syscall_blacklist = [];
-    syscall_whitelist = default_syscall_whitelist_wx;
-    bwrap_args =
-      usr_share_common
-      @ usr_lib_lib64_common
-      @ paths_of_binary "firefox"
-      @ etc_common
-      @ etc_ssl
-      @ etc_localtime
-      @ proc_dev_common
-      @ tmp_run_common
-      @ sound_common
-      @ wayland_common
-      @ dconf_common
-      @ dbus_common
-      @ set_up_jail_home ~tmp:true ~name
-      @ install_user_js ~usr_lib_dir:"/usr/lib"
-      @ install_user_js ~usr_lib_dir:"/usr/lib32"
-      @ install_user_js ~usr_lib_dir:"/usr/lib64"
+      @ install_user_js_to_dir ~dir:"/etc/firefox" ~as_name:"syspref.js"
+      @ install_user_js_to_dir ~dir:"/etc/firefox" ~as_name:"firefox.js"
+      @ install_user_js_to_dir ~dir:"/etc/firefox-esr" ~as_name:"firefox-esr.js"
+      @ install_user_js_to_usr_lib_dir "/usr/lib"
+      @ install_user_js_to_usr_lib_dir "/usr/lib32"
+      @ install_user_js_to_usr_lib_dir "/usr/lib64"
       @ [
         Unsetenv "DBUS_SESSION_BUS_ADDRESS";
         Setenv ("SHELL", "/bin/false");
@@ -752,7 +708,6 @@ let suite =
      * make_firefox_profile ~suffix:(Some "google-play-book"); *)
     firefox_tmp;
     firefox_private;
-    firefox_private_arch;
     discord;
     thunderbird;
     chromium;

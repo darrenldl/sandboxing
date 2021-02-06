@@ -25,6 +25,60 @@ stderr_log_name="$HOME/sandboxing-sandbox-logs/firefox-private"/"$cur_time"."std
 tmp_dir=$(mktemp -d -t firefox-private-$cur_time-XXXX)
 mkdir -p "$tmp_dir/Downloads"
 
+shopt -s nullglob
+glob_list_29=(/etc/firefox/*)
+shopt -u nullglob
+expanding_arg_29=""
+for x in ${glob_list_29[@]}; do
+  if [[ $x != "" ]]; then
+    expanding_arg_29+=" --ro-bind "$x" "$x" "
+  fi
+done
+shopt -s nullglob
+glob_list_32=(/etc/firefox/*)
+shopt -u nullglob
+expanding_arg_32=""
+for x in ${glob_list_32[@]}; do
+  if [[ $x != "" ]]; then
+    expanding_arg_32+=" --ro-bind "$x" "$x" "
+  fi
+done
+shopt -s nullglob
+glob_list_35=(/etc/firefox-esr/*)
+shopt -u nullglob
+expanding_arg_35=""
+for x in ${glob_list_35[@]}; do
+  if [[ $x != "" ]]; then
+    expanding_arg_35+=" --ro-bind "$x" "$x" "
+  fi
+done
+shopt -s nullglob
+glob_list_38=(/usr/lib/firefox/*)
+shopt -u nullglob
+expanding_arg_38=""
+for x in ${glob_list_38[@]}; do
+  if [[ $x != "" ]]; then
+    expanding_arg_38+=" --ro-bind "$x" "$x" "
+  fi
+done
+shopt -s nullglob
+glob_list_43=(/usr/lib32/firefox/*)
+shopt -u nullglob
+expanding_arg_43=""
+for x in ${glob_list_43[@]}; do
+  if [[ $x != "" ]]; then
+    expanding_arg_43+=" --ro-bind "$x" "$x" "
+  fi
+done
+shopt -s nullglob
+glob_list_48=(/usr/lib64/firefox/*)
+shopt -u nullglob
+expanding_arg_48=""
+for x in ${glob_list_48[@]}; do
+  if [[ $x != "" ]]; then
+    expanding_arg_48+=" --ro-bind "$x" "$x" "
+  fi
+done
 
 ( exec bwrap \
   --ro-bind "/usr/share" "/usr/share" \
@@ -55,7 +109,30 @@ mkdir -p "$tmp_dir/Downloads"
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
   --tmpfs "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
+  --tmpfs "/etc/firefox" \
+  $expanding_arg_29 \
   --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/etc/firefox/syspref.js" \
+  --tmpfs "/etc/firefox" \
+  $expanding_arg_32 \
+  --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/etc/firefox/firefox.js" \
+  --tmpfs "/etc/firefox-esr" \
+  $expanding_arg_35 \
+  --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/etc/firefox-esr/firefox-esr.js" \
+  --tmpfs "/usr/lib/firefox/" \
+  $expanding_arg_38 \
+  --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/usr/lib/firefox/mozilla.cfg" \
+  --tmpfs "/usr/lib/firefox/defaults/pref/" \
+  --ro-bind "$script_dir/../firefox-hardening/local-settings.js" "/usr/lib/firefox/defaults/pref/local-settings.js" \
+  --tmpfs "/usr/lib32/firefox/" \
+  $expanding_arg_43 \
+  --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/usr/lib32/firefox/mozilla.cfg" \
+  --tmpfs "/usr/lib32/firefox/defaults/pref/" \
+  --ro-bind "$script_dir/../firefox-hardening/local-settings.js" "/usr/lib32/firefox/defaults/pref/local-settings.js" \
+  --tmpfs "/usr/lib64/firefox/" \
+  $expanding_arg_48 \
+  --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/usr/lib64/firefox/mozilla.cfg" \
+  --tmpfs "/usr/lib64/firefox/defaults/pref/" \
+  --ro-bind "$script_dir/../firefox-hardening/local-settings.js" "/usr/lib64/firefox/defaults/pref/local-settings.js" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
   --setenv "USER" "nobody" \
