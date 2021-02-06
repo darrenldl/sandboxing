@@ -76,11 +76,8 @@ Following serves as rough descriptions only, check the scripts directly to see i
     - This is the only directory that host and sandbox share
   - Is __NOT__ hardened against tracking/fingerprinting
 - `firefox-private`
-  - Same as `firefox-tmp`, but uses the hardened `user.js` transparently
+  - Same as `firefox-tmp`, but uses the hardened `user.js` transparently (should work on most Linux distros)
   - __Important__: Please check the `user.js` is indeed loaded correctly, see https://github.com/pyllyukko/user.js/#verifying for how to verify
-- `firefox-private-arch`
-  - Same as `firefox-private`, but with Arch specific handling for using
-    the hardened `user.js` transparently
 - `thunderbird`
   - Persistent home as `~/sandboxing-sandboxes/thunderbird` on host
 - `discord`
