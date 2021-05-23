@@ -27,6 +27,7 @@ let bash : Profile.t =
         Setenv ("USER", "sandbox");
         Setenv ("LOGNAME", "sandbox");
         Bind (".", Some (Filename.concat Config.home_inside_jail "workspace"));
+        Hostname "jail";
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
@@ -34,7 +35,7 @@ let bash : Profile.t =
         Unshare_cgroup;
       ];
     allow_network = true;
-    aa_caps = [];
+    aa_caps = Aa.[Sys_chroot];
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;

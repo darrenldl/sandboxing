@@ -42,6 +42,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --setenv "USER" "sandbox" \
   --setenv "LOGNAME" "sandbox" \
   --bind "." "/home/sandbox/workspace" \
+  --hostname "jail" \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \

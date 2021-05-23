@@ -3,6 +3,8 @@ abi <abi/3.0>,
 include <tunables/global>
 
 profile /home/sandbox/bash.runner {
+  capability sys_chroot,
+
   # Runner self access
   /home/sandbox/bash.runner r,
 
