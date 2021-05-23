@@ -39,7 +39,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --setenv "HOME" "/home/sandbox" \
   --setenv "USER" "sandbox" \
   --setenv "LOGNAME" "sandbox" \
-  --bind "." "/home/sandbox" \
+  --bind "." "/home/sandbox/box" \
   --unshare-user \
   --unshare-pid \
   --unshare-uts \

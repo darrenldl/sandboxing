@@ -15,8 +15,8 @@ mv firefox_seccomp_filter.bpf "$script_dir"/../seccomp-bpfs
 
 gcc "$script_dir"/../runners/firefox.c -o "$script_dir"/../runners/firefox.runner
 
-mkdir -p "$HOME/sandboxing-sandboxes/firefox"
-mkdir -p "$HOME/sandboxing-sandboxes/firefox/Downloads"
+mkdir -p "$HOME/sandboxes/firefox"
+mkdir -p "$HOME/sandboxes/firefox/Downloads"
 
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 
@@ -47,7 +47,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \
-  --bind "$HOME/sandboxing-sandboxes/firefox" "/home/sandbox" \
+  --bind "$HOME/sandboxes/firefox" "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --unsetenv "DBUS_SESSION_BUS_ADDRESS" \
   --setenv "SHELL" "/bin/false" \
