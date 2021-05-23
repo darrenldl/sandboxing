@@ -35,7 +35,7 @@ let bash : Profile.t =
         Unshare_cgroup;
       ];
     allow_network = true;
-    aa_caps = Aa.[Sys_chroot];
+    aa_caps = Aa.[ Sys_chroot ];
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
