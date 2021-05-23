@@ -26,57 +26,57 @@ tmp_dir=$(mktemp -d -t firefox-private-$cur_time-XXXX)
 mkdir -p "$tmp_dir/Downloads"
 
 shopt -s nullglob
-glob_list_29=(/etc/firefox/*)
+glob_list_30=(/etc/firefox/*)
 shopt -u nullglob
-expanding_arg_29=""
-for x in ${glob_list_29[@]}; do
+expanding_arg_30=""
+for x in ${glob_list_30[@]}; do
   if [[ $x != "" ]]; then
-    expanding_arg_29+=" --ro-bind "$x" "$x" "
+    expanding_arg_30+=" --ro-bind "$x" "$x" "
   fi
 done
 shopt -s nullglob
-glob_list_32=(/etc/firefox/*)
+glob_list_33=(/etc/firefox/*)
 shopt -u nullglob
-expanding_arg_32=""
-for x in ${glob_list_32[@]}; do
+expanding_arg_33=""
+for x in ${glob_list_33[@]}; do
   if [[ $x != "" ]]; then
-    expanding_arg_32+=" --ro-bind "$x" "$x" "
+    expanding_arg_33+=" --ro-bind "$x" "$x" "
   fi
 done
 shopt -s nullglob
-glob_list_35=(/etc/firefox-esr/*)
+glob_list_36=(/etc/firefox-esr/*)
 shopt -u nullglob
-expanding_arg_35=""
-for x in ${glob_list_35[@]}; do
+expanding_arg_36=""
+for x in ${glob_list_36[@]}; do
   if [[ $x != "" ]]; then
-    expanding_arg_35+=" --ro-bind "$x" "$x" "
+    expanding_arg_36+=" --ro-bind "$x" "$x" "
   fi
 done
 shopt -s nullglob
-glob_list_38=(/usr/lib/firefox/*)
+glob_list_39=(/usr/lib/firefox/*)
 shopt -u nullglob
-expanding_arg_38=""
-for x in ${glob_list_38[@]}; do
+expanding_arg_39=""
+for x in ${glob_list_39[@]}; do
   if [[ $x != "" ]]; then
-    expanding_arg_38+=" --ro-bind "$x" "$x" "
+    expanding_arg_39+=" --ro-bind "$x" "$x" "
   fi
 done
 shopt -s nullglob
-glob_list_43=(/usr/lib32/firefox/*)
+glob_list_44=(/usr/lib32/firefox/*)
 shopt -u nullglob
-expanding_arg_43=""
-for x in ${glob_list_43[@]}; do
+expanding_arg_44=""
+for x in ${glob_list_44[@]}; do
   if [[ $x != "" ]]; then
-    expanding_arg_43+=" --ro-bind "$x" "$x" "
+    expanding_arg_44+=" --ro-bind "$x" "$x" "
   fi
 done
 shopt -s nullglob
-glob_list_48=(/usr/lib64/firefox/*)
+glob_list_49=(/usr/lib64/firefox/*)
 shopt -u nullglob
-expanding_arg_48=""
-for x in ${glob_list_48[@]}; do
+expanding_arg_49=""
+for x in ${glob_list_49[@]}; do
   if [[ $x != "" ]]; then
-    expanding_arg_48+=" --ro-bind "$x" "$x" "
+    expanding_arg_49+=" --ro-bind "$x" "$x" "
   fi
 done
 
@@ -94,6 +94,7 @@ done
   --ro-bind "/etc/fonts" "/etc/fonts" \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
   --ro-bind "/etc/ssl" "/etc/ssl" \
+  --ro-bind "/etc/ca-certificates" "/etc/ca-certificates" \
   --ro-bind "/etc/localtime" "/etc/localtime" \
   --proc "/proc" \
   --dev "/dev" \
@@ -110,26 +111,26 @@ done
   --tmpfs "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \
   --tmpfs "/etc/firefox" \
-  $expanding_arg_29 \
+  $expanding_arg_30 \
   --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/etc/firefox/syspref.js" \
   --tmpfs "/etc/firefox" \
-  $expanding_arg_32 \
+  $expanding_arg_33 \
   --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/etc/firefox/firefox.js" \
   --tmpfs "/etc/firefox-esr" \
-  $expanding_arg_35 \
+  $expanding_arg_36 \
   --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/etc/firefox-esr/firefox-esr.js" \
   --tmpfs "/usr/lib/firefox/" \
-  $expanding_arg_38 \
+  $expanding_arg_39 \
   --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/usr/lib/firefox/mozilla.cfg" \
   --tmpfs "/usr/lib/firefox/defaults/pref/" \
   --ro-bind "$script_dir/../firefox-hardening/local-settings.js" "/usr/lib/firefox/defaults/pref/local-settings.js" \
   --tmpfs "/usr/lib32/firefox/" \
-  $expanding_arg_43 \
+  $expanding_arg_44 \
   --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/usr/lib32/firefox/mozilla.cfg" \
   --tmpfs "/usr/lib32/firefox/defaults/pref/" \
   --ro-bind "$script_dir/../firefox-hardening/local-settings.js" "/usr/lib32/firefox/defaults/pref/local-settings.js" \
   --tmpfs "/usr/lib64/firefox/" \
-  $expanding_arg_48 \
+  $expanding_arg_49 \
   --ro-bind "$script_dir/../firefox-hardening/systemwide_user.js" "/usr/lib64/firefox/mozilla.cfg" \
   --tmpfs "/usr/lib64/firefox/defaults/pref/" \
   --ro-bind "$script_dir/../firefox-hardening/local-settings.js" "/usr/lib64/firefox/defaults/pref/local-settings.js" \

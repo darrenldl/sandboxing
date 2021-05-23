@@ -514,7 +514,8 @@ let usr_lib_lib64_bin_common =
 let etc_common =
   [ Ro_bind ("/etc/fonts", None); Ro_bind ("/etc/resolv.conf", None) ]
 
-let etc_ssl = [ Ro_bind ("/etc/ssl", None) ]
+let etc_ssl =
+  [ Ro_bind ("/etc/ssl", None); Ro_bind ("/etc/ca-certificates", None) ]
 
 let etc_localtime = [ Ro_bind ("/etc/localtime", None) ]
 

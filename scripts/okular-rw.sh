@@ -37,6 +37,7 @@ stderr_log_name="$HOME/sandbox-logs/okular-rw"/"$cur_time"."stderr"
   --ro-bind "/etc/fonts" "/etc/fonts" \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
   --ro-bind "/etc/ssl" "/etc/ssl" \
+  --ro-bind "/etc/ca-certificates" "/etc/ca-certificates" \
   --ro-bind "/etc/localtime" "/etc/localtime" \
   --proc "/proc" \
   --dev "/dev" \
