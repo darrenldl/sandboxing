@@ -17,6 +17,8 @@ let bash : Profile.t =
       [ Ro_bind ("/usr/share", None) ]
       @ usr_lib_lib64_bin_common
       @ etc_common
+      @ etc_ssl
+      @ etc_localtime
       @ proc_dev_common
       @ tmp_run_common
       @ [
@@ -56,6 +58,8 @@ let bash_hide_net : Profile.t =
       [ Ro_bind ("/usr/share", None) ]
       @ usr_lib_lib64_bin_common
       @ etc_common
+      @ etc_ssl
+      @ etc_localtime
       @ proc_dev_common
       @ tmp_run_common
       @ [

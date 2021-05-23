@@ -31,6 +31,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --setenv "PATH" "/usr/bin" \
   --ro-bind "/etc/fonts" "/etc/fonts" \
   --ro-bind "/etc/resolv.conf" "/etc/resolv.conf" \
+  --ro-bind "/etc/ssl" "/etc/ssl" \
+  --ro-bind "/etc/localtime" "/etc/localtime" \
   --proc "/proc" \
   --dev "/dev" \
   --tmpfs "/tmp" \
