@@ -24,7 +24,7 @@ let bash : Profile.t =
         Setenv ("HOME", "/home/sandbox");
         Setenv ("USER", "sandbox");
         Setenv ("LOGNAME", "sandbox");
-        Bind (".", Some (Filename.concat Config.home_inside_jail "box"));
+        Bind (".", Some (Filename.concat Config.home_inside_jail "workspace"));
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
@@ -63,7 +63,7 @@ let bash_hide_net : Profile.t =
         Setenv ("HOME", "/home/sandbox");
         Setenv ("USER", "sandbox");
         Setenv ("LOGNAME", "sandbox");
-        Bind (".", Some (Filename.concat Config.home_inside_jail "box"));
+        Bind (".", Some (Filename.concat Config.home_inside_jail "workspace"));
         Unshare_user;
         Unshare_pid;
         Unshare_uts;
