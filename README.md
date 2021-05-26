@@ -31,8 +31,8 @@ Your system needs to have `bubblewrap`, `gcc` and `apparmor` to run the scripts
 __Important__: Please make sure the following directories are not already in use in your `$HOME`
 
 - `sandboxing/`
-- `sandboxing-sandboxes/`
-- `sandboxing-sandbox-logs/`
+- `sandboxes/`
+- `sandbox-logs/`
 
 All bash scripts in `scripts/` directory should work out of the box on most Linux distros
 
