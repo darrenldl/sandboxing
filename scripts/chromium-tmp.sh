@@ -45,7 +45,10 @@ mkdir -p "$tmp_dir/Downloads"
   --ro-bind-try "/usr/share/gst-plugins-base" "/usr/share/gst-plugins-base" \
   --ro-bind-try "/usr/share/gstreamer-1.0" "/usr/share/gstreamer-1.0" \
   --ro-bind "/run/user/$UID/pulse" "/run/user/$UID/pulse" \
-  --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
+  --ro-bind-try "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
+  --ro-bind-try "/run/user/$UID/wayland-1" "/run/user/$UID/wayland-1" \
+  --ro-bind-try "/run/user/$UID/wayland-2" "/run/user/$UID/wayland-2" \
+  --ro-bind-try "/run/user/$UID/wayland-3" "/run/user/$UID/wayland-3" \
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --bind "/run/user/$UID/dconf" "/run/user/$UID/dconf" \
   --ro-bind "/run/user/$UID/bus" "/run/user/$UID/bus" \

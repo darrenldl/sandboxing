@@ -43,7 +43,10 @@ stderr_log_name="$HOME/sandbox-logs/okular-ro"/"$cur_time"."stderr"
   --dev "/dev" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
-  --ro-bind "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
+  --ro-bind-try "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
+  --ro-bind-try "/run/user/$UID/wayland-1" "/run/user/$UID/wayland-1" \
+  --ro-bind-try "/run/user/$UID/wayland-2" "/run/user/$UID/wayland-2" \
+  --ro-bind-try "/run/user/$UID/wayland-3" "/run/user/$UID/wayland-3" \
   --setenv "QT_QPA_PLATFORM" "wayland" \
   --tmpfs "/home/sandbox" \
   --setenv "HOME" "/home/sandbox" \

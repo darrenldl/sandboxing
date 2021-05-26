@@ -536,7 +536,10 @@ let dbus_common = [ Ro_bind ("/run/user/$UID/bus", None) ]
 
 let wayland_common =
   [
-    Ro_bind ("/run/user/$UID/wayland-0", None);
+    Ro_bind_try ("/run/user/$UID/wayland-0", None);
+    Ro_bind_try ("/run/user/$UID/wayland-1", None);
+    Ro_bind_try ("/run/user/$UID/wayland-2", None);
+    Ro_bind_try ("/run/user/$UID/wayland-3", None);
     Setenv ("QT_QPA_PLATFORM", "wayland");
   ]
 
