@@ -1,9 +1,14 @@
+type rw =
+  [ `R
+  | `RW
+  ]
+
 type t = {
   name : string;
   prog : string;
   args : string list;
   home_jail_dir : string option;
-  preserved_temp_home_dirs : string list;
+  preserved_temp_home_dirs : (rw * string) list;
   log_stdout : bool;
   log_stderr : bool;
   syscall_default_action : string;

@@ -18,6 +18,7 @@ gcc "$script_dir"/../runners/chromium-tmp.c -o "$script_dir"/../runners/chromium
 cur_time=$(date "+%Y-%m-%d_%H%M%S")
 tmp_dir=$(mktemp -d -t chromium-tmp-$cur_time-XXXX)
 mkdir -p "$tmp_dir/Downloads"
+mkdir -p "$tmp_dir/Uploads"
 
 
 ( exec bwrap \
@@ -67,10 +68,12 @@ mkdir -p "$tmp_dir/Downloads"
   --unshare-cgroup \
   --new-session \
   --bind "$tmp_dir/Downloads" "/home/sandbox/Downloads" \
+  --ro-bind "$tmp_dir/Uploads" "/home/sandbox/Uploads" \
   --seccomp 10 10<"$script_dir"/../seccomp-bpfs/chromium-tmp_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/chromium-tmp.runner" "/home/sandbox/chromium-tmp.runner" \
   /home/sandbox/chromium-tmp.runner \
  )
 
 rmdir --ignore-fail-on-non-empty "$tmp_dir/Downloads"
+rmdir --ignore-fail-on-non-empty "$tmp_dir/Uploads"
 rmdir --ignore-fail-on-non-empty "$tmp_dir"

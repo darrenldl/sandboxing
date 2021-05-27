@@ -66,7 +66,7 @@ let write_main_script (p : Profile.t) : unit =
          write_line
            (Printf.sprintf "tmp_dir=$(mktemp -d -t %s-$cur_time-XXXX)" p.name);
          List.iter
-           (fun dir ->
+           (fun (_perm, dir) ->
               write_line
                 (Printf.sprintf "mkdir -p \"%s\""
                    (Filename.concat "$tmp_dir" dir)))
@@ -80,10 +80,10 @@ let write_main_script (p : Profile.t) : unit =
         let open Bwrap in
         p.bwrap_args
         @ List.map
-          (fun dir ->
-             Bind
-               ( Filename.concat "$tmp_dir" dir,
-                 Some (Filename.concat Config.home_inside_jail dir) ))
+          (fun (perm, dir) ->
+             let src = Filename.concat "$tmp_dir" dir in
+             let dst = Some (Filename.concat Config.home_inside_jail dir) in
+             match perm with `R -> Ro_bind (src, dst) | `RW -> Bind (src, dst))
           p.preserved_temp_home_dirs
         @ (match (p.syscall_blacklist, p.syscall_whitelist) with
             | [], [] -> []
@@ -136,7 +136,7 @@ let write_main_script (p : Profile.t) : unit =
       | _ ->
         write_line "";
         List.iter
-          (fun dir ->
+          (fun (_perm, dir) ->
              write_line
                (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"%s\""
                   (Filename.concat "$tmp_dir" dir)))

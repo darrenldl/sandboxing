@@ -24,6 +24,7 @@ stderr_log_name="$HOME/sandbox-logs/firefox-tmp"/"$cur_time"."stderr"
 
 tmp_dir=$(mktemp -d -t firefox-tmp-$cur_time-XXXX)
 mkdir -p "$tmp_dir/Downloads"
+mkdir -p "$tmp_dir/Uploads"
 
 
 ( exec bwrap \
@@ -72,6 +73,7 @@ mkdir -p "$tmp_dir/Downloads"
   --unshare-cgroup \
   --new-session \
   --bind "$tmp_dir/Downloads" "/home/sandbox/Downloads" \
+  --ro-bind "$tmp_dir/Uploads" "/home/sandbox/Uploads" \
   --seccomp 10 10<"$script_dir"/../seccomp-bpfs/firefox-tmp_seccomp_filter.bpf \
   --ro-bind ""$script_dir"/../runners/firefox-tmp.runner" "/home/sandbox/firefox-tmp.runner" \
   /home/sandbox/firefox-tmp.runner --no-remote \
@@ -80,4 +82,5 @@ mkdir -p "$tmp_dir/Downloads"
  )
 
 rmdir --ignore-fail-on-non-empty "$tmp_dir/Downloads"
+rmdir --ignore-fail-on-non-empty "$tmp_dir/Uploads"
 rmdir --ignore-fail-on-non-empty "$tmp_dir"
