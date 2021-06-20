@@ -84,6 +84,47 @@ let bash_hide_net : Profile.t =
     heap_limit_MiB = Some 2048;
   }
 
+let bash_dev : Profile.t =
+  {
+    name = "bash-dev";
+    prog = "/usr/bin/bash";
+    args = [];
+    home_jail_dir = None;
+    preserved_temp_home_dirs = [];
+    log_stdout = false;
+    log_stderr = false;
+    syscall_default_action = "SCMP_ACT_ALLOW";
+    syscall_blacklist = [];
+    syscall_whitelist = [];
+    bwrap_args =
+      [ Ro_bind ("/usr/share", None) ]
+      @ usr_lib_lib64_bin_common
+      @ etc_common
+      @ etc_ssl
+      @ etc_localtime
+      @ proc_dev_common
+      @ tmp_run_common
+      @ [
+        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+        Setenv ("HOME", "/home/sandbox");
+        Setenv ("USER", "sandbox");
+        Setenv ("LOGNAME", "sandbox");
+        Bind (".", Some (Filename.concat Config.home_inside_jail "workspace"));
+        Hostname "jail";
+        Unshare_user;
+        Unshare_pid;
+        Unshare_uts;
+        Unshare_ipc;
+        Unshare_cgroup;
+      ];
+    allow_network = true;
+    aa_caps = Aa.[ Sys_chroot ];
+    allow_wx = false;
+    extra_aa_lines = [];
+    proc_limit = Some 2000;
+    heap_limit_MiB = Some 2048;
+  }
+
 let make_firefox_profile ~(suffix : string option) : Profile.t =
   let name = match suffix with None -> "firefox" | Some s -> "firefox-" ^ s in
   {
@@ -707,6 +748,7 @@ let suite =
   [
     bash;
     bash_hide_net;
+    bash_dev;
     make_firefox_profile ~suffix:None;
     (* make_firefox_profile ~suffix:(Some "school");
      * make_firefox_profile ~suffix:(Some "bank");
