@@ -38,13 +38,13 @@ let write_main_script (p : Profile.t) : unit =
       write_line (Printf.sprintf "gcc %s -o %s" runner_src_path runner_bin_path);
       write_line "";
       (match p.home_jail_dir with
-       | None -> ()
-       | Some s ->
-         let jail_dir = Filename.concat Config.jails_dir s in
-         let downloads_dir = Filename.concat jail_dir "Downloads" in
-         write_line (Printf.sprintf "mkdir -p \"%s\"" jail_dir);
-         write_line (Printf.sprintf "mkdir -p \"%s\"" downloads_dir);
-         write_line "");
+      | None -> ()
+      | Some s ->
+          let jail_dir = Filename.concat Config.jails_dir s in
+          let downloads_dir = Filename.concat jail_dir "Downloads" in
+          write_line (Printf.sprintf "mkdir -p \"%s\"" jail_dir);
+          write_line (Printf.sprintf "mkdir -p \"%s\"" downloads_dir);
+          write_line "");
       let log_dir = Filename.concat Config.jail_logs_dir p.name in
       write_line
         (Printf.sprintf "cur_time=$(date \"%s\")" Config.log_date_format_str);
@@ -61,17 +61,17 @@ let write_main_script (p : Profile.t) : unit =
              Config.stderr_log_suffix);
         write_line "");
       (match p.preserved_temp_home_dirs with
-       | [] -> ()
-       | _ ->
-         write_line
-           (Printf.sprintf "tmp_dir=$(mktemp -d -t %s-$cur_time-XXXX)" p.name);
-         List.iter
-           (fun (_perm, dir) ->
+      | [] -> ()
+      | _ ->
+          write_line
+            (Printf.sprintf "tmp_dir=$(mktemp -d -t %s-$cur_time-XXXX)" p.name);
+          List.iter
+            (fun (_perm, dir) ->
               write_line
                 (Printf.sprintf "mkdir -p \"%s\""
                    (Filename.concat "$tmp_dir" dir)))
-           p.preserved_temp_home_dirs;
-         write_line "");
+            p.preserved_temp_home_dirs;
+          write_line "");
       (* write_line "export script_dir";
        * write_line "export tmp_dir";
        * write_line "export stdout_log_name";
@@ -80,50 +80,50 @@ let write_main_script (p : Profile.t) : unit =
         let open Bwrap in
         p.bwrap_args
         @ List.map
-          (fun (perm, dir) ->
-             let src = Filename.concat "$tmp_dir" dir in
-             let dst = Some (Filename.concat Config.home_inside_jail dir) in
-             match perm with `R -> Ro_bind (src, dst) | `RW -> Bind (src, dst))
-          p.preserved_temp_home_dirs
+            (fun (perm, dir) ->
+              let src = Filename.concat "$tmp_dir" dir in
+              let dst = Some (Filename.concat Config.home_inside_jail dir) in
+              match perm with `R -> Ro_bind (src, dst) | `RW -> Bind (src, dst))
+            p.preserved_temp_home_dirs
         @ (match (p.syscall_blacklist, p.syscall_whitelist) with
-            | [], [] -> []
-            | _, _ ->
+          | [], [] -> []
+          | _, _ ->
               [
                 Seccomp
                   (Filename.concat bpf_dir (p.name ^ Config.seccomp_bpf_suffix));
               ])
         @ [
-          Ro_bind
-            ( runner_bin_path,
-              Some
-                (Filename.concat Config.home_inside_jail
-                   (Printf.sprintf "%s.runner" p.name)) );
-        ]
+            Ro_bind
+              ( runner_bin_path,
+                Some
+                  (Filename.concat Config.home_inside_jail
+                     (Printf.sprintf "%s.runner" p.name)) );
+          ]
       in
       List.iteri
         (fun i x ->
-           match Bwrap.compile_arg x with
-           | String _ -> ()
-           | Glob { arg_constr; glob } ->
-             write_line "shopt -s nullglob";
-             write_line (Printf.sprintf "glob_list_%d=(%s)" i glob);
-             write_line "shopt -u nullglob";
-             write_line (Printf.sprintf "expanding_arg_%d=\"\"" i);
-             write_line (Printf.sprintf "for x in ${glob_list_%d[@]}; do" i);
-             write_line "  if [[ $x != \"\" ]]; then";
-             write_line
-               (Printf.sprintf "    expanding_arg_%d+=\" %s \"" i
-                  (arg_constr "$x"));
-             write_line "  fi";
-             write_line "done")
+          match Bwrap.compile_arg x with
+          | String _ -> ()
+          | Glob { arg_constr; glob } ->
+              write_line "shopt -s nullglob";
+              write_line (Printf.sprintf "glob_list_%d=(%s)" i glob);
+              write_line "shopt -u nullglob";
+              write_line (Printf.sprintf "expanding_arg_%d=\"\"" i);
+              write_line (Printf.sprintf "for x in ${glob_list_%d[@]}; do" i);
+              write_line "  if [[ $x != \"\" ]]; then";
+              write_line
+                (Printf.sprintf "    expanding_arg_%d+=\" %s \"" i
+                   (arg_constr "$x"));
+              write_line "  fi";
+              write_line "done")
         bwrap_args;
       write_line "";
       write_line "( exec bwrap \\";
       List.iteri
         (fun i x ->
-           match Bwrap.compile_arg x with
-           | String s -> write_line (Printf.sprintf "  %s \\" s)
-           | Glob _ -> write_line (Printf.sprintf "  $expanding_arg_%d \\" i))
+          match Bwrap.compile_arg x with
+          | String s -> write_line (Printf.sprintf "  %s \\" s)
+          | Glob _ -> write_line (Printf.sprintf "  $expanding_arg_%d \\" i))
         bwrap_args;
       write_line
         (Printf.sprintf "  %s/%s.runner %s\\" Config.home_inside_jail p.name
@@ -134,15 +134,15 @@ let write_main_script (p : Profile.t) : unit =
       match p.preserved_temp_home_dirs with
       | [] -> ()
       | _ ->
-        write_line "";
-        List.iter
-          (fun (_perm, dir) ->
-             write_line
-               (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"%s\""
-                  (Filename.concat "$tmp_dir" dir)))
-          p.preserved_temp_home_dirs;
-        write_line
-          (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\""));
+          write_line "";
+          List.iter
+            (fun (_perm, dir) ->
+              write_line
+                (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"%s\""
+                   (Filename.concat "$tmp_dir" dir)))
+            p.preserved_temp_home_dirs;
+          write_line
+            (Printf.sprintf "rmdir --ignore-fail-on-non-empty \"$tmp_dir\""));
   FileUtil.chmod (`Octal 0o774) [ file_name ]
 
 (* let write_runner_script (p : Profile.t) : unit =
@@ -181,14 +181,14 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "";
       write_line (Printf.sprintf "profile /home/sandbox/%s.runner {" p.name);
       (match p.aa_caps with
-       | [] -> ()
-       | l ->
-         List.iter
-           (fun x ->
+      | [] -> ()
+      | l ->
+          List.iter
+            (fun x ->
               write_line
                 (Printf.sprintf "  capability %s," (Aa.string_of_capability x)))
-           l;
-         write_line "");
+            l;
+          write_line "");
       write_line "  # Runner self access";
       write_line (Printf.sprintf "  /home/sandbox/%s.runner r," p.name);
       write_line "";
@@ -326,10 +326,10 @@ let write_aa_profile (p : Profile.t) : unit =
       write_line "  deny /**System.map* rw,";
       write_line "";
       (match p.extra_aa_lines with
-       | [] -> ()
-       | l ->
-         List.iter (fun x -> write_line (Printf.sprintf "  %s," x)) l;
-         write_line "");
+      | [] -> ()
+      | l ->
+          List.iter (fun x -> write_line (Printf.sprintf "  %s," x)) l;
+          write_line "");
       write_line "}");
   FileUtil.chmod (`Octal 0o774) [ file_name ];
   ()
@@ -337,8 +337,8 @@ let write_aa_profile (p : Profile.t) : unit =
 let () =
   List.iter
     (fun p ->
-       write_main_script p;
-       write_runner p;
-       write_seccomp_bpf p;
-       write_aa_profile p)
+      write_main_script p;
+      write_runner p;
+      write_seccomp_bpf p;
+      write_aa_profile p)
     Profiles.suite

@@ -471,12 +471,12 @@ let default_syscall_whitelist : syscall list =
 let default_syscall_whitelist_wx : syscall list =
   default_syscall_whitelist
   @ [
-    { name = "mmap"; args = [] };
-    { name = "mmap2"; args = [] };
-    { name = "mprotect"; args = [] };
-    { name = "pkey_mprotect"; args = [] };
-    { name = "shmat"; args = [] };
-  ]
+      { name = "mmap"; args = [] };
+      { name = "mmap2"; args = [] };
+      { name = "mprotect"; args = [] };
+      { name = "pkey_mprotect"; args = [] };
+      { name = "shmat"; args = [] };
+    ]
 
 let usr_share_common = [ Ro_bind ("/usr/share", None) ]
 
@@ -505,11 +505,11 @@ let disallow_browsers = [ Tmpfs "/usr/lib/firefox" ]
 let usr_lib_lib64_bin_common =
   usr_lib_lib64_common
   @ [
-    Ro_bind ("/usr/bin", None);
-    Symlink ("/usr/bin", Some "/bin");
-    Symlink ("/usr/bin", Some "/sbin");
-    Setenv ("PATH", "/usr/bin");
-  ]
+      Ro_bind ("/usr/bin", None);
+      Symlink ("/usr/bin", Some "/bin");
+      Symlink ("/usr/bin", Some "/sbin");
+      Setenv ("PATH", "/usr/bin");
+    ]
 
 let etc_common =
   [ Ro_bind ("/etc/fonts", None); Ro_bind ("/etc/resolv.conf", None) ]
@@ -553,7 +553,7 @@ let lsb_release_common =
 let set_up_jail_home ~tmp ~name =
   [
     (if tmp then Tmpfs Config.home_inside_jail
-     else Bind (get_jail_dir name, Some Config.home_inside_jail));
+    else Bind (get_jail_dir name, Some Config.home_inside_jail));
     Setenv ("HOME", Config.home_inside_jail);
   ]
 

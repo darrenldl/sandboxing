@@ -11,22 +11,22 @@ let write_c_file ~name ~prog ~proc_limit ~heap_limit_MiB =
       write_line "int main(int _argc, char * argv[]) {";
       Option.iter
         (fun n ->
-           write_line
-             (Printf.sprintf
-                "  struct rlimit lim_nproc = { .rlim_cur = %d, .rlim_max = %d};"
-                n n);
-           write_line
-             "  if (setrlimit(RLIMIT_NPROC, &lim_nproc) != 0) { return 1; }")
+          write_line
+            (Printf.sprintf
+               "  struct rlimit lim_nproc = { .rlim_cur = %d, .rlim_max = %d};"
+               n n);
+          write_line
+            "  if (setrlimit(RLIMIT_NPROC, &lim_nproc) != 0) { return 1; }")
         proc_limit;
       Option.iter
         (fun heap_limit_MiB ->
-           let n = heap_limit_MiB * 1024 * 1024 in
-           write_line
-             (Printf.sprintf
-                "  struct rlimit lim_data = { .rlim_cur = %d, .rlim_max = %d};" n
-                n);
-           write_line
-             "  if (setrlimit(RLIMIT_DATA, &lim_data) != 0) { return 1; }")
+          let n = heap_limit_MiB * 1024 * 1024 in
+          write_line
+            (Printf.sprintf
+               "  struct rlimit lim_data = { .rlim_cur = %d, .rlim_max = %d};" n
+               n);
+          write_line
+            "  if (setrlimit(RLIMIT_DATA, &lim_data) != 0) { return 1; }")
         heap_limit_MiB;
       write_line (Printf.sprintf "  return execv(\"%s\", argv);" prog);
       write_line "}";

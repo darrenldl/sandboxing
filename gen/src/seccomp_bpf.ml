@@ -8,23 +8,23 @@ let string_of_rule ~action (x : syscall) =
     "  if (seccomp_rule_add(ctx, %s, SCMP_SYS(%s), %d%s) < 0) { goto out; }"
     action x.name (List.length x.args)
     (match x.args with
-     | [] -> ""
-     | _ ->
-       ", "
-       ^
-       if x.name = "ioctl" then
-         String.concat ", "
-           (List.map
-              (fun (n, arg) ->
+    | [] -> ""
+    | _ ->
+        ", "
+        ^
+        if x.name = "ioctl" then
+          String.concat ", "
+            (List.map
+               (fun (n, arg) ->
                  Printf.sprintf
                    "SCMP_A%d(SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int) %s)" n arg)
-              x.args)
-       else
-         String.concat ", "
-           (List.map
-              (fun (n, arg) ->
+               x.args)
+        else
+          String.concat ", "
+            (List.map
+               (fun (n, arg) ->
                  Printf.sprintf "SCMP_A%d(SCMP_CMP_EQ, %s)" n arg)
-              x.args))
+               x.args))
 
 let write_c_file ~name ~default_action ~(blacklist : syscall list)
     ~(whitelist : syscall list) =

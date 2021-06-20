@@ -22,18 +22,18 @@ let bash : Profile.t =
       @ proc_dev_common
       @ tmp_run_common
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("HOME", "/home/sandbox");
-        Setenv ("USER", "sandbox");
-        Setenv ("LOGNAME", "sandbox");
-        Bind (".", Some (Filename.concat Config.home_inside_jail "workspace"));
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("HOME", "/home/sandbox");
+          Setenv ("USER", "sandbox");
+          Setenv ("LOGNAME", "sandbox");
+          Bind (".", Some (Filename.concat Config.home_inside_jail "workspace"));
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+        ];
     allow_network = true;
     aa_caps = Aa.[ Sys_chroot ];
     allow_wx = false;
@@ -64,18 +64,18 @@ let bash_hide_net : Profile.t =
       @ proc_dev_common
       @ tmp_run_common
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("HOME", "/home/sandbox");
-        Setenv ("USER", "sandbox");
-        Setenv ("LOGNAME", "sandbox");
-        Bind (".", Some (Filename.concat Config.home_inside_jail "workspace"));
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        Unshare_net;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("HOME", "/home/sandbox");
+          Setenv ("USER", "sandbox");
+          Setenv ("LOGNAME", "sandbox");
+          Bind (".", Some (Filename.concat Config.home_inside_jail "workspace"));
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          Unshare_net;
+        ];
     allow_network = false;
     aa_caps = [];
     allow_wx = false;
@@ -105,18 +105,18 @@ let bash_dev : Profile.t =
       @ proc_dev_common
       @ tmp_run_common
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("HOME", "/home/sandbox");
-        Setenv ("USER", "sandbox");
-        Setenv ("LOGNAME", "sandbox");
-        Bind (".", Some (Filename.concat Config.home_inside_jail "workspace"));
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("HOME", "/home/sandbox");
+          Setenv ("USER", "sandbox");
+          Setenv ("LOGNAME", "sandbox");
+          Bind (".", Some (Filename.concat Config.home_inside_jail "workspace"));
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+        ];
     allow_network = true;
     aa_caps = Aa.[ Sys_chroot ];
     allow_wx = false;
@@ -153,19 +153,19 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
       @ dbus_common
       @ set_up_jail_home ~tmp:false ~name
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Setenv ("MOZ_ENABLE_WAYLAND", "1");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Setenv ("MOZ_ENABLE_WAYLAND", "1");
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          New_session;
+        ];
     allow_network = true;
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
@@ -202,19 +202,19 @@ let firefox_tmp : Profile.t =
       @ dbus_common
       @ set_up_jail_home ~tmp:true ~name
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Setenv ("MOZ_ENABLE_WAYLAND", "1");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Setenv ("MOZ_ENABLE_WAYLAND", "1");
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          New_session;
+        ];
     allow_network = true;
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
@@ -281,19 +281,19 @@ let firefox_private : Profile.t =
       @ install_user_js_to_usr_lib_dir "/usr/lib32"
       @ install_user_js_to_usr_lib_dir "/usr/lib64"
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Setenv ("MOZ_ENABLE_WAYLAND", "1");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Setenv ("MOZ_ENABLE_WAYLAND", "1");
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          New_session;
+        ];
     allow_network = true;
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
@@ -335,21 +335,21 @@ let discord : Profile.t =
       @ [ Ro_bind ("/opt/discord", None) ]
       @ set_up_jail_home ~tmp:false ~name
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("QT_X11_NO_MITSHM", "1");
-        Setenv ("_X11_NO_MITSHM", "1");
-        Setenv ("_MITSHM", "0");
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        (* Unshare_ipc; *)
-        Unshare_cgroup;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("QT_X11_NO_MITSHM", "1");
+          Setenv ("_X11_NO_MITSHM", "1");
+          Setenv ("_MITSHM", "0");
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          (* Unshare_ipc; *)
+          Unshare_cgroup;
+          New_session;
+        ];
     allow_network = true;
     aa_caps = Aa.[ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = true;
@@ -384,19 +384,19 @@ let thunderbird : Profile.t =
       @ dbus_common
       @ set_up_jail_home ~tmp:false ~name
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Setenv ("MOZ_ENABLE_WAYLAND", "1");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Setenv ("MOZ_ENABLE_WAYLAND", "1");
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          New_session;
+        ];
     allow_network = true;
     aa_caps = [];
     allow_wx = false;
@@ -433,18 +433,18 @@ let chromium : Profile.t =
       @ [ Dev_bind ("/dev/dri/card0", None) ]
       @ set_up_jail_home ~tmp:false ~name
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          New_session;
+        ];
     allow_network = true;
     aa_caps = [ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
@@ -481,18 +481,18 @@ let chromium_tmp : Profile.t =
       @ [ Dev_bind ("/dev/dri/card0", None) ]
       @ set_up_jail_home ~tmp:true ~name
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          New_session;
+        ];
     allow_network = true;
     aa_caps = [ Sys_admin; Sys_chroot; Sys_ptrace ];
     allow_wx = false;
@@ -528,19 +528,19 @@ let deluge : Profile.t =
       @ lsb_release_common
       @ set_up_jail_home ~tmp:false ~name
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Setenv ("MOZ_ENABLE_WAYLAND", "1");
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Setenv ("MOZ_ENABLE_WAYLAND", "1");
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          New_session;
+        ];
     allow_network = true;
     aa_caps = [];
     allow_wx = false;
@@ -622,20 +622,20 @@ let okular_ro : Profile.t =
       @ wayland_common
       @ set_up_jail_home ~tmp:true ~name
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Ro_bind ("$1", Some pdf_file_in_home);
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        Unshare_net;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Ro_bind ("$1", Some pdf_file_in_home);
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          Unshare_net;
+          New_session;
+        ];
     allow_network = false;
     aa_caps = [];
     allow_wx = false;
@@ -672,20 +672,20 @@ let okular_rw : Profile.t =
       @ wayland_common
       @ set_up_jail_home ~tmp:true ~name
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Bind ("$1", Some pdf_file_in_home);
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        Unshare_net;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Bind ("$1", Some pdf_file_in_home);
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          Unshare_net;
+          New_session;
+        ];
     allow_network = false;
     aa_caps = [];
     allow_wx = false;
@@ -722,20 +722,20 @@ let eom_ro : Profile.t =
       @ wayland_common
       @ set_up_jail_home ~tmp:true ~name
       @ [
-        Unsetenv "DBUS_SESSION_BUS_ADDRESS";
-        Setenv ("SHELL", "/bin/false");
-        Setenv ("USER", "nobody");
-        Setenv ("LOGNAME", "nobody");
-        Ro_bind ("$1", Some image_file_in_home);
-        Hostname "jail";
-        Unshare_user;
-        Unshare_pid;
-        Unshare_uts;
-        Unshare_ipc;
-        Unshare_cgroup;
-        Unshare_net;
-        New_session;
-      ];
+          Unsetenv "DBUS_SESSION_BUS_ADDRESS";
+          Setenv ("SHELL", "/bin/false");
+          Setenv ("USER", "nobody");
+          Setenv ("LOGNAME", "nobody");
+          Ro_bind ("$1", Some image_file_in_home);
+          Hostname "jail";
+          Unshare_user;
+          Unshare_pid;
+          Unshare_uts;
+          Unshare_ipc;
+          Unshare_cgroup;
+          Unshare_net;
+          New_session;
+        ];
     allow_network = false;
     aa_caps = [];
     allow_wx = false;

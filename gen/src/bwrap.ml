@@ -66,27 +66,27 @@ let compile_arg (x : arg) : res =
   | Hostname s -> String (Printf.sprintf "--hostname \"%s\"" s)
   | Chdir s -> String (Printf.sprintf "--chdir \"%s\"" s)
   | Setenv (key, value) ->
-    String (Printf.sprintf "--setenv \"%s\" \"%s\"" key value)
+      String (Printf.sprintf "--setenv \"%s\" \"%s\"" key value)
   | Unsetenv key -> String (Printf.sprintf "--unsetenv \"%s\"" key)
   | Lock_file s -> String (Printf.sprintf "--lock-file \"%s\"" s)
   | Bind (src, dst) ->
-    let dst = Option.value dst ~default:src in
-    String (Printf.sprintf "--bind \"%s\" \"%s\"" src dst)
+      let dst = Option.value dst ~default:src in
+      String (Printf.sprintf "--bind \"%s\" \"%s\"" src dst)
   | Bind_try (src, dst) ->
-    let dst = Option.value dst ~default:src in
-    String (Printf.sprintf "--bind-try \"%s\" \"%s\"" src dst)
+      let dst = Option.value dst ~default:src in
+      String (Printf.sprintf "--bind-try \"%s\" \"%s\"" src dst)
   | Dev_bind (src, dst) ->
-    let dst = Option.value dst ~default:src in
-    String (Printf.sprintf "--dev-bind \"%s\" \"%s\"" src dst)
+      let dst = Option.value dst ~default:src in
+      String (Printf.sprintf "--dev-bind \"%s\" \"%s\"" src dst)
   | Dev_bind_try (src, dst) ->
-    let dst = Option.value dst ~default:src in
-    String (Printf.sprintf "--dev-bind-try \"%s\" \"%s\"" src dst)
+      let dst = Option.value dst ~default:src in
+      String (Printf.sprintf "--dev-bind-try \"%s\" \"%s\"" src dst)
   | Ro_bind (src, dst) ->
-    let dst = Option.value dst ~default:src in
-    String (Printf.sprintf "--ro-bind \"%s\" \"%s\"" src dst)
+      let dst = Option.value dst ~default:src in
+      String (Printf.sprintf "--ro-bind \"%s\" \"%s\"" src dst)
   | Ro_bind_try (src, dst) ->
-    let dst = Option.value dst ~default:src in
-    String (Printf.sprintf "--ro-bind-try \"%s\" \"%s\"" src dst)
+      let dst = Option.value dst ~default:src in
+      String (Printf.sprintf "--ro-bind-try \"%s\" \"%s\"" src dst)
   | Remount_ro s -> String (Printf.sprintf "--remount-ro \"%s\"" s)
   | Proc s -> String (Printf.sprintf "--proc \"%s\"" s)
   | Dev s -> String (Printf.sprintf "--dev \"%s\"" s)
@@ -96,15 +96,15 @@ let compile_arg (x : arg) : res =
   | Bind_data (fd, dst) -> String (Printf.sprintf "--file %d \"%s\"" fd dst)
   | Ro_bind_data (fd, dst) -> String (Printf.sprintf "--file %d \"%s\"" fd dst)
   | Symlink (src, dst) ->
-    let dst = Option.value dst ~default:src in
-    String (Printf.sprintf "--symlink \"%s\" \"%s\"" src dst)
+      let dst = Option.value dst ~default:src in
+      String (Printf.sprintf "--symlink \"%s\" \"%s\"" src dst)
   | Seccomp s -> String (Printf.sprintf "--seccomp 10 10<%s" s)
   | New_session -> String "--new-session"
   | Ro_bind_as_is_glob glob ->
-    Glob
-      {
-        arg_constr = (fun x -> Printf.sprintf "--ro-bind \"%s\" \"%s\"" x x);
-        glob;
-      }
+      Glob
+        {
+          arg_constr = (fun x -> Printf.sprintf "--ro-bind \"%s\" \"%s\"" x x);
+          glob;
+        }
   | Tmpfs_glob glob ->
-    Glob { arg_constr = (fun x -> Printf.sprintf "--tmpfs \"%s\"" x); glob }
+      Glob { arg_constr = (fun x -> Printf.sprintf "--tmpfs \"%s\"" x); glob }
