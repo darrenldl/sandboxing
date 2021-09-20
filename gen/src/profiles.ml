@@ -171,7 +171,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 2048;
+    heap_limit_MiB = Some 4096;
   }
 
 let firefox_tmp : Profile.t =
@@ -220,7 +220,7 @@ let firefox_tmp : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 3072;
+    heap_limit_MiB = Some 4096;
   }
 
 let firefox_private : Profile.t =
@@ -299,7 +299,7 @@ let firefox_private : Profile.t =
     allow_wx = false;
     extra_aa_lines = [];
     proc_limit = Some 2000;
-    heap_limit_MiB = Some 2048;
+    heap_limit_MiB = Some 4096;
   }
 
 let discord : Profile.t =
