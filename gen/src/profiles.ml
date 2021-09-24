@@ -146,6 +146,7 @@ let make_firefox_profile ~(suffix : string option) : Profile.t =
       @ etc_ssl
       @ etc_localtime
       @ proc_dev_common
+      @ render_common
       @ tmp_run_common
       @ sound_common
       @ wayland_common
@@ -195,6 +196,7 @@ let firefox_tmp : Profile.t =
       @ etc_ssl
       @ etc_localtime
       @ proc_dev_common
+      @ render_common
       @ tmp_run_common
       @ sound_common
       @ wayland_common
@@ -268,6 +270,7 @@ let firefox_private : Profile.t =
       @ etc_ssl
       @ etc_localtime
       @ proc_dev_common
+      @ render_common
       @ tmp_run_common
       @ sound_common
       @ wayland_common

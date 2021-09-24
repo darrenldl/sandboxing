@@ -38,6 +38,7 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --ro-bind "/etc/localtime" "/etc/localtime" \
   --proc "/proc" \
   --dev "/dev" \
+  --dev-bind "/dev/dri" "/dev/dri" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
   --ro-bind-try "/usr/share/gst-plugins-bad" "/usr/share/gst-plugins-bad" \
