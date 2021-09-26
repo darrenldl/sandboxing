@@ -41,6 +41,7 @@ stderr_log_name="$HOME/sandbox-logs/okular-rw"/"$cur_time"."stderr"
   --ro-bind "/etc/localtime" "/etc/localtime" \
   --proc "/proc" \
   --dev "/dev" \
+  --dev-bind "/dev/dri" "/dev/dri" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
   --ro-bind-try "/run/user/$UID/wayland-0" "/run/user/$UID/wayland-0" \
