@@ -621,7 +621,6 @@ let okular_ro : Profile.t =
       @ etc_ssl
       @ etc_localtime
       @ proc_dev_common
-      @ render_common
       @ tmp_run_common
       @ wayland_common
       @ set_up_jail_home ~tmp:true ~name
@@ -672,7 +671,6 @@ let okular_rw : Profile.t =
       @ etc_ssl
       @ etc_localtime
       @ proc_dev_common
-      @ render_common
       @ tmp_run_common
       @ wayland_common
       @ set_up_jail_home ~tmp:true ~name
