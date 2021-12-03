@@ -39,6 +39,8 @@ cur_time=$(date "+%Y-%m-%d_%H%M%S")
   --proc "/proc" \
   --dev "/dev" \
   --dev-bind "/dev/dri" "/dev/dri" \
+  --ro-bind "/sys/dev/char" "/sys/dev/char" \
+  --ro-bind "/sys/devices/pci0000:00" "/sys/devices/pci0000:00" \
   --tmpfs "/tmp" \
   --tmpfs "/run" \
   --ro-bind-try "/usr/share/gst-plugins-bad" "/usr/share/gst-plugins-bad" \

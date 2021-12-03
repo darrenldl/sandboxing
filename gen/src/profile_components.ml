@@ -521,7 +521,12 @@ let etc_localtime = [ Ro_bind ("/etc/localtime", None) ]
 
 let proc_dev_common = [ Proc "/proc"; Dev "/dev" ]
 
-let render_common = [ Dev_bind ("/dev/dri", None) ]
+let render_common =
+  [
+    Dev_bind ("/dev/dri", None);
+    Ro_bind ("/sys/dev/char", None);
+    Ro_bind ("/sys/devices/pci0000:00", None);
+  ]
 
 let tmp_run_common = [ Tmpfs "/tmp"; Tmpfs "/run" ]
 
